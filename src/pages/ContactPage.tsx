@@ -1,0 +1,114 @@
+import { Mail, MapPin, Phone } from "lucide-react";
+import { useDocumentMeta } from "../hooks/useDocumentMeta";
+import { CONTACT, SOCIALS } from "../data/site";
+import { FindUs } from "../features/contact/FindUs";
+import { ContactForm } from "../features/contact/ContactForm";
+import { Reveal } from "../components/Reveal";
+
+export function ContactPage(): React.JSX.Element {
+  useDocumentMeta({
+    title: "Contact | Kagōunga",
+    description:
+      "Find Kagōunga distribution points across Indonesia and get in touch for business inquiry, partnership, or media.",
+  });
+
+  return (
+    <main id="top">
+      <FindUs />
+
+      <section id="get-in-touch" className="py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-5 md:px-8">
+          <Reveal>
+            <h2 className="display text-5xl md:text-6xl">
+              <span className="font-bold">Get</span>{" "}
+              <span className="font-light">in Touch.</span>
+            </h2>
+          </Reveal>
+          <Reveal>
+            <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-ink/70">
+              Want to connect further with Kagōunga? Fill out the form. Your
+              message goes straight to our WhatsApp.
+            </p>
+          </Reveal>
+          <div className="mt-8 border-t border-ink/10" />
+
+          <div className="mt-8 grid gap-5 lg:grid-cols-5">
+            <div className="lg:col-span-3">
+              <ContactForm />
+            </div>
+            <Reveal className="lg:col-span-2">
+              <div className="flex h-full flex-col gap-4 rounded-3xl bg-ink p-7 text-cream md:p-10">
+                <div className="flex gap-4">
+                  <MapPin
+                    className="size-6 shrink-0 text-lime"
+                    aria-hidden="true"
+                  />
+                  <div>
+                    <p className="font-bold">{CONTACT.office}</p>
+                    <p className="mt-1 text-[14px] leading-relaxed text-cream/70">
+                      {CONTACT.address[0]}
+                      <br />
+                      {CONTACT.address[1]}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <Mail
+                    className="size-6 shrink-0 text-lime"
+                    aria-hidden="true"
+                  />
+                  <div>
+                    <p className="font-bold">Email</p>
+                    <a
+                      href={`mailto:${CONTACT.email}`}
+                      className="mt-1 block text-[14px] text-cream/70 hover:text-cream"
+                    >
+                      {CONTACT.email}
+                    </a>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <Phone
+                    className="size-6 shrink-0 text-lime"
+                    aria-hidden="true"
+                  />
+                  <div>
+                    <p className="font-bold">Phone / WhatsApp</p>
+                    <a
+                      href={CONTACT.phoneHref}
+                      className="mt-1 block text-[14px] text-cream/70 hover:text-cream"
+                    >
+                      {CONTACT.phoneLabel}
+                    </a>
+                  </div>
+                </div>
+                <div className="mt-auto border-t border-cream/15 pt-6">
+                  <p className="text-[12px] font-bold uppercase tracking-[0.18em] text-lime">
+                    Follow
+                  </p>
+                  <div className="mt-3 flex gap-2.5">
+                    {SOCIALS.map((s) => (
+                      <a
+                        key={s.label}
+                        href={s.href}
+                        aria-label={s.label}
+                        className="grid size-11 place-items-center rounded-full border border-cream/20 transition hover:border-lime hover:bg-lime"
+                      >
+                        <img
+                          src={s.iconSrc}
+                          alt=""
+                          className={s.iconClass}
+                          loading="lazy"
+                        />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
