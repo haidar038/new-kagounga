@@ -48,10 +48,10 @@ function calApiUrl(): string {
 export function dayLabel(start: string, end?: string | null): string {
   const sd = String(start).substring(8, 10).replace(/^0/, "");
   if (!end) return sd;
-  const ed = String(end).substring(8, 10);
+  const ed = String(end).substring(8, 10).replace(/^0/, "");
   const sameDay =
     String(start).substring(0, 7) === String(end).substring(0, 7) &&
-    String(start).substring(8, 10) === ed;
+    String(start).substring(8, 10) === String(end).substring(8, 10);
   return sameDay ? sd : `${sd}-${ed}`;
 }
 
@@ -149,6 +149,7 @@ export async function fetchYear(
   const base = calApiUrl();
   if (!base) return null;
   const res = await fetch(`${base}?action=getEvents&year=${year}`, { signal });
+  if (!res.ok) return null;
   const body: unknown = await res.json();
   if (typeof body !== "object" || body === null) return null;
   const { success, data } = body as { success?: unknown; data?: unknown };

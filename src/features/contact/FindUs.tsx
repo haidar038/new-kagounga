@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as maplibregl from "maplibre-gl";
 import { ArrowRight } from "lucide-react";
 import type { DistributionPoint } from "../../types/content";
@@ -18,11 +18,24 @@ maplibregl.setWorkerUrl(mapWorkerUrl);
 const STYLE_URL =
   "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
 
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function popupHTML(p: DistributionPoint): string {
+  const kind = escapeHtml(p.kind.toUpperCase());
+  const city = escapeHtml(p.city.toUpperCase());
+  const name = escapeHtml(p.name);
+  const area = escapeHtml(p.area);
   return (
-    `<div class="kga-popup"><p class="kga-popup-kind">${p.kind.toUpperCase()} · ${p.city.toUpperCase()}</p>` +
-    `<p class="kga-popup-name">${p.name}</p>` +
-    `<p class="kga-popup-area">${p.area}</p></div>`
+    `<div class="kga-popup"><p class="kga-popup-kind">${kind} · ${city}</p>` +
+    `<p class="kga-popup-name">${name}</p>` +
+    `<p class="kga-popup-area">${area}</p></div>`
   );
 }
 
@@ -31,7 +44,7 @@ export function FindUs(): React.JSX.Element {
   const mapRef = useRef<maplibregl.Map | null>(null);
   const markersRef = useRef<Map<string, maplibregl.Marker>>(new Map());
   const [activeCity, setActiveCity] = useState<CityGroup | null>(null);
-  const groups = groupByCity(LOCATIONS);
+  const groups = useMemo(() => groupByCity(LOCATIONS), []);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -45,8 +58,11 @@ export function FindUs(): React.JSX.Element {
 
     const markers = new Map<string, maplibregl.Marker>();
     LOCATIONS.forEach((p) => {
-      const el = document.createElement("div");
+      const el = document.createElement("button");
+      el.type = "button";
       el.className = `kga-marker kga-marker-${p.kind}`;
+      el.setAttribute("aria-label", `${p.name}, ${p.area}`);
+      el.style.padding = "0";
       const marker = new maplibregl.Marker({ element: el })
         .setLngLat([p.lng, p.lat])
         .setPopup(new maplibregl.Popup({ offset: 24 }).setHTML(popupHTML(p)))

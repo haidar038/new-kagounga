@@ -1,4 +1,5 @@
 import type { Distributor, Track } from "../types/content";
+import { cld } from "../lib/cloudinary";
 
 export const ARTIST_PLAYER_SRC =
   "https://open.spotify.com/embed/artist/4TSp3l3tAtUr04jdHkqsNO?utm_source=generator&theme=0";
@@ -6,7 +7,7 @@ export const ARTIST_PLAYER_SRC =
 export const SPOTIFY_FOLLOW_URL =
   "https://open.spotify.com/artist/4TSp3l3tAtUr04jdHkqsNO?si=JIfK6h3GTJ-5s14oZiV0iw";
 
-const COVER = "https://i.ibb.co.com/qF0DnCjm/Kagounga-Artist.jpg";
+const COVER = cld("brand-music.webp", 600);
 
 export const TRACKS: Track[] = [
   {
@@ -35,11 +36,6 @@ export const TRACKS: Track[] = [
         label: "Amazon Music",
         href: "https://amazon.com/music/player/albums/B0FKHD8DFB?marketplaceId=ATVPDKIKX0DER&musicTerritory=US&ref=dm_sh_hmJWfS5XRkvK0q1WIXYeDVn0H",
         brand: "amazon",
-      },
-      {
-        label: "Deezer",
-        href: "https://www.deezer.com/track/1234567890",
-        brand: "deezer",
       },
     ],
     playerSrc:
@@ -80,20 +76,20 @@ export const TRACKS: Track[] = [
 ];
 
 export const DISTRIBUTORS: Distributor[] = [
-  { name: "Spotify", logo: "/img/music/Spotify.webp" },
-  { name: "Apple Music", logo: "/img/music/apple-music.webp" },
-  { name: "Deezer", logo: "/img/music/DEEZER.webp" },
-  { name: "YouTube Music", logo: "/img/music/YouTube-Music.webp" },
-  { name: "TikTok", logo: "/img/music/TikTok.webp" },
-  { name: "Shazam", logo: "/img/music/Shazam.webp" },
-  { name: "Amazon Music", logo: "/img/music/Amazon-Music.webp" },
-  { name: "Joox", logo: "/img/music/JOOX.webp" },
-  { name: "Tidal", logo: "/img/music/Tidal.webp" },
-  { name: "iHeartRadio", logo: "/img/music/IHeartRadio.webp" },
-  { name: "Meta Music", logo: "/img/music/Meta-Musics.webp" },
-  { name: "Soundcloud", logo: "/img/music/Soundcloud.webp" },
-  { name: "7digital", logo: "/img/music/7digital.webp" },
-  { name: "Tencent Music", logo: "/img/music/Tencent-Music.webp" },
-  { name: "Line Music", logo: "/img/music/Line-Music.webp" },
-  { name: "Pandora", logo: "/img/music/Pandora.webp" },
+  { name: "Spotify", logo: cld("Spotify.webp", 320) },
+  { name: "Apple Music", logo: cld("apple-music.webp", 320) },
+  { name: "Deezer", logo: cld("DEEZER.webp", 320) },
+  { name: "YouTube Music", logo: cld("YouTube-Music.webp", 320) },
+  { name: "TikTok", logo: cld("TikTok.webp", 320) },
+  { name: "Shazam", logo: cld("Shazam.webp", 320) },
+  { name: "Amazon Music", logo: cld("Amazon-Music.webp", 320) },
+  { name: "Joox", logo: cld("JOOX.webp", 320) },
+  { name: "Tidal", logo: cld("Tidal.webp", 320) },
+  { name: "iHeartRadio", logo: cld("IHeartRadio.webp", 320) },
+  { name: "Meta Music", logo: cld("Meta-Musics.webp", 320) },
+  { name: "Soundcloud", logo: cld("Soundcloud.webp", 320) },
+  { name: "7digital", logo: cld("7digital.webp", 320) },
+  { name: "Tencent Music", logo: cld("Tencent-Music.webp", 320) },
+  { name: "Line Music", logo: cld("Line-Music.webp", 320) },
+  { name: "Pandora", logo: cld("Pandora.webp", 320) },
 ];

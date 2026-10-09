@@ -28,14 +28,25 @@ function loadPosts(): NewsPost[] {
       ...post,
       // Covers must be absolute: relative paths resolve against the
       // current route (e.g. /news/:slug) and 404 on nested pages.
-      cover: post.cover.startsWith("/") ? post.cover : `/${post.cover}`,
+      // Remote http(s) URLs pass through untouched.
+      cover:
+        post.cover.startsWith("/") || /^https?:\/\//.test(post.cover)
+          ? post.cover
+          : `/${post.cover}`,
     }))
     .sort((a, b) => b.dateISO.localeCompare(a.dateISO));
 }
 
-export const NEWS_POSTS: NewsPost[] = loadPosts();
+export const NEWS_POSTS: NewsPost[] = (() => {
+  try {
+    return loadPosts();
+  } catch {
+    return [];
+  }
+})();
 
 export function getPost(slug: string | undefined): NewsPost | undefined {
   if (!slug) return undefined;
-  return NEWS_POSTS.find((p) => p.slug === slug);
+  const clean = slug.trim().toLowerCase().replace(/\/+$/, "");
+  return NEWS_POSTS.find((p) => p.slug.toLowerCase() === clean);
 }

@@ -20,11 +20,17 @@ export function NewsPage(): React.JSX.Element {
       />
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-            {NEWS_POSTS.map((post) => (
-              <NewsCard key={post.slug} post={post} />
-            ))}
-          </div>
+          {NEWS_POSTS.length === 0 ? (
+            <p aria-live="polite" className="text-[15px] text-ink/70">
+              No stories yet. Check back soon.
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+              {NEWS_POSTS.map((post) => (
+                <NewsCard key={post.slug} post={post} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </main>

@@ -1,64 +1,65 @@
 import type { Collaborator } from "../types/content";
+import { cld } from "../lib/cloudinary";
 
 export const COLLABORATORS: Collaborator[] = [
   {
     name: "Fadrié",
     role: "Visual Artist",
-    image: "/img/in-collaboration/kak-iya2.png",
+    image: cld("kak-iya2.webp", 800),
     alt: "Portrait of Fadrié",
   },
   {
     name: "Andy",
     role: "Music Composer",
-    image: "/img/in-collaboration/andi2.png",
+    image: cld("andi2.webp", 800),
     alt: "Portrait of Andy",
   },
   {
     name: "Hylda",
     role: "Visual Artist",
-    image: "/img/in-collaboration/hilda.png",
+    image: cld("hilda.webp", 800),
     alt: "Portrait of Hylda",
   },
   {
     name: "Gilang",
     role: "Dancer",
-    image: "/img/in-collaboration/gilang.png",
+    image: cld("gilang.webp", 800),
     alt: "Portrait of Gilang",
   },
   {
     name: "Shahnaz",
     role: "Visual Artist",
-    image: "/img/in-collaboration/syahnaz2.png",
+    image: cld("syahnaz2.webp", 800),
     alt: "Portrait of Shahnaz",
   },
   {
     name: "Joshua",
     role: "Visual Artist",
-    image: "/img/in-collaboration/joshua2.png",
+    image: cld("joshua2.webp", 800),
     alt: "Portrait of Joshua",
   },
   {
     name: "Maryam",
     role: "Fisherman",
-    image: "/img/in-collaboration/ci-maryam.png",
+    image: cld("ci-maryam.webp", 800),
     alt: "Portrait of Maryam",
   },
   {
     name: "Dayo",
     role: "Farmers",
-    image: "/img/in-collaboration/om-dayo2.png",
+    image: cld("om-dayo2.webp", 800),
     alt: "Portrait of Dayo",
   },
   {
     name: "Arunika",
     role: "Photographer",
-    image: "/img/in-collaboration/apin.png",
+    image: cld("apin.webp", 800),
     alt: "Portrait of Arunika",
   },
   {
     name: "Hydr",
     role: "Software Engineer",
-    image: "/img/in-collaboration/darox.png",
+    image: cld("darox.webp", 800),
     alt: "Portrait of Hydr",
   },
 ];

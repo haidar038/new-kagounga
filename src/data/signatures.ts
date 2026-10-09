@@ -1,11 +1,12 @@
 import type { SignatureProduct } from "../types/content";
+import { cld } from "../lib/cloudinary";
 
 export const SIGNATURES: SignatureProduct[] = [
   {
     id: "popeda",
     category: "Gastronomy",
     title: "Popeda Soup",
-    image: "/img/popeda-soup.png",
+    image: cld("popeda-soup.webp", 1200),
     alt: "Kagōunga Popeda Soup box with silken sago in turmeric fish soup",
     paragraphs: [
       "Authentic, silky sago served with savory turmeric fish soup, fresh aromatic spices, and a refreshing splash of calamansi. Packed with generous chunks of tuna and dehydrated vegetables. Made using 100% natural ingredients with no preservatives, offering a 12-month shelf life and certified Halal.",
@@ -17,7 +18,7 @@ export const SIGNATURES: SignatureProduct[] = [
     id: "soap",
     category: "Personal Care",
     title: "Botanical Soap",
-    image: "/img/product-3-soap.jpg",
+    image: cld("product-3-soap.webp", 1200),
     alt: "Gosora and Bualawa organic essential oil soaps",
     paragraphs: [
       "Natural soap formulated with pure local spices, bridging centuries of island heritage with modern skincare. Crafted with pure spice extracts harvested directly from Ternate's rich soil, it deeply nourishes and reinforces the skin barrier against environmental stressors.",
@@ -29,7 +30,7 @@ export const SIGNATURES: SignatureProduct[] = [
     id: "candle",
     category: "Home Fragrance",
     title: "Sensory Candle",
-    image: "/img/products/candle.png",
+    image: cld("candle.webp", 1200),
     alt: "Sensory candle surrounded by cloves, cinnamon and nutmeg",
     paragraphs: [
       "Aromatherapy candles infused with native spices of North Maluku. Crafted with pure essential oils derived from clove, nutmeg, and regional botanical flora, it slowly fills your space with an authentic, grounding warmth.",
@@ -41,7 +42,7 @@ export const SIGNATURES: SignatureProduct[] = [
     id: "music",
     category: "Sonic Identity",
     title: "Brand Music",
-    image: "/img/brand-music.png",
+    image: cld("brand-music.webp", 1200),
     alt: "Man listening to a sea shell: Kagōunga sonic identity",
     paragraphs: [
       "A bespoke audio experience crafted far beyond conventional stock soundscapes, bringing universal musical elements into harmony with indigenous roots. Created in close collaboration with local musicians and composers, every score, arrangement, and harmonic layer is thoughtfully engineered to embody authentic regional soul.",
@@ -53,7 +54,7 @@ export const SIGNATURES: SignatureProduct[] = [
     id: "artwork",
     category: "Fine Art",
     title: "Visual Artwork",
-    image: "/img/visual-vivid.png",
+    image: cld("visual-vivid.webp", 1200),
     alt: "Three Maluku-inspired paintings of sea, palms and harvest",
     paragraphs: [
       "An exclusive collection of 9x12 cm collectible art cards created in collaborative partnership with talented local North Malukan artists. Each original piece illustrates intimate visual stories of identity, cultural heritage, and everyday life surrounding the Spice Islands through the unique signature style of its creator.",

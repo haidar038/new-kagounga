@@ -1,36 +1,33 @@
-import { Suspense, lazy } from "react";
+import { Suspense, type ReactNode } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import { SiteLayout } from "./SiteLayout";
 import { HomePage } from "../pages/HomePage";
-import { AboutPage } from "../pages/AboutPage";
-import { NewsPage } from "../pages/NewsPage";
-import { NewsDetailPage } from "../pages/NewsDetailPage";
-import { CatalogPage } from "../pages/CatalogPage";
-import { MusicPage } from "../pages/MusicPage";
+import {
+  AboutPage,
+  CatalogPage,
+  ContactPage,
+  MusicPage,
+  NewsDetailPage,
+  NewsPage,
+  NotFoundPage,
+} from "./pages";
 
-const ContactPage = lazy(() =>
-  import("../pages/ContactPage").then((m) => ({ default: m.ContactPage })),
-);
+function susp(el: ReactNode): ReactNode {
+  return <Suspense fallback={null}>{el}</Suspense>;
+}
 
 export const router = createBrowserRouter([
   {
     element: <SiteLayout />,
     children: [
       { path: "/", element: <HomePage /> },
-      { path: "/about", element: <AboutPage /> },
-      { path: "/news", element: <NewsPage /> },
-      { path: "/news/:slug", element: <NewsDetailPage /> },
-      { path: "/catalog", element: <CatalogPage /> },
-      {
-        path: "/contact",
-        element: (
-          <Suspense fallback={null}>
-            <ContactPage />
-          </Suspense>
-        ),
-      },
-      { path: "/music", element: <MusicPage /> },
-      { path: "*", element: <HomePage /> },
+      { path: "/about", element: susp(<AboutPage />) },
+      { path: "/news", element: susp(<NewsPage />) },
+      { path: "/news/:slug", element: susp(<NewsDetailPage />) },
+      { path: "/catalog", element: susp(<CatalogPage />) },
+      { path: "/contact", element: susp(<ContactPage />) },
+      { path: "/music", element: susp(<MusicPage />) },
+      { path: "*", element: susp(<NotFoundPage />) },
     ],
   },
 ]);

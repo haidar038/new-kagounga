@@ -12,12 +12,22 @@ export function ProductDialog({
   onClose: () => void;
 }): React.JSX.Element {
   const ref = useRef<HTMLDialogElement>(null);
+  const prevFocus = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const dialog = ref.current;
     if (!dialog) return;
-    if (product && !dialog.open) dialog.showModal();
-    if (!product && dialog.open) dialog.close();
+    if (product) {
+      prevFocus.current =
+        document.activeElement instanceof HTMLElement
+          ? document.activeElement
+          : null;
+      if (!dialog.open) dialog.showModal();
+    } else {
+      if (dialog.open) dialog.close();
+      prevFocus.current?.focus?.();
+      prevFocus.current = null;
+    }
   }, [product]);
 
   return (

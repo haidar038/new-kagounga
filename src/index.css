@@ -84,7 +84,8 @@ body {
   mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
 }
 
-.marquee:hover .animate-marquee {
+.marquee:hover .animate-marquee,
+.marquee:focus-within .animate-marquee {
   animation-play-state: paused;
 }
 
@@ -185,6 +186,8 @@ footer[id] {
 }
 
 .kga-marker {
+  display: block;
+  padding: 0;
   width: 18px;
   height: 18px;
   border-radius: 9999px;

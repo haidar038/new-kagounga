@@ -44,11 +44,13 @@ export function ContactForm(): React.JSX.Element {
   const [form, setForm] = useState<FormState>(INITIAL);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [sent, setSent] = useState(false);
+  const [sentUrl, setSentUrl] = useState<string | null>(null);
 
   const set = <K extends keyof FormState>(key: K, value: FormState[K]): void => {
     setForm((prev) => ({ ...prev, [key]: value }));
     setErrors((prev) => ({ ...prev, [key]: undefined }));
     setSent(false);
+    setSentUrl(null);
   };
 
   const onSubmit = (e: FormEvent<HTMLFormElement>): void => {
@@ -59,7 +61,9 @@ export function ContactForm(): React.JSX.Element {
     const text =
       `Hello Kagōunga! I'm ${form.name.trim()} (${form.contact.trim()}).\n` +
       `Subject: ${form.subject}\n${form.message.trim()}`;
-    window.open(waLink(text), "_blank", "noopener");
+    const url = waLink(text);
+    setSentUrl(url);
+    window.open(url, "_blank", "noopener,noreferrer");
     setSent(true);
   };
 
@@ -81,13 +85,14 @@ export function ContactForm(): React.JSX.Element {
             placeholder="Your name"
             value={form.name}
             aria-invalid={Boolean(errors.name)}
+            aria-describedby={errors.name ? "cf-name-error" : undefined}
             onChange={(e) => {
               set("name", e.target.value);
             }}
             className={cn(inputCls, errors.name && "border-red-500")}
           />
           {errors.name && (
-            <p className="mt-1.5 text-[13px] font-medium text-red-600">
+            <p id="cf-name-error" className="mt-1.5 text-[13px] font-medium text-red-600">
               {errors.name}
             </p>
           )}
@@ -104,13 +109,14 @@ export function ContactForm(): React.JSX.Element {
             placeholder="email@example.com or 08xxxxxxxxxx"
             value={form.contact}
             aria-invalid={Boolean(errors.contact)}
+            aria-describedby={errors.contact ? "cf-contact-error" : undefined}
             onChange={(e) => {
               set("contact", e.target.value);
             }}
             className={cn(inputCls, errors.contact && "border-red-500")}
           />
           {errors.contact && (
-            <p className="mt-1.5 text-[13px] font-medium text-red-600">
+            <p id="cf-contact-error" className="mt-1.5 text-[13px] font-medium text-red-600">
               {errors.contact}
             </p>
           )}
@@ -146,13 +152,14 @@ export function ContactForm(): React.JSX.Element {
             placeholder="Describe your needs: order, partnership, media, or other."
             value={form.message}
             aria-invalid={Boolean(errors.message)}
+            aria-describedby={errors.message ? "cf-message-error" : undefined}
             onChange={(e) => {
               set("message", e.target.value);
             }}
             className={cn(inputCls, "flex-1 resize-y", errors.message && "border-red-500")}
           />
           {errors.message && (
-            <p className="mt-1.5 text-[13px] font-medium text-red-600">
+            <p id="cf-message-error" className="mt-1.5 text-[13px] font-medium text-red-600">
               {errors.message}
             </p>
           )}
@@ -166,8 +173,18 @@ export function ContactForm(): React.JSX.Element {
           Send via WhatsApp
         </button>
         {sent && (
-          <p className="text-center text-[13px] font-medium text-ink/60">
-            Opening WhatsApp. Continue sending your message there.
+          <p aria-live="polite" className="text-center text-[13px] font-medium text-ink/60">
+            Opening WhatsApp.{" "}
+            {sentUrl && (
+              <a
+                href={sentUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold underline"
+              >
+                Continue here if blocked.
+              </a>
+            )}
           </p>
         )}
       </form>

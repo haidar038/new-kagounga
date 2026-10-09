@@ -1,7 +1,9 @@
-import { ExternalLink, Music2 } from "lucide-react";
+import { useState } from "react";
+import { ExternalLink, Music2, Play } from "lucide-react";
 import type { Track } from "../types/content";
 import { Reveal } from "./Reveal";
 import { TrackBrandIcon } from "./BrandIcons";
+import { cld } from "../lib/cloudinary";
 import { cn } from "../lib/cn";
 
 const BRAND_HOVER: Record<string, string> = {
@@ -13,6 +15,7 @@ const BRAND_HOVER: Record<string, string> = {
 };
 
 export function TrackCard({ track }: { track: Track }): React.JSX.Element {
+  const [showPlayer, setShowPlayer] = useState(false);
   return (
     <Reveal>
       <article className="card-hover flex flex-col gap-6 rounded-3xl border border-ink/10 bg-white p-6 sm:flex-row">
@@ -22,6 +25,14 @@ export function TrackCard({ track }: { track: Track }): React.JSX.Element {
           className="h-32 w-full shrink-0 rounded-2xl object-cover sm:w-32"
           loading="lazy"
           decoding="async"
+          width={128}
+          height={128}
+          onError={(e) => {
+            const img = e.currentTarget;
+            if (!img.src.includes("brand-music.webp")) {
+              img.src = cld("brand-music.webp", 600);
+            }
+          }}
         />
         <div className="flex min-w-0 flex-1 flex-col justify-center">
           <h3 className="flex items-center gap-2 text-xl font-bold">
@@ -53,15 +64,29 @@ export function TrackCard({ track }: { track: Track }): React.JSX.Element {
           </div>
         </div>
         <div className="hidden w-80 shrink-0 self-center lg:block">
-          <iframe
-            title={`${track.title} mini player`}
-            className="w-full rounded-xl"
-            src={track.playerSrc}
-            width="100%"
-            height="80"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          />
+          {showPlayer ? (
+            <iframe
+              title={`${track.title} mini player`}
+              className="w-full rounded-xl"
+              src={track.playerSrc}
+              width="100%"
+              height="80"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+            />
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                setShowPlayer(true);
+              }}
+              aria-label={`Load preview player for ${track.title}`}
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-ink/15 px-4 py-6 text-sm font-bold hover:border-ink/40"
+            >
+              <Play className="size-4" aria-hidden="true" />
+              Play preview
+            </button>
+          )}
         </div>
       </article>
     </Reveal>

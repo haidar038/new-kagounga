@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import type { SignatureId } from "../../types/content";
 import { SIGNATURES } from "../../data/signatures";
 import { WHATSAPP_ICON } from "../../data/site";
@@ -7,7 +8,7 @@ import { Reveal } from "../../components/Reveal";
 import { cn } from "../../lib/cn";
 
 function TwoToneTitle({ title }: { title: string }): React.JSX.Element {
-  const [first, ...rest] = title.split(" ");
+  const [first, ...rest] = title.trim().split(/\s+/);
   return (
     <>
       <span className="font-bold">{first}</span>
@@ -22,10 +23,26 @@ function TwoToneTitle({ title }: { title: string }): React.JSX.Element {
 }
 
 export function Signature(): React.JSX.Element {
-  const [sigId, setSigId] = useState<SignatureId>("popeda");
+  const { search } = useLocation();
+  const [prevSearch, setPrevSearch] = useState(search);
+  const [sigId, setSigId] = useState<SignatureId>(() => {
+    const sig = new URLSearchParams(search).get("sig");
+    return (
+      (sig && SIGNATURES.some((s) => s.id === sig) ? sig : "popeda") as SignatureId
+    );
+  });
   const [expanded, setExpanded] = useState(false);
   const main = SIGNATURES.find((s) => s.id === sigId) ?? SIGNATURES[0];
   const thumbs = SIGNATURES.filter((s) => s.id !== sigId);
+
+  if (prevSearch !== search) {
+    setPrevSearch(search);
+    const sig = new URLSearchParams(search).get("sig");
+    if (sig && SIGNATURES.some((s) => s.id === sig)) {
+      setSigId(sig as SignatureId);
+      setExpanded(false);
+    }
+  }
 
   return (
     <section id="signature" className="pb-16 md:pb-24">
@@ -151,9 +168,9 @@ export function Signature(): React.JSX.Element {
                   <p className="text-[12px] font-bold text-ink/50">
                     {p.category}
                   </p>
-                  <h3 className="mt-1 text-lg">
+                  <p className="mt-1 text-lg font-bold">
                     <TwoToneTitle title={p.title} />
-                  </h3>
+                  </p>
                 </div>
               </div>
             </button>

@@ -14,12 +14,22 @@ export function CityDialog({
   onSelect: (point: DistributionPoint) => void;
 }): React.JSX.Element {
   const ref = useRef<HTMLDialogElement>(null);
+  const prevFocus = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const dialog = ref.current;
     if (!dialog) return;
-    if (group && !dialog.open) dialog.showModal();
-    if (!group && dialog.open) dialog.close();
+    if (group) {
+      prevFocus.current =
+        document.activeElement instanceof HTMLElement
+          ? document.activeElement
+          : null;
+      if (!dialog.open) dialog.showModal();
+    } else {
+      if (dialog.open) dialog.close();
+      prevFocus.current?.focus?.();
+      prevFocus.current = null;
+    }
   }, [group]);
 
   return (

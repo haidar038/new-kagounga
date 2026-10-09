@@ -21,6 +21,7 @@ export function Partners(): React.JSX.Element {
         </Reveal>
         <Reveal>
           <div
+            role="region"
             className="marquee mt-12 overflow-hidden"
             aria-label="Partner logos"
           >

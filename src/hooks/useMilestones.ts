@@ -12,34 +12,40 @@ export interface MilestonesYear {
  * replace the static fallback, even when holding zero events.
  */
 export function useMilestonesYear(year: CalYear): MilestonesYear {
+  const [prevYear, setPrevYear] = useState<CalYear>(year);
   const [buckets, setBuckets] = useState<YearBuckets | undefined>(() => {
     const { buckets: cached } = hydrateYear(year);
     return cached ?? undefined;
   });
-  const [state, setState] = useState<YearFetchState>(() =>
-    hydrateYear(year).buckets ? "cached-stale" : "idle",
-  );
+  const [state, setState] = useState<YearFetchState>(() => {
+    const hydrated = hydrateYear(year);
+    if (!hydrated.buckets) return "idle";
+    return hydrated.fresh ? "cached-fresh" : "cached-stale";
+  });
+
+  // Render-phase sync on year change: keeps initializer logic correct
+  // without synchronous setState inside an effect.
+  if (prevYear !== year) {
+    setPrevYear(year);
+    const hydrated = hydrateYear(year);
+    setBuckets(hydrated.buckets ?? undefined);
+    setState(
+      !hydrated.buckets
+        ? "idle"
+        : hydrated.fresh
+          ? "cached-fresh"
+          : "cached-stale",
+    );
+  }
 
   useEffect(() => {
     const hydrated = hydrateYear(year);
-    if (hydrated.buckets) {
-      setBuckets(hydrated.buckets);
-      if (hydrated.fresh) {
-        setState("cached-fresh");
-        return;
-      }
-      setState("cached-stale");
-    } else {
-      setBuckets(undefined);
-      setState("idle");
-    }
+    if (hydrated.fresh) return;
 
     const controller = new AbortController();
-    setState((s) => (s === "cached-fresh" ? s : "pending"));
-    if (hydrated.fresh) return undefined;
-
     let cancelled = false;
     void (async () => {
+      setState((s) => (s === "cached-fresh" ? s : "pending"));
       try {
         const rows = await fetchYear(year, controller.signal);
         if (cancelled) return;

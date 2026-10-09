@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { Menu } from "lucide-react";
 import { useScrolled } from "../hooks/useScrolled";
 import { NAV_LINKS } from "../data/site";
+import { cld } from "../lib/cloudinary";
 import { cn } from "../lib/cn";
 
 export function SiteHeader(): React.JSX.Element {
@@ -27,9 +28,12 @@ export function SiteHeader(): React.JSX.Element {
           }}
         >
           <img
-            src="/img/logo-primary-horizontal.svg"
+            src={cld("logo-primary-horizontal.svg", 320)}
             alt="Kagōunga"
             className="h-8 w-auto"
+            width={160}
+            height={32}
+            decoding="async"
           />
         </Link>
         <nav className="hidden items-center gap-8 text-[14px] font-medium lg:flex">

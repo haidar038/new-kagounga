@@ -5,6 +5,9 @@ import {
   FOOTER_SIGNATURES,
   SOCIALS,
 } from "../data/site";
+import { cld } from "../lib/cloudinary";
+
+const YEAR = new Date().getFullYear();
 
 export function SiteFooter(): React.JSX.Element {
   return (
@@ -13,9 +16,12 @@ export function SiteFooter(): React.JSX.Element {
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <img
-              src="/img/logo-primary-white.svg"
+              src={cld("logo-primary-white.svg", 320)}
               alt="Kagounga"
               className="h-16 w-auto"
+              width={160}
+              height={64}
+              decoding="async"
             />
             <p className="display mt-6 text-lg font-light md:text-4xl">
               <span className="font-bold">Move,</span> Moreover.
@@ -25,10 +31,21 @@ export function SiteFooter(): React.JSX.Element {
                 <a
                   key={s.label}
                   href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={s.label}
                   className="grid size-11 place-items-center rounded-full border border-cream/20 transition hover:border-lime hover:bg-lime"
                 >
-                  <img src={s.iconSrc} alt="" className={s.iconClass} loading="lazy" />
+                  <img
+                    src={s.iconSrc}
+                    alt=""
+                    className={s.iconClass}
+                    loading="lazy"
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
+                  />
                 </a>
               ))}
             </div>
@@ -89,15 +106,11 @@ export function SiteFooter(): React.JSX.Element {
           </div>
         </div>
         <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-cream/15 pt-6 text-[13px] text-cream/60">
-          <p>© 2026 Kagōunga. All rights reserved.</p>
+          <p>© {YEAR} Kagōunga. All rights reserved.</p>
           <div className="flex items-center gap-5">
             <p className="flex gap-5">
-              <a href="#" className="hover:text-cream">
-                Privacy
-              </a>
-              <a href="#" className="hover:text-cream">
-                Terms
-              </a>
+              <span className="text-cream/40">Privacy soon</span>
+              <span className="text-cream/40">Terms soon</span>
             </p>
             <div
               className="flex items-center gap-1 border-l border-cream/15 pl-5 text-[12px] font-bold"
@@ -105,9 +118,6 @@ export function SiteFooter(): React.JSX.Element {
               aria-label="Language"
             >
               <span className="rounded-md bg-lime px-2 py-1 text-ink">EN</span>
-              <a href="#" className="px-1 text-cream/50 hover:text-cream">
-                ID
-              </a>
             </div>
           </div>
         </div>

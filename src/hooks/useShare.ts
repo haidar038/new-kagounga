@@ -27,10 +27,14 @@ export function useShareLink(): {
       });
       return;
     }
+    if (!navigator.clipboard?.writeText) {
+      return;
+    }
     void navigator.clipboard
-      ?.writeText(data.url)
+      .writeText(data.url)
       .then(() => {
         setCopied(true);
+        if (timer.current !== null) window.clearTimeout(timer.current);
         timer.current = window.setTimeout(() => {
           setCopied(false);
         }, 1600);

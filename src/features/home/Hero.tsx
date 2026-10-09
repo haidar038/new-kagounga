@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Reveal } from "../../components/Reveal";
+import { cld } from "../../lib/cloudinary";
 import { cn } from "../../lib/cn";
 
 const STATS = [
   { value: "500+", label: "Shipped Products" },
-  { value: "8+", label: "Shipped Country" },
+  { value: "8+", label: "Countries Served" },
   { value: "5", label: "Signatures" },
 ] as const;
 
@@ -14,7 +15,7 @@ export function Hero(): React.JSX.Element {
   return (
     <section className="relative flex min-h-[92vh] items-center overflow-hidden bg-ink text-cream">
       <img
-        src="/img/hero-bg-nature.png"
+        src={cld("hero-bg-nature.webp", 1920)}
         alt=""
         className="absolute inset-0 h-full w-full object-cover"
         fetchPriority="high"
@@ -28,6 +29,12 @@ export function Hero(): React.JSX.Element {
         onClick={() => {
           setTapped((v) => !v);
         }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setTapped((v) => !v);
+          }
+        }}
         onMouseLeave={() => {
           setTapped(false);
         }}
@@ -37,14 +44,14 @@ export function Hero(): React.JSX.Element {
         )}
       >
         <img
-          src="/img/tisan-self.png"
+          src={cld("tisan-self.webp", 800)}
           alt="Woman in white kebaya holding sago on banana leaves in a woven tray"
           className="tisan-swap tisan-1 h-full w-auto object-contain"
           fetchPriority="high"
           decoding="async"
         />
         <img
-          src="/img/tisan-self-2.png"
+          src={cld("tisan-self-2.webp", 800)}
           alt=""
           aria-hidden="true"
           className="tisan-swap tisan-2 absolute inset-0 h-full w-auto object-contain opacity-0"

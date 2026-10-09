@@ -1,35 +1,22 @@
-# React + TypeScript + Vite
+# Kagōunga — Move, Moreover
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Company profile + catalog + music + news + distribution map. React 19 + TS + Vite + Tailwind 4 + react-router 7 + MapLibre.
 
-Currently, two official plugins are available:
+## Run
+- `bun install` (atau `npm install`)
+- `bun run dev` → http://localhost:5173
+- `bun run build` → `tsc -b && vite build`
+- `bun run lint` → `oxlint`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Env
+- Salin `.env.example` ke `.env`, isi `VITE_CAL_API_URL` (Apps Script `?action=getEvents&year=YYYY`).
+- Tanpa env, halaman Milestones pakai fallback statis + cache lokal.
 
-## React Compiler
+## Struktur
+- `src/app/` router + layout (header/footer, consent, page-view tanpa query).
+- `src/pages/` Home/About/News/Catalog/Music/Contact/404 (lazy kecuali Home).
+- `src/features/` home + contact (peta MapLibre, form WA).
+- `src/data/` konten statis + `news.json`. `src/lib/` calendar/analytics/whatsapp/markdown/cn.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Docs
+Baca `docs/README.md` dulu. Fase di `docs/PHASES.md`, tugas di `docs/TASKLIST.md`, baseline di `docs/AUDIT-BASELINE.md`, rambu di `docs/GUARDRAILS.md`.

@@ -20,11 +20,11 @@ export const FOOTER_NAVIGATE: NavLink[] = [
 ];
 
 export const FOOTER_SIGNATURES: NavLink[] = [
-  { label: "Popeda Soup", to: "/#signature" },
-  { label: "Botanical Soap", to: "/#signature" },
-  { label: "Sensory Candle", to: "/#signature" },
-  { label: "Brand Music", to: "/#signature" },
-  { label: "Visual Artwork", to: "/#signature" },
+  { label: "Popeda Soup", to: "/?sig=popeda#signature" },
+  { label: "Botanical Soap", to: "/?sig=soap#signature" },
+  { label: "Sensory Candle", to: "/?sig=candle#signature" },
+  { label: "Brand Music", to: "/?sig=music#signature" },
+  { label: "Visual Artwork", to: "/?sig=artwork#signature" },
 ];
 
 export const CONTACT = {
