@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { SiteHeader } from "../components/SiteHeader";
 import { SiteFooter } from "../components/SiteFooter";
+import { trackPageView } from "../lib/analytics";
 
 function ScrollManager(): null {
   const { pathname, hash } = useLocation();
@@ -23,10 +24,21 @@ function ScrollManager(): null {
   return null;
 }
 
+function PageViewTracker(): null {
+  const { pathname, search } = useLocation();
+
+  useEffect(() => {
+    trackPageView(pathname + search);
+  }, [pathname, search]);
+
+  return null;
+}
+
 export function SiteLayout(): React.JSX.Element {
   return (
     <>
       <ScrollManager />
+      <PageViewTracker />
       <SiteHeader />
       <Outlet />
       <SiteFooter />
