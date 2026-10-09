@@ -7,6 +7,7 @@ Sumber tunggal arah kerja. Baca urut ini sebelum ubah kode.
 3. `PHASES.md` — tahap kerja + exit criteria.
 4. `TASKLIST.md` — daftar tugas ceklis per fase. Update status di sini saja.
 5. `CHANGELOG.md` — catat tiap selesai fase / rilis.
+6. `I18N-PLAN.md` — rencana i18n P4 (baca penuh sebelum eksekusi T-P4-xx).
 
 Aturan pakai:
 - Mulai sesi baru: baca `GUARDRAILS.md` + fase aktif di `PHASES.md` + tugas terbuka di `TASKLIST.md`.

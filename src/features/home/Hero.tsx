@@ -1,16 +1,13 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Reveal } from "../../components/Reveal";
 import { cld } from "../../lib/cloudinary";
 import { cn } from "../../lib/cn";
 
-const STATS = [
-  { value: "500+", label: "Shipped Products" },
-  { value: "8+", label: "Countries Served" },
-  { value: "5", label: "Signatures" },
-] as const;
-
 export function Hero(): React.JSX.Element {
+  const { t } = useTranslation("home");
   const [tapped, setTapped] = useState(false);
+  const stats = t("hero.stats", { returnObjects: true }) as string[];
 
   return (
     <section className="relative flex min-h-[92vh] items-center overflow-hidden bg-ink text-cream">
@@ -25,7 +22,7 @@ export function Hero(): React.JSX.Element {
         id="tisanWrap"
         tabIndex={0}
         role="button"
-        aria-label="Tisan holding sago. Hover to see her face"
+        aria-label={t("hero.tisan")}
         onClick={() => {
           setTapped((v) => !v);
         }}
@@ -75,7 +72,7 @@ export function Hero(): React.JSX.Element {
         </Reveal>
         <Reveal>
           <p className="mt-4 max-w-xl text-[17px] leading-relaxed text-cream/85 md:text-lg">
-            We transcend all boundaries, imaginable.
+            {t("hero.lede")}
           </p>
         </Reveal>
         <Reveal>
@@ -84,23 +81,23 @@ export function Hero(): React.JSX.Element {
               href="#signature"
               className="pointer-events-auto rounded-full bg-lime px-7 py-3.5 text-sm font-bold text-ink hover:brightness-95"
             >
-              Explore Our World
+              {t("hero.explore")}
             </a>
             <a
               href="#milestones"
               className="pointer-events-auto rounded-full border border-cream/40 px-7 py-3.5 text-sm font-bold text-cream transition hover:bg-cream hover:text-ink"
             >
-              View Events
+              {t("hero.events")}
             </a>
           </div>
         </Reveal>
         <Reveal>
           <dl className="mt-10 grid max-w-xl grid-cols-3 divide-x divide-cream/20 border-t border-cream/20 pt-6">
-            {STATS.map((s, i) => (
-              <div key={s.label} className={i === 0 ? "pr-5" : i === 1 ? "px-5" : "pl-5"}>
-                <dt className="text-2xl font-bold sm:text-3xl md:text-4xl">{s.value}</dt>
+            {(["500+", "8+", "5"] as const).map((value, i) => (
+              <div key={value} className={i === 0 ? "pr-5" : i === 1 ? "px-5" : "pl-5"}>
+                <dt className="text-2xl font-bold sm:text-3xl md:text-4xl">{value}</dt>
                 <dd className="mt-1 text-[12px] font-semibold uppercase tracking-wider text-cream/60">
-                  {s.label}
+                  {stats[i]}
                 </dd>
               </div>
             ))}

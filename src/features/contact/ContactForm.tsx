@@ -1,39 +1,29 @@
 import { useState, type FormEvent } from "react";
+import { useTranslation } from "react-i18next";
 import { Send } from "lucide-react";
-import { contactSubjects, type ContactSubject } from "../../types/content";
-import { waLink } from "../../lib/whatsapp";
+import { contactSubjects } from "../../types/content";
+import { contactMessage, waLink } from "../../lib/whatsapp";
+import { useLocale } from "../../i18n";
+import idContact from "../../locales/id/contact.json";
 import { Reveal } from "../../components/Reveal";
 import { cn } from "../../lib/cn";
 
 interface FormState {
   name: string;
   contact: string;
-  subject: ContactSubject;
+  subject: string;
   message: string;
 }
 
 type FieldErrors = Partial<Record<"name" | "contact" | "message", string>>;
 
-const INITIAL: FormState = {
-  name: "",
-  contact: "",
-  subject: "Business Inquiry",
-  message: "",
-};
+const ID_SUBJECTS = (idContact as { subjects?: string[] }).subjects ?? [];
 
-function validate(form: FormState): FieldErrors {
-  const errors: FieldErrors = {};
-  if (form.name.trim().length < 2) errors.name = "Enter a name with at least 2 characters.";
-  const contact = form.contact.trim();
-  if (contact.length < 3) {
-    errors.contact = "Enter your email or WhatsApp number.";
-  } else if (contact.includes("@") && !/^\S+@\S+\.\S+$/.test(contact)) {
-    errors.contact = "Invalid email format.";
+function subjectList(locale: string): string[] {
+  if (locale === "id" && ID_SUBJECTS.length === contactSubjects.length) {
+    return ID_SUBJECTS;
   }
-  if (form.message.trim().length < 10) {
-    errors.message = "Describe your needs in at least 10 characters.";
-  }
-  return errors;
+  return [...contactSubjects];
 }
 
 const inputCls =
@@ -41,10 +31,31 @@ const inputCls =
 const labelCls = "mb-2 block text-[13px] font-bold";
 
 export function ContactForm(): React.JSX.Element {
-  const [form, setForm] = useState<FormState>(INITIAL);
+  const { t } = useTranslation("contact");
+  const locale = useLocale();
+  const subjects = subjectList(locale);
+  const [form, setForm] = useState<FormState>(() => ({
+    name: "",
+    contact: "",
+    subject: subjects[0],
+    message: "",
+  }));
   const [errors, setErrors] = useState<FieldErrors>({});
   const [sent, setSent] = useState(false);
   const [sentUrl, setSentUrl] = useState<string | null>(null);
+
+  const validate = (f: FormState): FieldErrors => {
+    const found: FieldErrors = {};
+    if (f.name.trim().length < 2) found.name = t("form.errName");
+    const c = f.contact.trim();
+    if (c.length < 3) {
+      found.contact = t("form.errContact");
+    } else if (c.includes("@") && !/^\S+@\S+\.\S+$/.test(c)) {
+      found.contact = t("form.errContactEmail");
+    }
+    if (f.message.trim().length < 10) found.message = t("form.errMessage");
+    return found;
+  };
 
   const set = <K extends keyof FormState>(key: K, value: FormState[K]): void => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -58,10 +69,15 @@ export function ContactForm(): React.JSX.Element {
     const found = validate(form);
     setErrors(found);
     if (Object.keys(found).length > 0) return;
-    const text =
-      `Hello Kagōunga! I'm ${form.name.trim()} (${form.contact.trim()}).\n` +
-      `Subject: ${form.subject}\n${form.message.trim()}`;
-    const url = waLink(text);
+    const url = waLink(
+      contactMessage(
+        form.name.trim(),
+        form.contact.trim(),
+        form.subject,
+        form.message.trim(),
+        locale,
+      ),
+    );
     setSentUrl(url);
     window.open(url, "_blank", "noopener,noreferrer");
     setSent(true);
@@ -76,13 +92,13 @@ export function ContactForm(): React.JSX.Element {
       >
         <div>
           <label htmlFor="cf-name" className={labelCls}>
-            Name
+            {t("form.name")}
           </label>
           <input
             id="cf-name"
             type="text"
             autoComplete="name"
-            placeholder="Your name"
+            placeholder={t("form.namePh")}
             value={form.name}
             aria-invalid={Boolean(errors.name)}
             aria-describedby={errors.name ? "cf-name-error" : undefined}
@@ -100,13 +116,13 @@ export function ContactForm(): React.JSX.Element {
 
         <div>
           <label htmlFor="cf-contact" className={labelCls}>
-            Email / WhatsApp
+            {t("form.contact")}
           </label>
           <input
             id="cf-contact"
             type="text"
             autoComplete="email"
-            placeholder="email@example.com or 08xxxxxxxxxx"
+            placeholder={t("form.contactPh")}
             value={form.contact}
             aria-invalid={Boolean(errors.contact)}
             aria-describedby={errors.contact ? "cf-contact-error" : undefined}
@@ -124,17 +140,17 @@ export function ContactForm(): React.JSX.Element {
 
         <div>
           <label htmlFor="cf-subject" className={labelCls}>
-            Subject
+            {t("form.subject")}
           </label>
           <select
             id="cf-subject"
             value={form.subject}
             onChange={(e) => {
-              set("subject", e.target.value as ContactSubject);
+              set("subject", e.target.value);
             }}
             className={cn(inputCls, "appearance-none")}
           >
-            {contactSubjects.map((s) => (
+            {subjects.map((s) => (
               <option key={s} value={s}>
                 {s}
               </option>
@@ -144,12 +160,12 @@ export function ContactForm(): React.JSX.Element {
 
         <div className="flex flex-1 flex-col">
           <label htmlFor="cf-message" className={labelCls}>
-            Message
+            {t("form.message")}
           </label>
           <textarea
             id="cf-message"
             rows={5}
-            placeholder="Describe your needs: order, partnership, media, or other."
+            placeholder={t("form.messagePh")}
             value={form.message}
             aria-invalid={Boolean(errors.message)}
             aria-describedby={errors.message ? "cf-message-error" : undefined}
@@ -170,11 +186,11 @@ export function ContactForm(): React.JSX.Element {
           className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-bold text-cream hover:bg-black"
         >
           <Send className="size-4" aria-hidden="true" />
-          Send via WhatsApp
+          {t("form.send")}
         </button>
         {sent && (
           <p aria-live="polite" className="text-center text-[13px] font-medium text-ink/60">
-            Opening WhatsApp.{" "}
+            {t("form.opening")}{" "}
             {sentUrl && (
               <a
                 href={sentUrl}
@@ -182,7 +198,7 @@ export function ContactForm(): React.JSX.Element {
                 rel="noopener noreferrer"
                 className="font-bold underline"
               >
-                Continue here if blocked.
+                {t("form.continue")}
               </a>
             )}
           </p>

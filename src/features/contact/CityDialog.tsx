@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { X } from "lucide-react";
 import type { DistributionPoint } from "../../types/content";
 import type { CityGroup } from "../../data/locations";
@@ -15,6 +16,7 @@ export function CityDialog({
 }): React.JSX.Element {
   const ref = useRef<HTMLDialogElement>(null);
   const prevFocus = useRef<HTMLElement | null>(null);
+  const { t } = useTranslation("contact");
 
   useEffect(() => {
     const dialog = ref.current;
@@ -35,7 +37,7 @@ export function CityDialog({
   return (
     <dialog
       ref={ref}
-      aria-label={group ? `Locations in ${group.city}` : "Location list"}
+      aria-label={group ? t("legend.cityTitle", { city: group.city }) : t("legend.list")}
       onClose={onClose}
       onClick={(e) => {
         if (e.target === e.currentTarget) e.currentTarget.close();
@@ -47,14 +49,14 @@ export function CityDialog({
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-[12px] font-bold uppercase tracking-[0.18em] text-ink/50">
-                {group.points.length} points
+                {group.points.length} {t("legend.points")}
               </p>
               <h3 className="mt-1 text-2xl font-bold">{group.city}</h3>
             </div>
             <button
               type="button"
               onClick={() => ref.current?.close()}
-              aria-label="Close location list"
+              aria-label={t("legend.cityClose")}
               autoFocus
               className="grid size-10 shrink-0 place-items-center rounded-full border border-ink/15 hover:border-ink/40"
             >

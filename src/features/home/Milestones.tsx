@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import type {
   CalYear,
@@ -8,11 +9,12 @@ import type {
 import { calYears, isCalYear } from "../../types/calendar";
 import {
   FALLBACK_MILESTONES,
-  MONTHS_FULL,
   hasEvents,
   monthKind,
   pageMonths,
 } from "../../lib/calendar";
+import { monthName } from "../../lib/format";
+import { useLocale } from "../../i18n";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { useMilestonesYear } from "../../hooks/useMilestones";
 import { Reveal } from "../../components/Reveal";
@@ -43,6 +45,8 @@ function MonthCard({
   const data = buckets?.[month];
   const kind = monthKind(year, month, buckets, now);
   const ev = hasEvents(buckets, month);
+  const { t } = useTranslation("home");
+  const locale = useLocale();
 
   const card = cn(
     "flex min-h-fit-content flex-col rounded-[20px] p-6 md:min-h-fit-content md:p-8",
@@ -53,15 +57,15 @@ function MonthCard({
   );
   const badge =
     kind === "done" ? (
-      <span className="text-[13px] font-bold text-lime">Completed</span>
+      <span className="text-[13px] font-bold text-lime">{t("milestones.status.done")}</span>
     ) : kind === "idle" ? (
-      <span className="text-[13px] font-bold">No Agenda</span>
+      <span className="text-[13px] font-bold">{t("milestones.status.idle")}</span>
     ) : ev ? (
       <span className="rounded-full bg-white/50 px-4 py-2 text-[12px] font-bold">
-        Scheduled
+        {t("milestones.status.scheduled")}
       </span>
     ) : (
-      <span className="text-[13px] font-bold">TBA</span>
+      <span className="text-[13px] font-bold">{t("milestones.status.tba")}</span>
     );
   const divider = kind === "done" ? "border-cream/20" : "border-ink/15";
 
@@ -70,7 +74,7 @@ function MonthCard({
       <div className="flex items-start justify-between gap-3">
         <div>
           <h5 className="text-[20px] font-bold tracking-tight md:text-[24px]">
-            {MONTHS_FULL[month]}
+            {monthName(month, locale)}
           </h5>
           <p className="mt-0.5 text-xs">{year}</p>
         </div>
@@ -88,11 +92,11 @@ function MonthCard({
         </ul>
       ) : kind === "idle" ? (
         <p className="mt-auto pt-8 text-[12px] font-medium tracking-wide">
-          NO AGENDA
+          {t("milestones.status.noAgenda")}
         </p>
       ) : (
         <p className="mt-auto pt-8 text-[12px] font-medium tracking-wide">
-          TO BE ANNOUNCED
+          {t("milestones.status.announced")}
         </p>
       )}
     </article>
@@ -100,6 +104,8 @@ function MonthCard({
 }
 
 export function Milestones(): React.JSX.Element {
+  const { t } = useTranslation("home");
+  const locale = useLocale();
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [now] = useState(() => new Date());
   const [calYear, setCalYear] = useState<CalYear>(initialYear);
@@ -140,16 +146,14 @@ export function Milestones(): React.JSX.Element {
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <Reveal>
           <h2 className="display text-5xl md:text-6xl">
-            <span className="font-bold">Milestones</span>
+            <span className="font-bold">{t("milestones.titleBold")}</span>
             <br />
-            <span className="font-light">in Motion.</span>
+            <span className="font-light">{t("milestones.titleLight")}</span>
           </h2>
         </Reveal>
         <Reveal>
           <p className="mt-4 max-w-2xl leading-relaxed text-ink/70">
-            An overview of Kagōunga&apos;s annual journey across exhibitions,
-            music, pop-ups, and collaborative ventures. Upcoming schedules are
-            updated dynamically.
+            {t("milestones.lede")}
           </p>
         </Reveal>
         <div className="mt-8 border-t border-ink/10" />
@@ -157,7 +161,7 @@ export function Milestones(): React.JSX.Element {
         <div className="mt-6 flex items-center justify-between gap-4">
           <div
             role="tablist"
-            aria-label="Pilih tahun"
+            aria-label={t("milestones.yearLabel")}
             className="flex max-w-full snap-x gap-1 overflow-x-auto rounded-full border border-ink/10 bg-white p-1.5 md:inline-flex md:flex-wrap md:overflow-visible"
           >
             {calYears.map((year) => (
@@ -181,7 +185,7 @@ export function Milestones(): React.JSX.Element {
           <div className="hidden shrink-0 gap-2 md:flex">
             <button
               type="button"
-              aria-label="Halaman sebelumnya"
+              aria-label={t("milestones.prev")}
               onClick={() => {
                 setCalPage((p) => (p - 1 + pages) % pages);
               }}
@@ -191,7 +195,7 @@ export function Milestones(): React.JSX.Element {
             </button>
             <button
               type="button"
-              aria-label="Halaman berikutnya"
+              aria-label={t("milestones.next")}
               onClick={() => {
                 setCalPage((p) => (p + 1) % pages);
               }}
@@ -235,7 +239,7 @@ export function Milestones(): React.JSX.Element {
         {!isDesktop ? (
           <div
             role="group"
-            aria-label={`${MONTHS_FULL[Math.min(11, calPage * size)]} ${calYear}`}
+            aria-label={`${monthName(Math.min(11, calPage * size), locale)} ${calYear}`}
             className="mt-8 flex items-center justify-center gap-2.5"
           >
             <div className="w-full max-w-xs">
@@ -248,14 +252,14 @@ export function Milestones(): React.JSX.Element {
                 />
               </div>
               <p className="mt-2 text-center text-[12px] font-bold text-ink/50">
-                {MONTHS_FULL[Math.min(11, calPage * size)]} {calYear}
+                {monthName(Math.min(11, calPage * size), locale)} {calYear}
               </p>
             </div>
           </div>
         ) : (
           <div
             role="group"
-            aria-label="Pindah halaman bulan"
+            aria-label={t("milestones.pages")}
             className="mt-8 flex items-center justify-center gap-2.5"
           >
             {Array.from({ length: pages }, (_, p) => (
@@ -263,7 +267,7 @@ export function Milestones(): React.JSX.Element {
                 key={p}
                 type="button"
                 className="cursor-pointer p-1"
-                aria-label={`Ke halaman ${p + 1} dari ${pages}`}
+                aria-label={t("milestones.pageOf", { current: p + 1, total: pages })}
                 aria-current={p === calPage}
                 onClick={() => {
                   setCalPage(p);

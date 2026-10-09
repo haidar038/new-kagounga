@@ -19,3 +19,8 @@
 ## Keputusan cepat
 - Ragu? Tanya, jangan asumsi diam. Sederhana dulu, tolak scope merayap.
 - P0 boleh potong antre. Selain itu antre ke fase berikut.
+
+## Adendum P4 (i18n)
+- String baru wajib lewat ns `i18n`, tanpa hardcode EN/ID di komponen. Kunci hilang = fallback EN, bukan halaman kosong (badge hanya untuk body news/legal).
+- Tanpa auto-redirect locale (banner 1x saja). Kanonis + `hreflang` wajib tiap rute dua locale.
+- `VITE_SITE_URL` + `seo-build.mjs` sumber sitemap/prerender; tambah locale di dua tempat (runtime + script) sekaligus.

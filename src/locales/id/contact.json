@@ -1,0 +1,50 @@
+{
+    "email": "Email",
+    "findUs": {
+        "lede": "Peta sebaran {{count}} titik produk Kagōunga: dari Ternate hingga Jakarta. Klik penanda atau kartu wilayah untuk navigasi.",
+        "map": "Peta sebaran produk Kagōunga",
+        "titleBold": "Jangkau",
+        "titleLight": " Kami."
+    },
+    "follow": "Ikuti",
+    "form": {
+        "contact": "Email / WhatsApp",
+        "contactPh": "email@contoh.com atau 08xxxxxxxxxx",
+        "continue": "Lanjutkan di sini jika terblokir.",
+        "errContact": "Masukkan email atau nomor WhatsApp.",
+        "errContactEmail": "Format email tidak valid.",
+        "errMessage": "Jelaskan kebutuhanmu minimal 10 karakter.",
+        "errName": "Masukkan nama minimal 2 karakter.",
+        "message": "Pesan",
+        "messagePh": "Jelaskan kebutuhanmu: order, kemitraan, media, atau lainnya.",
+        "name": "Nama",
+        "namePh": "Namamu",
+        "opening": "Membuka WhatsApp.",
+        "send": "Kirim via WhatsApp",
+        "subject": "Subjek"
+    },
+    "kinds": {
+        "hub": "Hub",
+        "partner": "Mitra",
+        "retail": "Ritel"
+    },
+    "legend": {
+        "cityClose": "Tutup daftar lokasi",
+        "cityTitle": "Lokasi di {{city}}",
+        "list": "Daftar lokasi",
+        "points": "titik",
+        "viewList": "titik · Lihat daftar"
+    },
+    "phone": "Telepon / WhatsApp",
+    "subjects": [
+        "Inquiry Bisnis",
+        "Kemitraan",
+        "Media & Pers",
+        "Lainnya"
+    ],
+    "touch": {
+        "lede": "Ingin terhubung lebih jauh dengan Kagōunga? Isi formulir. Pesanmu langsung masuk ke WhatsApp kami.",
+        "titleBold": "Hubungi",
+        "titleLight": " Kami."
+    }
+}

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ExternalLink, Music2, Play } from "lucide-react";
 import type { Track } from "../types/content";
 import { Reveal } from "./Reveal";
@@ -15,6 +16,7 @@ const BRAND_HOVER: Record<string, string> = {
 };
 
 export function TrackCard({ track }: { track: Track }): React.JSX.Element {
+  const { t } = useTranslation("music");
   const [showPlayer, setShowPlayer] = useState(false);
   return (
     <Reveal>
@@ -66,7 +68,7 @@ export function TrackCard({ track }: { track: Track }): React.JSX.Element {
         <div className="hidden w-80 shrink-0 self-center lg:block">
           {showPlayer ? (
             <iframe
-              title={`${track.title} mini player`}
+              title={t("card.player", { title: track.title })}
               className="w-full rounded-xl"
               src={track.playerSrc}
               width="100%"
@@ -80,11 +82,11 @@ export function TrackCard({ track }: { track: Track }): React.JSX.Element {
               onClick={() => {
                 setShowPlayer(true);
               }}
-              aria-label={`Load preview player for ${track.title}`}
+              aria-label={t("card.player", { title: track.title })}
               className="flex w-full items-center justify-center gap-2 rounded-xl border border-ink/15 px-4 py-6 text-sm font-bold hover:border-ink/40"
             >
               <Play className="size-4" aria-hidden="true" />
-              Play preview
+              {t("card.play")}
             </button>
           )}
         </div>

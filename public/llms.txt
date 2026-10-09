@@ -1,0 +1,15 @@
+# Kagōunga
+
+> Five distinct forms of expression bound by one identity. Gastronomy, personal
+> care, home fragrance, sonic identity, and fine art from North Moluccas.
+
+Canonical site: https://kagounga.com (apex canonical, www 301-redirects to apex).
+
+- About: https://kagounga.com/about
+- News: https://kagounga.com/news
+- Catalog: https://kagounga.com/catalog
+- Music: https://kagounga.com/music
+- Contact: https://kagounga.com/contact
+
+News articles live under `/news/:slug`. Catalog ordering happens via WhatsApp,
+contact via the contact page. Sitemap: `/sitemap.xml`, images: `/sitemap-images.xml`.

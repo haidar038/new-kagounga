@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Block duplicate SPA variants (?sig= footer links, ?utm_ campaigns).
+# Canonical stays clean via useDocumentMeta query stripping.
+Disallow: /*?sig=
+Disallow: /*?utm_
+Disallow: /*?fbclid=
+Disallow: /*?gclid=
+
+Sitemap: https://kagounga.com/sitemap.xml

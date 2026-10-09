@@ -23,3 +23,9 @@ export const ContactPage = lazy(() =>
 export const NotFoundPage = lazy(() =>
   import("../pages/NotFoundPage").then((m) => ({ default: m.NotFoundPage })),
 );
+export const PrivacyPage = lazy(() =>
+  import("../pages/PrivacyPage").then((m) => ({ default: m.PrivacyPage })),
+);
+export const TermsPage = lazy(() =>
+  import("../pages/TermsPage").then((m) => ({ default: m.TermsPage })),
+);

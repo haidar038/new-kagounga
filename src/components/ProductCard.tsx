@@ -1,6 +1,8 @@
 import { MessageSquare, Package } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import type { ProductDetail, ProductId } from "../types/content";
 import { orderHref } from "../data/products";
+import { useLocale } from "../i18n";
 import { Reveal } from "./Reveal";
 
 export function ProductCard({
@@ -10,6 +12,8 @@ export function ProductCard({
   product: ProductDetail;
   onDetails: (id: ProductId) => void;
 }): React.JSX.Element {
+  const { t } = useTranslation("catalog");
+  const locale = useLocale();
   return (
     <Reveal className="h-full">
       <article className="card-hover flex h-full flex-col overflow-hidden rounded-3xl border border-ink/10 bg-white">
@@ -40,13 +44,13 @@ export function ProductCard({
           <p className="mt-auto pt-3 text-lg font-black">{product.price}</p>
           <div className="mt-4 grid gap-2">
             <a
-              href={orderHref(product.name)}
+              href={orderHref(product.name, locale)}
               target="_blank"
               rel="noopener"
               className="flex items-center justify-center gap-2 rounded-full bg-lime px-6 py-3 text-sm font-bold text-ink hover:brightness-95"
             >
               <MessageSquare className="size-4" aria-hidden="true" />
-              Order or Inquiry
+              {t("card.order")}
             </a>
             <button
               type="button"
@@ -56,7 +60,7 @@ export function ProductCard({
               className="flex items-center justify-center gap-2 rounded-full border border-ink/15 px-6 py-3 text-sm font-bold hover:border-ink/40"
             >
               <Package className="size-4" aria-hidden="true" />
-              View details
+              {t("card.details")}
             </button>
           </div>
         </div>

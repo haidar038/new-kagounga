@@ -1,5 +1,10 @@
 import type { NewsPost } from "../types/content";
+import type { Locale } from "../i18n";
 import newsJson from "./news.json";
+
+function isOptionalString(value: unknown): boolean {
+  return value === undefined || typeof value === "string";
+}
 
 function isNewsPost(value: unknown): value is NewsPost {
   if (typeof value !== "object" || value === null) return false;
@@ -14,7 +19,13 @@ function isNewsPost(value: unknown): value is NewsPost {
     typeof p.coverAlt === "string" &&
     typeof p.excerpt === "string" &&
     typeof p.lede === "string" &&
-    typeof p.bodyMarkdown === "string"
+    typeof p.bodyMarkdown === "string" &&
+    isOptionalString(p.titleId) &&
+    isOptionalString(p.descriptionId) &&
+    isOptionalString(p.coverAltId) &&
+    isOptionalString(p.excerptId) &&
+    isOptionalString(p.ledeId) &&
+    isOptionalString(p.bodyMarkdownId)
   );
 }
 
@@ -49,4 +60,34 @@ export function getPost(slug: string | undefined): NewsPost | undefined {
   if (!slug) return undefined;
   const clean = slug.trim().toLowerCase().replace(/\/+$/, "");
   return NEWS_POSTS.find((p) => p.slug.toLowerCase() === clean);
+}
+
+export type LocalizedPost = NewsPost & { isFallback: boolean };
+
+function hasId(post: NewsPost): boolean {
+  return Boolean(
+    post.titleId &&
+      post.descriptionId &&
+      post.coverAltId &&
+      post.excerptId &&
+      post.ledeId &&
+      post.bodyMarkdownId,
+  );
+}
+
+/** Resolve display fields for a locale. Missing ID = EN + fallback flag. */
+export function localizePost(post: NewsPost, locale: Locale): LocalizedPost {
+  if (locale === "en" || !hasId(post)) {
+    return { ...post, isFallback: locale !== "en" };
+  }
+  return {
+    ...post,
+    title: post.titleId as string,
+    description: post.descriptionId as string,
+    coverAlt: post.coverAltId as string,
+    excerpt: post.excerptId as string,
+    lede: post.ledeId as string,
+    bodyMarkdown: post.bodyMarkdownId as string,
+    isFallback: false,
+  };
 }

@@ -1,0 +1,50 @@
+{
+    "email": "Email",
+    "findUs": {
+        "lede": "Distribution map of {{count}} Kagōunga product points: from Ternate to Jakarta. Click a marker or region card to navigate.",
+        "map": "Kagōunga product distribution map",
+        "titleBold": "Reach",
+        "titleLight": " Us."
+    },
+    "follow": "Follow",
+    "form": {
+        "contact": "Email / WhatsApp",
+        "contactPh": "email@example.com or 08xxxxxxxxxx",
+        "continue": "Continue here if blocked.",
+        "errContact": "Enter your email or WhatsApp number.",
+        "errContactEmail": "Invalid email format.",
+        "errMessage": "Describe your needs in at least 10 characters.",
+        "errName": "Enter a name with at least 2 characters.",
+        "message": "Message",
+        "messagePh": "Describe your needs: order, partnership, media, or other.",
+        "name": "Name",
+        "namePh": "Your name",
+        "opening": "Opening WhatsApp.",
+        "send": "Send via WhatsApp",
+        "subject": "Subject"
+    },
+    "kinds": {
+        "hub": "Hub",
+        "partner": "Partner",
+        "retail": "Retail"
+    },
+    "legend": {
+        "cityClose": "Close location list",
+        "cityTitle": "Locations in {{city}}",
+        "list": "Location list",
+        "points": "points",
+        "viewList": "points · View list"
+    },
+    "phone": "Phone / WhatsApp",
+    "subjects": [
+        "Business Inquiry",
+        "Partnership",
+        "Media & Press",
+        "Other"
+    ],
+    "touch": {
+        "lede": "Want to connect further with Kagōunga? Fill out the form. Your message goes straight to our WhatsApp.",
+        "titleBold": "Get",
+        "titleLight": " in Touch."
+    }
+}

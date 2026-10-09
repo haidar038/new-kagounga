@@ -10,6 +10,8 @@ import {
   NewsDetailPage,
   NewsPage,
   NotFoundPage,
+  PrivacyPage,
+  TermsPage,
 } from "./pages";
 
 function susp(el: ReactNode): ReactNode {
@@ -27,6 +29,25 @@ export const router = createBrowserRouter([
       { path: "/catalog", element: susp(<CatalogPage />) },
       { path: "/contact", element: susp(<ContactPage />) },
       { path: "/music", element: susp(<MusicPage />) },
+      { path: "/privacy", element: susp(<PrivacyPage />) },
+      { path: "/terms", element: susp(<TermsPage />) },
+      { path: "*", element: susp(<NotFoundPage />) },
+    ],
+  },
+  {
+    // Indonesian locale. Same components, locale from path prefix.
+    path: "/id",
+    element: <SiteLayout />,
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: "about", element: susp(<AboutPage />) },
+      { path: "news", element: susp(<NewsPage />) },
+      { path: "news/:slug", element: susp(<NewsDetailPage />) },
+      { path: "catalog", element: susp(<CatalogPage />) },
+      { path: "contact", element: susp(<ContactPage />) },
+      { path: "music", element: susp(<MusicPage />) },
+      { path: "privacy", element: susp(<PrivacyPage />) },
+      { path: "terms", element: susp(<TermsPage />) },
       { path: "*", element: susp(<NotFoundPage />) },
     ],
   },

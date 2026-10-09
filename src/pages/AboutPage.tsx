@@ -1,50 +1,52 @@
-import { useDocumentMeta } from "../hooks/useDocumentMeta";
-import { COLLABORATORS } from "../data/collaborators";
+import { useTranslation } from "react-i18next";
+import { useDocumentMeta, SITE_URL } from "../hooks/useDocumentMeta";
+import { breadcrumbLd, graphLd } from "../lib/seo";
+import { getCollaborators } from "../data/collaborators";
+import { useLocale } from "../i18n";
 import { PageHero } from "../components/PageHero";
 import { Reveal } from "../components/Reveal";
 
 export function AboutPage(): React.JSX.Element {
+  const { t } = useTranslation(["about", "seo", "common"]);
+  const locale = useLocale();
   useDocumentMeta({
-    title: "Our Story | Kagōunga",
-    description:
-      "Kagōunga: Our Story and In Collaboration. The journey from North Moluccas and the people behind it.",
+    title: t("about.title", { ns: "seo" }),
+    description: t("about.description", { ns: "seo" }),
+    canonical: locale === "id" ? "/id/about" : "/about",
+    jsonLd: graphLd([
+      breadcrumbLd(
+        [
+          { name: t("home", { ns: "common" }), path: "/" },
+          { name: t("about", { ns: "common" }), path: "/about" },
+        ],
+        SITE_URL,
+      ),
+    ]),
   });
+  const items = getCollaborators(locale);
 
   return (
     <main id="top">
       <PageHero
-        eyebrow="About Kagōunga"
-        titleBold="Our"
-        titleLight=" Story."
-        lede="Rooted in Ternate, growing beyond boundaries."
+        eyebrow={t("hero.eyebrow")}
+        titleBold={t("hero.titleBold")}
+        titleLight={t("hero.titleLight")}
+        lede={t("hero.lede")}
       >
         <div className="mt-8 grid max-w-3xl gap-6 text-[15px] leading-relaxed text-cream/80 md:text-base">
           <Reveal>
             <p>
-              <strong>
-                Kagōunga is a North Maluku company that turns the
-                region&apos;s heritage of flavors, materials, and local wisdom
-                into products, experiences, and creative expressions.
-              </strong>{" "}
-              Founded by <strong>Heri Susanto (Founder)</strong> and{" "}
-              <strong>Aiya Lee (Co-Founder)</strong>, Kagōunga creates Popeda
-              Soup, Sensory Candles, Botanical Soaps, Visual Artworks, and
-              Brand Music. Everything is grounded in authenticity, quality,
-              sustainability, and a supply chain rooted in local communities.
+              {t("intro.p1a")}
+              <strong>{t("intro.founder")}</strong> {t("intro.and")}{" "}
+              <strong>{t("intro.cofounder")}</strong>
+              {t("intro.p1b")}
             </p>
           </Reveal>
           <Reveal>
             <p>
-              <strong>
-                Kagōunga is also a cultural movement, built with the people
-                who make North Maluku what it is:
-              </strong>{" "}
-              farmers, fishers, nature enthusiasts, hikers, dive clubs,
-              artisans, artists, composers, singers, dancers, photographers,
-              writers, journalists, lighting designers, models, architects,
-              software engineers, and young people of the region. Through{" "}
-              <strong>Move, Moreover!</strong>, we move together, carrying
-              North Maluku&apos;s spirit wherever we go.
+              {t("intro.p2a")}
+              <strong>{t("intro.movement")}</strong>
+              {t("intro.p2b")}
             </p>
           </Reveal>
         </div>
@@ -54,21 +56,19 @@ export function AboutPage(): React.JSX.Element {
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <Reveal>
             <h2 className="display text-5xl md:text-6xl">
-              <span className="font-bold">Our</span>{" "}
-              <span className="font-light">Co-Pilot.</span>
+              <span className="font-bold">{t("copilot.titleBold")}</span>{" "}
+              <span className="font-light">{t("copilot.titleLight")}</span>
             </h2>
           </Reveal>
           <Reveal>
             <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-ink/70">
-              Kagōunga is shaped together with farmers, artists, musicians,
-              and makers from North Moluccas and beyond. Eight of the many
-              hands behind the movement.
+              {t("copilot.lede")}
             </p>
           </Reveal>
           <div className="mt-8 border-t border-ink/10" />
 
           <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-5">
-            {COLLABORATORS.map((c) => (
+            {items.map((c) => (
               <Reveal key={c.name}>
                 <article className="card-hover relative overflow-hidden rounded-3xl border border-ink/10 bg-white">
                   <img

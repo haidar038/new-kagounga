@@ -58,6 +58,13 @@ export interface NewsPost {
   lede: string;
   /** Full article body as markdown (blank-line separated paragraphs, **bold** inline). */
   bodyMarkdown: string;
+  /** Indonesian overlay. Absent = render EN + fallback badge. */
+  titleId?: string;
+  descriptionId?: string;
+  coverAltId?: string;
+  excerptId?: string;
+  ledeId?: string;
+  bodyMarkdownId?: string;
 }
 
 export interface Collaborator {
@@ -103,6 +110,8 @@ export interface Distributor {
 }
 
 export interface NavLink {
+  /** i18n key under `common:nav`. Absent = label is a proper noun, render as-is. */
+  key?: string;
   label: string;
   to: string;
 }

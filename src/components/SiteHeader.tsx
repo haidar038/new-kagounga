@@ -1,12 +1,17 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Menu } from "lucide-react";
 import { useScrolled } from "../hooks/useScrolled";
 import { NAV_LINKS } from "../data/site";
+import { localeLink, useLocale } from "../i18n";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { cld } from "../lib/cloudinary";
 import { cn } from "../lib/cn";
 
 export function SiteHeader(): React.JSX.Element {
+  const { t } = useTranslation("common");
+  const locale = useLocale();
   const scrolled = useScrolled(8);
   const [open, setOpen] = useState(false);
 
@@ -20,9 +25,9 @@ export function SiteHeader(): React.JSX.Element {
     >
       <div className="mx-auto flex h-18 max-w-7xl items-center justify-between gap-4 px-5 md:px-8">
         <Link
-          to="/"
+          to={localeLink("/", locale)}
           className="flex shrink-0 items-center gap-3"
-          aria-label="Kagōunga home"
+          aria-label={t("home")}
           onClick={() => {
             setOpen(false);
           }}
@@ -40,27 +45,30 @@ export function SiteHeader(): React.JSX.Element {
           {NAV_LINKS.map((link) => (
             <NavLink
               key={link.to}
-              to={link.to}
+              to={localeLink(link.to, locale)}
               className={({ isActive }) =>
                 isActive
                   ? "rounded-full bg-lime px-4 py-1.5 text-ink"
                   : "hover:opacity-60"
               }
             >
-              {link.label}
+              {link.key ? t(`nav.${link.key}`) : link.label}
             </NavLink>
           ))}
         </nav>
         <div className="flex items-center gap-3">
           <Link
-            to="/contact"
+            to={localeLink("/contact", locale)}
             className="hidden rounded-full bg-ink px-5 py-2.5 text-[13px] font-bold text-cream hover:bg-black lg:inline-block"
           >
-            Find Us
+            {t("findUs")}
           </Link>
+          <div className="hidden lg:block">
+            <LanguageSwitcher />
+          </div>
           <button
             type="button"
-            aria-label="Menu"
+            aria-label={t("menu")}
             aria-expanded={open}
             onClick={() => {
               setOpen((v) => !v);
@@ -77,7 +85,7 @@ export function SiteHeader(): React.JSX.Element {
             {NAV_LINKS.map((link) => (
               <NavLink
                 key={link.to}
-                to={link.to}
+                to={localeLink(link.to, locale)}
                 onClick={() => {
                   setOpen(false);
                 }}
@@ -88,19 +96,22 @@ export function SiteHeader(): React.JSX.Element {
                   )
                 }
               >
-                {link.label}
+                {link.key ? t(`nav.${link.key}`) : link.label}
               </NavLink>
             ))}
           </nav>
-          <Link
-            to="/contact"
-            onClick={() => {
-              setOpen(false);
-            }}
-            className="mt-2 block rounded-full bg-ink px-5 py-3 text-center text-[15px] font-bold text-cream"
-          >
-            Find Us
-          </Link>
+          <div className="mt-2 flex items-center justify-between gap-3">
+            <Link
+              to={localeLink("/contact", locale)}
+              onClick={() => {
+                setOpen(false);
+              }}
+              className="block flex-1 rounded-full bg-ink px-5 py-3 text-center text-[15px] font-bold text-cream"
+            >
+              {t("findUs")}
+            </Link>
+            <LanguageSwitcher />
+          </div>
         </div>
       )}
     </header>

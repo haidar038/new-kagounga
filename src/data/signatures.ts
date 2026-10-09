@@ -1,5 +1,7 @@
 import type { SignatureProduct } from "../types/content";
+import type { Locale } from "../i18n";
 import { cld } from "../lib/cloudinary";
+import idHome from "../locales/id/home.json";
 
 export const SIGNATURES: SignatureProduct[] = [
   {
@@ -66,4 +68,20 @@ export const SIGNATURES: SignatureProduct[] = [
 
 export function getSignature(id: string): SignatureProduct {
   return SIGNATURES.find((s) => s.id === id) ?? SIGNATURES[0];
+}
+
+type SignatureOverlay = {
+  category?: string;
+  title?: string;
+  alt?: string;
+  paragraphs?: string[];
+  meta?: string;
+};
+
+const ID_OVERLAYS = (idHome as { signatures?: Record<string, SignatureOverlay> })
+  .signatures ?? {};
+
+export function getSignatures(locale: Locale): SignatureProduct[] {
+  if (locale !== "id") return SIGNATURES;
+  return SIGNATURES.map((s) => ({ ...s, ...(ID_OVERLAYS[s.id] ?? {}) }));
 }

@@ -26,4 +26,10 @@ Prinsip: kunci fase sebelum lanjut. Tiap fase punya non-goal.
 - Exit: `git status` bersih, `README.md` nyata, header cache Vercel, `CHANGELOG` update.
 - Non-goal: fitur katalog/checkout baru.
 
-Urutan kaku: P0 > P1 > P2 > P3. Lompat fase butuh catat alasan di `CHANGELOG.md`.
+## P4 — i18n EN (default) + ID penuh
+- Goal: seluruh kebutuhan web dua bahasa: UI, data produk/musik/news, form/WA, legal, SEO per locale. Detail di `I18N-PLAN.md`.
+- Scope: `TASKLIST.md` T-P4-01 s/d T-P4-10. URL EN tanpa prefix (tetap), ID di `/id/*`, slug identik, fallback konten EN + badge.
+- Exit: parity kunci UI EN vs ID 100%, tiap rute view-source EN+ID benar (title/meta/hreflang/JSON-LD `inLanguage`), sitemap 22 URL, `tsc` 0, `oxlint` 0, build OK, Lighthouse SEO 100 sampel EN+ID.
+- Non-goal: slug terlokalisasi, konversi mata uang, CMS, locale ketiga, auto-redirect browser.
+
+Urutan kaku: P0 > P1 > P2 > P3 > P4. Lompat fase butuh catat alasan di `CHANGELOG.md`.

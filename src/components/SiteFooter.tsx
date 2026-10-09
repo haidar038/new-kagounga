@@ -1,15 +1,20 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   CONTACT,
   FOOTER_NAVIGATE,
   FOOTER_SIGNATURES,
   SOCIALS,
 } from "../data/site";
+import { localeLink, useLocale } from "../i18n";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { cld } from "../lib/cloudinary";
 
 const YEAR = new Date().getFullYear();
 
 export function SiteFooter(): React.JSX.Element {
+  const { t } = useTranslation("common");
+  const locale = useLocale();
   return (
     <footer id="reach" className="bg-ink text-cream">
       <div className="mx-auto max-w-7xl px-5 py-14 md:px-8">
@@ -52,26 +57,26 @@ export function SiteFooter(): React.JSX.Element {
           </div>
           <nav className="grid content-start gap-3 text-[14px] lg:col-span-2">
             <p className="text-[12px] font-bold tracking-[0.18em] text-lime">
-              NAVIGATE
+              {t("footer.navigate")}
             </p>
             {FOOTER_NAVIGATE.map((link) => (
               <Link
                 key={link.label}
-                to={link.to}
+                to={localeLink(link.to, locale)}
                 className="opacity-80 hover:opacity-100"
               >
-                {link.label}
+                {link.key ? t(`nav.${link.key}`) : link.label}
               </Link>
             ))}
           </nav>
           <nav className="grid content-start gap-3 text-[14px] lg:col-span-2">
             <p className="text-[12px] font-bold tracking-[0.18em] text-lime">
-              SIGNATURES
+              {t("footer.signatures")}
             </p>
             {FOOTER_SIGNATURES.map((link) => (
               <Link
                 key={link.label}
-                to={link.to}
+                to={localeLink(link.to, locale)}
                 className="opacity-80 hover:opacity-100"
               >
                 {link.label}
@@ -80,7 +85,7 @@ export function SiteFooter(): React.JSX.Element {
           </nav>
           <div className="grid content-start gap-3 text-[14px] lg:col-span-3">
             <p className="text-[12px] font-bold tracking-[0.18em] text-lime">
-              REACH US
+              {t("footer.reach")}
             </p>
             <p className="font-bold">
               {CONTACT.office}
@@ -106,19 +111,17 @@ export function SiteFooter(): React.JSX.Element {
           </div>
         </div>
         <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-cream/15 pt-6 text-[13px] text-cream/60">
-          <p>© {YEAR} Kagōunga. All rights reserved.</p>
+          <p>© {YEAR} Kagōunga. {t("footer.rights")}</p>
           <div className="flex items-center gap-5">
             <p className="flex gap-5">
-              <span className="text-cream/40">Privacy soon</span>
-              <span className="text-cream/40">Terms soon</span>
+              <Link to={localeLink("/privacy", locale)} className="hover:text-cream">
+                {t("footer.privacy")}
+              </Link>
+              <Link to={localeLink("/terms", locale)} className="hover:text-cream">
+                {t("footer.terms")}
+              </Link>
             </p>
-            <div
-              className="flex items-center gap-1 border-l border-cream/15 pl-5 text-[12px] font-bold"
-              role="group"
-              aria-label="Language"
-            >
-              <span className="rounded-md bg-lime px-2 py-1 text-ink">EN</span>
-            </div>
+            <LanguageSwitcher dark />
           </div>
         </div>
       </div>

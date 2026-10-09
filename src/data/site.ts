@@ -3,20 +3,20 @@ import type { NavLink, SocialLink } from "../types/content";
 export const SITE_NAME = "Kagōunga";
 
 export const NAV_LINKS: NavLink[] = [
-  { label: "About", to: "/about" },
-  { label: "News", to: "/news" },
-  { label: "Catalog", to: "/catalog" },
-  { label: "Music", to: "/music" },
+  { key: "about", label: "About", to: "/about" },
+  { key: "news", label: "News", to: "/news" },
+  { key: "catalog", label: "Catalog", to: "/catalog" },
+  { key: "music", label: "Music", to: "/music" },
 ];
 
 export const FOOTER_NAVIGATE: NavLink[] = [
-  { label: "About", to: "/about" },
-  { label: "News", to: "/news" },
-  { label: "Catalog", to: "/catalog" },
-  { label: "Music", to: "/music" },
-  { label: "Movement", to: "/#movement" },
-  { label: "Events", to: "/#milestones" },
-  { label: "Our Signature", to: "/#signature" },
+  { key: "about", label: "About", to: "/about" },
+  { key: "news", label: "News", to: "/news" },
+  { key: "catalog", label: "Catalog", to: "/catalog" },
+  { key: "music", label: "Music", to: "/music" },
+  { key: "movement", label: "Movement", to: "/#movement" },
+  { key: "events", label: "Events", to: "/#milestones" },
+  { key: "signature", label: "Our Signature", to: "/#signature" },
 ];
 
 export const FOOTER_SIGNATURES: NavLink[] = [

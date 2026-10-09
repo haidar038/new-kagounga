@@ -1,5 +1,7 @@
 import { Earth, Handshake, Landmark, Soup } from "lucide-react";
 import type { Movement } from "../types/content";
+import type { Locale } from "../i18n";
+import idHome from "../locales/id/home.json";
 
 export const MOVEMENTS: Movement[] = [
   {
@@ -31,3 +33,12 @@ export const MOVEMENTS: Movement[] = [
       "We share the stories, flavors, and perspectives of the islands with people beyond Maluku Utara.",
   },
 ];
+
+const ID_OVERLAYS = (
+  idHome as { movements?: Record<string, { title?: string; description?: string }> }
+).movements ?? {};
+
+export function getMovements(locale: Locale): Movement[] {
+  if (locale !== "id") return MOVEMENTS;
+  return MOVEMENTS.map((m) => ({ ...m, ...(ID_OVERLAYS[m.title] ?? {}) }));
+}

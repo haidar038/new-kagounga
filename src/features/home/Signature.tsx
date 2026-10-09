@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import type { SignatureId } from "../../types/content";
-import { SIGNATURES } from "../../data/signatures";
+import { SIGNATURES, getSignatures } from "../../data/signatures";
 import { WHATSAPP_ICON } from "../../data/site";
 import { inquiryMessage, waLink } from "../../lib/whatsapp";
+import { useLocale } from "../../i18n";
 import { Reveal } from "../../components/Reveal";
 import { cn } from "../../lib/cn";
 
@@ -23,6 +25,8 @@ function TwoToneTitle({ title }: { title: string }): React.JSX.Element {
 }
 
 export function Signature(): React.JSX.Element {
+  const { t } = useTranslation("home");
+  const locale = useLocale();
   const { search } = useLocation();
   const [prevSearch, setPrevSearch] = useState(search);
   const [sigId, setSigId] = useState<SignatureId>(() => {
@@ -32,8 +36,9 @@ export function Signature(): React.JSX.Element {
     );
   });
   const [expanded, setExpanded] = useState(false);
-  const main = SIGNATURES.find((s) => s.id === sigId) ?? SIGNATURES[0];
-  const thumbs = SIGNATURES.filter((s) => s.id !== sigId);
+  const items = getSignatures(locale);
+  const main = items.find((s) => s.id === sigId) ?? items[0];
+  const thumbs = items.filter((s) => s.id !== sigId);
 
   if (prevSearch !== search) {
     setPrevSearch(search);
@@ -49,16 +54,13 @@ export function Signature(): React.JSX.Element {
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <Reveal>
           <h2 className="display text-5xl md:text-6xl">
-            <span className="font-bold">Our</span>
-            <span className="font-light"> Signature.</span>
+            <span className="font-bold">{t("signature.titleBold")}</span>
+            <span className="font-light">{t("signature.titleLight")}</span>
           </h2>
         </Reveal>
         <Reveal>
           <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-ink/70">
-            Five distinct forms of expression bound by one identity:
-            gastronomy, personal care, home fragrance, sonic identity, and fine
-            art. Each piece remains deeply rooted in the cultural heritage of
-            North Moluccas.
+            {t("signature.lede")}
           </p>
         </Reveal>
         <div className="mt-8 border-t border-ink/10" />
@@ -98,7 +100,7 @@ export function Signature(): React.JSX.Element {
               </p>
               <div className="mt-7 flex items-center justify-between gap-3 md:justify-start">
                 <a
-                  href={waLink(inquiryMessage(main.title, main.category))}
+                  href={waLink(inquiryMessage(main.title, main.category, locale))}
                   target="_blank"
                   rel="noopener"
                   className="inline-flex items-center gap-2 rounded-full bg-lime px-6 py-3 text-sm font-bold text-ink hover:brightness-95"
@@ -109,16 +111,14 @@ export function Signature(): React.JSX.Element {
                     className="size-4"
                     loading="lazy"
                   />
-                  Business Inquiry
+                  {t("signature.inquiry")}
                 </a>
                 <button
                   id="sigToggle"
                   type="button"
                   aria-expanded={expanded}
                   aria-label={
-                    expanded
-                      ? "Sembunyikan deskripsi"
-                      : "Tampilkan deskripsi lengkap"
+                    expanded ? t("signature.collapse") : t("signature.expand")
                   }
                   onClick={() => {
                     setExpanded((v) => !v);
@@ -149,7 +149,7 @@ export function Signature(): React.JSX.Element {
             <button
               key={p.id}
               type="button"
-              aria-label={`Show ${p.title}`}
+              aria-label={t("signature.show", { title: p.title })}
               onClick={() => {
                 setSigId(p.id);
                 setExpanded(false);

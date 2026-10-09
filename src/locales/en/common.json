@@ -1,0 +1,64 @@
+{
+    "article": {
+        "backToNews": "Back to News",
+        "copied": "Link copied",
+        "fallbackBadge": "Showing English version.",
+        "moreNews": "More News",
+        "notFoundText": "The story you are looking for does not exist or was moved.",
+        "notFoundTitle": "Article not found.",
+        "readMore": "Read more",
+        "related": "Related stories",
+        "share": "Share"
+    },
+    "banner": {
+        "cta": "View Indonesian version",
+        "dismiss": "Dismiss language suggestion",
+        "text": "This site is also available in Bahasa Indonesia."
+    },
+    "consent": {
+        "accept": "Accept",
+        "decline": "Decline",
+        "link": "Privacy Policy",
+        "post": ".",
+        "pre": "We use privacy-friendly analytics without query data. Allow anonymous page views? See our ",
+        "region": "Analytics consent"
+    },
+    "crumbs": {
+        "about": "About",
+        "catalog": "Catalog",
+        "contact": "Contact",
+        "home": "Home",
+        "music": "Music",
+        "news": "News",
+        "privacy": "Privacy",
+        "terms": "Terms"
+    },
+    "findUs": "Reach Us",
+    "footer": {
+        "language": "Language",
+        "navigate": "NAVIGATE",
+        "privacy": "Privacy",
+        "reach": "REACH US",
+        "rights": "All rights reserved.",
+        "signatures": "SIGNATURES",
+        "terms": "Terms"
+    },
+    "home": "Kagōunga home",
+    "menu": "Menu",
+    "nav": {
+        "about": "About",
+        "catalog": "Catalog",
+        "music": "Music",
+        "news": "News",
+        "movement": "Movement",
+        "events": "Events",
+        "signature": "Our Signature"
+    },
+    "notFound": {
+        "eyebrow": "404",
+        "titleBold": "Lost",
+        "titleLight": " at sea.",
+        "text": "The page you are looking for does not exist or was moved.",
+        "back": "Back home"
+    }
+}

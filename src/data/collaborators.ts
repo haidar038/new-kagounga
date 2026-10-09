@@ -1,5 +1,7 @@
 import type { Collaborator } from "../types/content";
+import type { Locale } from "../i18n";
 import { cld } from "../lib/cloudinary";
+import idAbout from "../locales/id/about.json";
 
 export const COLLABORATORS: Collaborator[] = [
   {
@@ -63,3 +65,12 @@ export const COLLABORATORS: Collaborator[] = [
     alt: "Portrait of Hydr",
   },
 ];
+
+const ID_ROLES = (
+  idAbout as { roles?: Record<string, { role?: string; alt?: string }> }
+).roles ?? {};
+
+export function getCollaborators(locale: Locale): Collaborator[] {
+  if (locale !== "id") return COLLABORATORS;
+  return COLLABORATORS.map((c) => ({ ...c, ...(ID_ROLES[c.name] ?? {}) }));
+}

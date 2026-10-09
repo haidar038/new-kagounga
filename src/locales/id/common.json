@@ -1,0 +1,64 @@
+{
+    "article": {
+        "backToNews": "Kembali ke Berita",
+        "copied": "Tautan disalin",
+        "fallbackBadge": "Menampilkan versi Inggris.",
+        "moreNews": "Berita Lainnya",
+        "notFoundText": "Cerita yang kamu cari tidak ada atau sudah dipindah.",
+        "notFoundTitle": "Artikel tidak ditemukan.",
+        "readMore": "Selengkapnya",
+        "related": "Cerita terkait",
+        "share": "Bagikan"
+    },
+    "banner": {
+        "cta": "Lihat versi Indonesia",
+        "dismiss": "Tutup saran bahasa",
+        "text": "Situs ini juga tersedia dalam Bahasa Indonesia."
+    },
+    "consent": {
+        "accept": "Terima",
+        "decline": "Tolak",
+        "link": "Kebijakan Privasi",
+        "post": ".",
+        "pre": "Kami memakai analitik ramah privasi tanpa data query. Izinkan page view anonim? Lihat ",
+        "region": "Persetujuan analitik"
+    },
+    "crumbs": {
+        "about": "Tentang",
+        "catalog": "Katalog",
+        "contact": "Kontak",
+        "home": "Beranda",
+        "music": "Musik",
+        "news": "Berita",
+        "privacy": "Privasi",
+        "terms": "Syarat"
+    },
+    "findUs": "Jangkau Kami",
+    "footer": {
+        "language": "Bahasa",
+        "navigate": "NAVIGASI",
+        "privacy": "Privasi",
+        "reach": "HUBUNGI KAMI",
+        "rights": "Hak cipta dilindungi.",
+        "signatures": "SIGNATURE",
+        "terms": "Syarat"
+    },
+    "home": "Beranda Kagōunga",
+    "menu": "Menu",
+    "nav": {
+        "about": "Tentang",
+        "catalog": "Katalog",
+        "music": "Musik",
+        "news": "Berita",
+        "movement": "Gerakan",
+        "events": "Acara",
+        "signature": "Signature Kami"
+    },
+    "notFound": {
+        "eyebrow": "404",
+        "titleBold": "Tersesat",
+        "titleLight": " di laut.",
+        "text": "Halaman yang kamu cari tidak ada atau sudah dipindah.",
+        "back": "Kembali ke beranda"
+    }
+}

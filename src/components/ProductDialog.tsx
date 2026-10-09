@@ -1,7 +1,9 @@
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { Check, MessageSquare, X } from "lucide-react";
 import type { ProductDetail } from "../types/content";
 import { orderHref } from "../data/products";
+import { useLocale } from "../i18n";
 
 /** Single generic dialog fed by the selected product. */
 export function ProductDialog({
@@ -11,6 +13,8 @@ export function ProductDialog({
   product: ProductDetail | null;
   onClose: () => void;
 }): React.JSX.Element {
+  const { t } = useTranslation("catalog");
+  const locale = useLocale();
   const ref = useRef<HTMLDialogElement>(null);
   const prevFocus = useRef<HTMLElement | null>(null);
 
@@ -34,7 +38,7 @@ export function ProductDialog({
     <dialog
       ref={ref}
       id="productDialog"
-      aria-label={product ? `${product.name} details` : "Product details"}
+      aria-label={product ? t("dialog.detailsFor", { name: product.name }) : t("dialog.details")}
       onClose={onClose}
       onClick={(e) => {
         if (e.target === e.currentTarget) e.currentTarget.close();
@@ -53,7 +57,7 @@ export function ProductDialog({
             <button
               type="button"
               onClick={() => ref.current?.close()}
-              aria-label="Close details"
+              aria-label={t("dialog.closeDetails")}
               autoFocus
               className="grid size-10 shrink-0 place-items-center rounded-full border border-ink/15 hover:border-ink/40"
             >
@@ -71,7 +75,7 @@ export function ProductDialog({
             ))}
           </div>
           <h4 className="mt-6 text-[12px] font-bold uppercase tracking-[0.18em] text-ink/50">
-            Specifications
+            {t("dialog.specs")}
           </h4>
           <dl className="mt-3 grid gap-2 text-[13px]">
             {product.specs.map((spec, i) => (
@@ -87,7 +91,7 @@ export function ProductDialog({
           {product.inside && (
             <>
               <h4 className="mt-6 text-[12px] font-bold uppercase tracking-[0.18em] text-ink/50">
-                {product.insideTitle ?? "Contents"}
+                {product.insideTitle ?? t("dialog.contents")}
               </h4>
               <ul className="mt-3 grid gap-1.5 text-[13px] font-medium">
                 {product.inside.map((item) => (
@@ -115,16 +119,16 @@ export function ProductDialog({
                 onClick={() => ref.current?.close()}
                 className="rounded-full border border-ink/15 px-5 py-2.5 text-sm font-bold hover:border-ink/40"
               >
-                Close
+                {t("dialog.close")}
               </button>
               <a
-                href={orderHref(product.name)}
+                href={orderHref(product.name, locale)}
                 target="_blank"
                 rel="noopener"
                 className="inline-flex items-center gap-2 rounded-full bg-lime px-5 py-2.5 text-sm font-bold text-ink hover:brightness-95"
               >
                 <MessageSquare className="size-4" aria-hidden="true" />
-                Order
+                {t("dialog.order")}
               </a>
             </div>
           </div>

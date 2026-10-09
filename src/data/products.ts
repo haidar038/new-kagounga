@@ -1,9 +1,11 @@
 import type { ProductDetail } from "../types/content";
+import type { Locale } from "../i18n";
 import { cld } from "../lib/cloudinary";
 import { orderMessage, waLink } from "../lib/whatsapp";
+import idCatalog from "../locales/id/catalog.json";
 
-function order(productName: string): string {
-  return waLink(orderMessage(productName));
+function order(productName: string, locale: Locale = "en"): string {
+  return waLink(orderMessage(productName, locale));
 }
 
 export const PRODUCTS: ProductDetail[] = [
@@ -195,6 +197,26 @@ export const PRODUCTS: ProductDetail[] = [
   },
 ];
 
-export function orderHref(productName: string): string {
-  return order(productName);
+export function orderHref(productName: string, locale: Locale = "en"): string {
+  return order(productName, locale);
+}
+
+type ProductOverlay = {
+  blurb?: string;
+  eyebrow?: string;
+  badges?: string[];
+  specs?: Array<{ label: string; value: string }>;
+  insideTitle?: string | null;
+  inside?: string[] | null;
+  note?: string;
+  per?: string;
+};
+
+const ID_OVERLAYS = (idCatalog as { products?: Record<string, ProductOverlay> })
+  .products ?? {};
+
+/** EN base from TS + ID overlay from locales. Unknown keys fall back to EN. */
+export function getProducts(locale: Locale): ProductDetail[] {
+  if (locale !== "id") return PRODUCTS;
+  return PRODUCTS.map((p) => ({ ...p, ...(ID_OVERLAYS[p.id] ?? {}) }));
 }

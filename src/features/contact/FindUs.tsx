@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import * as maplibregl from "maplibre-gl";
 import { ArrowRight } from "lucide-react";
-import type { DistributionPoint } from "../../types/content";
+import type { DistributionPoint, LocationKind } from "../../types/content";
 import {
   LOCATIONS,
   groupByCity,
@@ -40,6 +41,7 @@ function popupHTML(p: DistributionPoint): string {
 }
 
 export function FindUs(): React.JSX.Element {
+  const { t } = useTranslation("contact");
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   const markersRef = useRef<Map<string, maplibregl.Marker>>(new Map());
@@ -98,15 +100,13 @@ export function FindUs(): React.JSX.Element {
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <Reveal>
           <h1 className="display text-5xl md:text-6xl">
-            <span className="font-bold">Find</span>{" "}
-            <span className="font-light">Us.</span>
+            <span className="font-bold">{t("findUs.titleBold")}</span>{" "}
+            <span className="font-light">{t("findUs.titleLight")}</span>
           </h1>
         </Reveal>
         <Reveal>
           <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-cream/70">
-            Distribution map of {LOCATIONS.length} Kagōunga product points: from
-            Ternate to Jakarta. Click a marker or region card to
-            navigate.
+            {t("findUs.lede", { count: LOCATIONS.length })}
           </p>
         </Reveal>
         <div className="mt-8 border-t border-cream/20" />
@@ -115,20 +115,16 @@ export function FindUs(): React.JSX.Element {
           <div
             ref={containerRef}
             role="application"
-            aria-label="Kagōunga product distribution map"
+            aria-label={t("findUs.map")}
             className="mt-8 h-[40vh] min-h-80 w-full overflow-hidden rounded-3xl border border-cream/10 md:h-[55vh] md:min-h-105"
           />
         </Reveal>
         <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[12px] font-bold text-cream/60">
-          <span className="flex items-center gap-1.5">
-            <span className="kga-legend kga-marker-retail" /> Retail
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="kga-legend kga-marker-partner" /> Partner
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="kga-legend kga-marker-hub" /> Hub
-          </span>
+          {(["retail", "partner", "hub"] as LocationKind[]).map((kind) => (
+            <span key={kind} className="flex items-center gap-1.5">
+              <span className={`kga-legend kga-marker-${kind}`} /> {t(`kinds.${kind}`)}
+            </span>
+          ))}
         </div>
 
         <div className="grid gap-4 py-10 sm:grid-cols-2 md:py-12 lg:grid-cols-5">
@@ -147,7 +143,7 @@ export function FindUs(): React.JSX.Element {
                 </p>
                 <p className="mt-2 font-bold text-cream">{group.city}</p>
                 <p className="mt-1 flex items-center gap-1.5 text-[13px] text-cream/60">
-                  points · View list
+                  {t("legend.viewList")}
                   <ArrowRight className="size-3.5" aria-hidden="true" />
                 </p>
               </button>
