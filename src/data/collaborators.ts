@@ -56,9 +56,9 @@ export const COLLABORATORS: Collaborator[] = [
     alt: "Portrait of Arunika",
   },
   {
-    name: "Haidar",
+    name: "Hydr",
     role: "Software Engineer",
     image: "/img/in-collaboration/darox.png",
-    alt: "Portrait of Haidar",
+    alt: "Portrait of Hydr",
   },
 ];
