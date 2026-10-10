@@ -8,6 +8,7 @@ import {
   fetchCmsDocs,
   formatPrice,
   isCmsProduct,
+  pickLocale,
   productsUrl,
   resolveCmsImage,
 } from "../lib/cms";
@@ -235,24 +236,31 @@ export function withIdOverlay(p: ProductDetail): ProductDetail {
   return { ...p, ...(ID_OVERLAYS[p.id] ?? {}) };
 }
 
-/** Dokumen CMS -> `ProductDetail`. Locale ID pakai overlay statis (CMS EN-master, transisi). */
+/** Dokumen CMS (`locale=all`) -> `ProductDetail`. CMS kini single-source dua locale. */
 export function toProductDetail(doc: CmsProduct, locale: Locale, baseUrl: string): ProductDetail {
-  const base: ProductDetail = {
+  const blurb = pickLocale(doc.excerpt, locale);
+  const note = pickLocale(doc.note, locale);
+  const eyebrow = pickLocale(doc.eyebrow, locale);
+  const badges = pickLocale(doc.badges, locale);
+  const specs = pickLocale(doc.specs, locale);
+  const insideTitle = pickLocale(doc.insideTitle, locale);
+  const inside = pickLocale(doc.inside, locale);
+  const per = pickLocale(doc.per, locale);
+  return {
     id: doc.slug,
     name: doc.title,
     image: resolveCmsImage(doc.image, doc.imageUrl, baseUrl),
     alt: doc.alt || doc.title,
-    blurb: doc.excerpt ?? "",
-    badges: doc.badges ?? [],
+    blurb: blurb.value ?? "",
+    badges: badges.value ?? [],
     price: formatPrice(doc.priceNumber, doc.currency),
-    eyebrow: doc.eyebrow ?? "",
-    specs: (doc.specs ?? []).map((s) => ({ label: s.label, value: s.value })),
-    insideTitle: doc.insideTitle ?? null,
-    inside: doc.inside ?? null,
-    note: doc.note ?? "",
-    per: doc.per ?? "",
+    eyebrow: eyebrow.value ?? "",
+    specs: (specs.value ?? []).map((s) => ({ label: s.label, value: s.value })),
+    insideTitle: insideTitle.value ?? null,
+    inside: inside.value ?? null,
+    note: note.value ?? "",
+    per: per.value ?? "",
   };
-  return locale === "id" ? withIdOverlay(base) : base;
 }
 
 /**

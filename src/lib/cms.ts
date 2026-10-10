@@ -18,16 +18,16 @@ export interface CmsMedia {
 export interface CmsProduct {
   slug: string;
   title: string;
-  excerpt?: string | null;
-  note?: string | null;
+  excerpt?: CmsLocaleValue<string>;
+  note?: CmsLocaleValue<string>;
   priceNumber: number;
   currency?: string | null;
-  badges?: string[] | null;
-  eyebrow?: string | null;
-  specs?: Array<{ label: string; value: string }> | null;
-  insideTitle?: string | null;
-  inside?: string[] | null;
-  per?: string | null;
+  badges?: CmsLocaleValue<string[]> | null;
+  eyebrow?: CmsLocaleValue<string>;
+  specs?: CmsLocaleValue<Array<{ label: string; value: string }>> | null;
+  insideTitle?: CmsLocaleValue<string>;
+  inside?: CmsLocaleValue<string[]> | null;
+  per?: CmsLocaleValue<string>;
   alt?: string | null;
   image?: number | CmsMedia | null;
   imageUrl?: string | null;
@@ -132,7 +132,7 @@ function docsOf(body: unknown): unknown[] {
 }
 
 export function productsUrl(baseUrl: string): string {
-  return `${baseUrl}/api/products?where[status][equals]=published&sort=sortOrder&limit=100&depth=1`;
+  return `${baseUrl}/api/products?where[status][equals]=published&sort=sortOrder&limit=100&depth=1&locale=all`;
 }
 
 export function postsUrl(baseUrl: string): string {
