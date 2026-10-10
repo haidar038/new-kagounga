@@ -1,18 +1,40 @@
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { SITE_URL, useDocumentMeta } from "../hooks/useDocumentMeta";
 import { breadcrumbLd, graphLd } from "../lib/seo";
-import { getPost, localizePost } from "../data/news";
-import { localeLink, useLocale } from "../i18n";
+import { getPost, loadPostBySlug, localizePost } from "../data/news";
+import { localeLink, useLocale, type Locale } from "../i18n";
 import { NewsArticle } from "../components/NewsArticle";
 
 export function NewsDetailPage(): React.JSX.Element {
   const { t } = useTranslation(["news", "seo", "common"]);
   const locale = useLocale();
   const { slug } = useParams<{ slug: string }>();
-  const base = getPost(slug);
-  const post = base ? localizePost(base, locale) : undefined;
+  const cacheKey = `${locale}|${slug ?? ""}`;
+  const resolveStatic = (keyLocale: Locale, keySlug: string | undefined) => {
+    const base = getPost(keySlug);
+    return base ? localizePost(base, keyLocale) : undefined;
+  };
+  // Statis dulu (SEO/prerender utuh), upgrade ke CMS bila reachable. 404 tetap bila dua-dua kosong.
+  const [cached, setCached] = useState(() => ({ key: cacheKey, post: resolveStatic(locale, slug) }));
+  if (cached.key !== cacheKey) {
+    setCached({ key: cacheKey, post: resolveStatic(locale, slug) });
+  }
+  useEffect(() => {
+    const key = `${locale}|${slug ?? ""}`;
+    const staticPost = resolveStatic(locale, slug);
+    let on = true;
+    loadPostBySlug(slug ?? "", locale, staticPost).then((r) => {
+      if (on && r.source === "cms") setCached({ key, post: r.post });
+    });
+    return () => {
+      on = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug, locale]);
   const prefix = locale === "id" ? "/id" : "";
+  const post = cached.post;
 
   useDocumentMeta({
     title: post
@@ -25,7 +47,7 @@ export function NewsDetailPage(): React.JSX.Element {
     type: post ? "article" : "website",
     noindex: !post,
     publishedTime: post ? new Date(post.dateISO).toISOString() : undefined,
-    modifiedTime: post ? new Date(post.dateISO).toISOString() : undefined,
+    modifiedTime: post ? new Date(post.updatedAt || post.dateISO).toISOString() : undefined,
     author: post ? "Kagōunga" : undefined,
     jsonLd: post
       ? graphLd([
@@ -36,7 +58,7 @@ export function NewsDetailPage(): React.JSX.Element {
             image: [post.cover],
             inLanguage: locale,
             datePublished: new Date(post.dateISO).toISOString(),
-            dateModified: new Date(post.dateISO).toISOString(),
+            dateModified: new Date(post.updatedAt || post.dateISO).toISOString(),
             author: { "@type": "Organization", name: "Kagōunga", url: `${SITE_URL}/` },
             publisher: {
               "@type": "Organization",

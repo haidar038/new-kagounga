@@ -1,7 +1,8 @@
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDocumentMeta, SITE_URL } from "../hooks/useDocumentMeta";
 import { breadcrumbLd, graphLd } from "../lib/seo";
-import { NEWS_POSTS, localizePost } from "../data/news";
+import { NEWS_POSTS, loadPosts, localizePost } from "../data/news";
 import { useLocale } from "../i18n";
 import { PageHero } from "../components/PageHero";
 import { NewsCard } from "../components/NewsCard";
@@ -9,7 +10,25 @@ import { NewsCard } from "../components/NewsCard";
 export function NewsPage(): React.JSX.Element {
   const { t } = useTranslation(["news", "seo", "common"]);
   const locale = useLocale();
-  const posts = NEWS_POSTS.map((p) => localizePost(p, locale));
+  // Statis dulu (SEO/prerender utuh), upgrade ke CMS bila reachable.
+  const [cached, setCached] = useState(() => ({
+    locale,
+    posts: NEWS_POSTS.map((p) => localizePost(p, locale)),
+  }));
+  if (cached.locale !== locale) {
+    setCached({ locale, posts: NEWS_POSTS.map((p) => localizePost(p, locale)) });
+  }
+  useEffect(() => {
+    const fallback = NEWS_POSTS.map((p) => localizePost(p, locale));
+    let on = true;
+    loadPosts(locale, fallback).then((r) => {
+      if (on && r.source === "cms") setCached({ locale, posts: r.items });
+    });
+    return () => {
+      on = false;
+    };
+  }, [locale]);
+  const posts = cached.posts;
   useDocumentMeta({
     title: t("news.title", { ns: "seo" }),
     description: t("news.description", { ns: "seo" }),

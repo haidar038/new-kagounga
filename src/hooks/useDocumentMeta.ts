@@ -12,7 +12,7 @@ export const SITE_URL =
   "https://kagounga.com";
 
 export const DEFAULT_OG_IMAGE =
-  "https://res.cloudinary.com/fal5otmd/image/upload/v1791556121/OpenGraph.png";
+  "https://res.cloudinary.com/fal5otmd/image/upload/v1791556121/OpenGraph.webp";
 
 /** Fallback OG dimensions for the default 1200x630 static image. */
 const DEFAULT_OG_WIDTH = "1200";

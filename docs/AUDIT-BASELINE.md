@@ -32,6 +32,6 @@ Hasil scan total read-only, `node_modules` kecuali. Jangan edit bagian ini. Tamb
 
 ## Adendum
 - 2026-10-10 — i18n P4 selesai: deps `i18next 26` + `react-i18next 17`, 9 ns EN/ID (`src/locales/`), rute `/id/*`, prerender 22 halaman, sitemap 22 URL, `hreflang` en/id/x-default, JSON-LD `inLanguage`, `bun run i18n:check` parity OK. Batasan: OG image tetap 1 fallback + cover news; chunk shared `useDocumentMeta` ~185kB (i18next + locale ikut, lazy-split ditunda).
-- 2026-10-09 — SEO selesai fondasi: canonical `https://kagounga.com` via `VITE_SITE_URL`, OG default Cloudinary OpenGraph.png, `dist/` berisi `robots.txt` + `sitemap.xml`. Batasan: SPA tanpa prerender, scraper sosmed baca fallback `index.html`.
+- 2026-10-09 — SEO selesai fondasi: canonical `https://kagounga.com` via `VITE_SITE_URL`, OG default Cloudinary OpenGraph.webp, `dist/` berisi `robots.txt` + `sitemap.xml`. Batasan: SPA tanpa prerender, scraper sosmed baca fallback `index.html`.
 - 2026-10-09 — T-P3-01 selesai: semua ref gambar konten via Cloudinary `fal5otmd` (`f_auto,q_auto`, width per konteks). `public/img` belum hapus (fallback + favicon `/img/logo-primary-emblem.svg`).
 - 2026-10-09 — eksekusi selesai P0+P1+P2, P3 parsial. `tsc` 0, `oxlint` 0 (dari 3), `vite build` 7.95s OK (ContactPage 1075kB lazy, warning chunk >500kB wajar). T-P3-01 tunda: `public/img` 111MB, banyak file tak terpakai (`teams.jpg` 6.7MB, `file_*.png`, `WhatsApp*`, `DSC*`) — hapus massal butuh izin.

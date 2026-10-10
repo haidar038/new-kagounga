@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BedDouble,
   Factory,
@@ -10,7 +10,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { useDocumentMeta, SITE_URL } from "../hooks/useDocumentMeta";
 import { breadcrumbLd, graphLd } from "../lib/seo";
-import { getProducts } from "../data/products";
+import { getProducts, loadProducts } from "../data/products";
 import { useLocale } from "../i18n";
 import type { ProductId } from "../types/content";
 import { ProductCard } from "../components/ProductCard";
@@ -23,7 +23,21 @@ export function CatalogPage(): React.JSX.Element {
   const { t } = useTranslation(["catalog", "seo", "common"]);
   const locale = useLocale();
   const [activeId, setActiveId] = useState<ProductId | null>(null);
-  const products = getProducts(locale);
+  // Statis dulu (SEO/prerender utuh), upgrade ke CMS bila reachable.
+  const [cached, setCached] = useState(() => ({ locale, products: getProducts(locale) }));
+  if (cached.locale !== locale) {
+    setCached({ locale, products: getProducts(locale) });
+  }
+  useEffect(() => {
+    let on = true;
+    loadProducts(locale, getProducts(locale)).then((r) => {
+      if (on && r.source === "cms") setCached({ locale, products: r.items });
+    });
+    return () => {
+      on = false;
+    };
+  }, [locale]);
+  const products = cached.products;
   const active = products.find((p) => p.id === activeId) ?? null;
   const tiles = t("b2b.tiles", { returnObjects: true }) as string[];
 

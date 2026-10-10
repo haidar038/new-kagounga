@@ -15,8 +15,11 @@ const NEWS_JSON = join(ROOT, "src", "data", "news.json");
 const LOCALES_DIR = join(ROOT, "src", "locales");
 
 const SITE = (process.env.VITE_SITE_URL || "https://kagounga.com").replace(/\/+$/, "");
+// Build-time CMS export (M5). Unset = static file (Vercel-safe). Set CMS_URL
+// (atau VITE_CMS_URL) untuk memanggang konten CMS ke prerender + sitemap.
+const CMS = (process.env.CMS_URL || process.env.VITE_CMS_URL || "").replace(/\/+$/, "");
 const OG_DEFAULT =
-  "https://res.cloudinary.com/fal5otmd/image/upload/v1791556121/OpenGraph.png";
+  "https://res.cloudinary.com/fal5otmd/image/upload/v1791556121/OpenGraph.webp";
 const LOGO =
   "https://res.cloudinary.com/fal5otmd/image/upload/f_auto,q_auto/logo-primary-emblem.svg";
 const today = new Date().toISOString().slice(0, 10);
@@ -26,7 +29,7 @@ const seo = { en: readJson(join(LOCALES_DIR, "en", "seo.json")), id: readJson(jo
 const crumbs = { en: readJson(join(LOCALES_DIR, "en", "common.json")).crumbs, id: readJson(join(LOCALES_DIR, "id", "common.json")).crumbs };
 const suffix = { en: readJson(join(LOCALES_DIR, "en", "news.json")).suffix, id: readJson(join(LOCALES_DIR, "id", "news.json")).suffix };
 
-function loadNews() {
+function loadStaticNews() {
   try {
     const raw = readJson(NEWS_JSON);
     if (!Array.isArray(raw)) return [];
@@ -38,8 +41,70 @@ function loadNews() {
   }
 }
 
-const news = loadNews();
-const newsLastmod = news.length ? String(news[0].dateISO).slice(0, 10) : today;
+const bagOf = (v) =>
+  v && typeof v === "object" && !Array.isArray(v) ? v : { en: v };
+const pickBag = (v) => {
+  const b = bagOf(v);
+  return { en: b.en ?? "", id: b.id ?? undefined };
+};
+
+/** Dokumen CMS (`locale=all`) -> bentuk rekaman news.json (tanpa body). */
+function cmsPost(p) {
+  const title = pickBag(p.title);
+  const desc = pickBag(p.metaDescription);
+  const coverAlt = pickBag(p.coverAlt);
+  const cover =
+    typeof p.coverUrl === "string" && p.coverUrl
+      ? p.coverUrl
+      : p.featuredImage && typeof p.featuredImage === "object" && p.featuredImage.url
+        ? `${CMS}${p.featuredImage.url}`
+        : "";
+  const dateISO = String(p.publishedAt ?? p.createdAt ?? "").slice(0, 10);
+  return {
+    slug: String(p.slug),
+    title: title.en || title.id || String(p.slug),
+    description: desc.en,
+    dateISO,
+    updatedAt: String(p.updatedAt ?? p.publishedAt ?? "").slice(0, 10) || dateISO,
+    cover,
+    coverAlt: coverAlt.en,
+    titleId: title.id,
+    descriptionId: desc.id,
+    coverAltId: coverAlt.id,
+  };
+}
+
+async function fetchCmsNews() {
+  if (!CMS) return [];
+  try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 10000);
+    const res = await fetch(
+      `${CMS}/api/posts?where[status][equals]=published&sort=-publishedAt&limit=100&depth=1&locale=all`,
+      { signal: ctrl.signal },
+    );
+    clearTimeout(timer);
+    if (!res.ok) return [];
+    const body = await res.json();
+    const docs = Array.isArray(body?.docs) ? body.docs : [];
+    return docs
+      .filter((d) => d && typeof d.slug === "string")
+      .map(cmsPost)
+      .sort((a, b) => String(b.dateISO).localeCompare(String(a.dateISO)));
+  } catch {
+    return [];
+  }
+}
+
+async function loadNews() {
+  const fromCms = await fetchCmsNews();
+  if (fromCms.length) return { list: fromCms, source: `cms (${fromCms.length} docs)` };
+  return { list: loadStaticNews(), source: "static file" };
+}
+
+const { list: news, source: newsSource } = await loadNews();
+const first = news[0];
+const newsLastmod = first ? String(first.updatedAt || first.dateISO).slice(0, 10) : today;
 
 // Base routes (EN paths). Each renders twice: EN + /id/*.
 const BASE_ROUTES = [
@@ -76,7 +141,7 @@ for (const locale of ["en", "id"]) {
     });
   }
   for (const p of news) {
-    const hasId = p.titleId && p.bodyMarkdownId;
+    const hasId = Boolean(p.titleId);
     const useId = locale === "id" && hasId;
     ROUTES.push({
       path: `${prefix}/news/${p.slug}`,
@@ -88,7 +153,7 @@ for (const locale of ["en", "id"]) {
       imageAlt: useId && p.coverAltId ? p.coverAltId : p.coverAlt,
       changefreq: "yearly",
       priority: "0.6",
-      lastmod: String(p.dateISO).slice(0, 10),
+      lastmod: String(p.updatedAt || p.dateISO).slice(0, 10),
       publishedTime: new Date(p.dateISO).toISOString(),
       crumbs: [
         { name: crumbs[locale].home, path: "/" },
@@ -172,7 +237,7 @@ function pageJsonLd(route, url) {
         image: [p.cover],
         inLanguage: route.locale,
         datePublished: new Date(p.dateISO).toISOString(),
-        dateModified: new Date(p.dateISO).toISOString(),
+        dateModified: new Date(p.updatedAt || p.dateISO).toISOString(),
         author: { "@type": "Organization", name: "Kagōunga", url: `${SITE}/` },
         publisher: { "@type": "Organization", name: "Kagōunga", logo: { "@type": "ImageObject", url: LOGO } },
         mainEntityOfPage: url,
@@ -273,4 +338,4 @@ for (const route of ROUTES) {
   writeFileSync(out, html);
 }
 buildSitemaps();
-console.log(`seo-build: ${ROUTES.length} pages, sitemap + sitemap-images written (SITE=${SITE})`);
+console.log(`seo-build: ${ROUTES.length} pages, sitemap + sitemap-images written (SITE=${SITE}, news=${newsSource})`);

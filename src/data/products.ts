@@ -2,6 +2,15 @@ import type { ProductDetail } from "../types/content";
 import type { Locale } from "../i18n";
 import { cld } from "../lib/cloudinary";
 import { orderMessage, waLink } from "../lib/whatsapp";
+import type { CmsProduct, CmsSource } from "../lib/cms";
+import {
+  CMS_URL,
+  fetchCmsDocs,
+  formatPrice,
+  isCmsProduct,
+  productsUrl,
+  resolveCmsImage,
+} from "../lib/cms";
 import idCatalog from "../locales/id/catalog.json";
 
 function order(productName: string, locale: Locale = "en"): string {
@@ -218,5 +227,44 @@ const ID_OVERLAYS = (idCatalog as { products?: Record<string, ProductOverlay> })
 /** EN base from TS + ID overlay from locales. Unknown keys fall back to EN. */
 export function getProducts(locale: Locale): ProductDetail[] {
   if (locale !== "id") return PRODUCTS;
-  return PRODUCTS.map((p) => ({ ...p, ...(ID_OVERLAYS[p.id] ?? {}) }));
+  return PRODUCTS.map(withIdOverlay);
+}
+
+/** Terapkan overlay ID ke satu produk (dipakai juga adapter CMS, transisi sampai Products dilokalkan). */
+export function withIdOverlay(p: ProductDetail): ProductDetail {
+  return { ...p, ...(ID_OVERLAYS[p.id] ?? {}) };
+}
+
+/** Dokumen CMS -> `ProductDetail`. Locale ID pakai overlay statis (CMS EN-master, transisi). */
+export function toProductDetail(doc: CmsProduct, locale: Locale, baseUrl: string): ProductDetail {
+  const base: ProductDetail = {
+    id: doc.slug,
+    name: doc.title,
+    image: resolveCmsImage(doc.image, doc.imageUrl, baseUrl),
+    alt: doc.alt || doc.title,
+    blurb: doc.excerpt ?? "",
+    badges: doc.badges ?? [],
+    price: formatPrice(doc.priceNumber, doc.currency),
+    eyebrow: doc.eyebrow ?? "",
+    specs: (doc.specs ?? []).map((s) => ({ label: s.label, value: s.value })),
+    insideTitle: doc.insideTitle ?? null,
+    inside: doc.inside ?? null,
+    note: doc.note ?? "",
+    per: doc.per ?? "",
+  };
+  return locale === "id" ? withIdOverlay(base) : base;
+}
+
+/**
+ * Muat katalog: CMS dulu, gagal/kosong/tanpa URL -> fallback statis. Tak pernah throw.
+ */
+export async function loadProducts(
+  locale: Locale,
+  fallback: ProductDetail[],
+  baseUrl: string = CMS_URL,
+): Promise<{ items: ProductDetail[]; source: CmsSource }> {
+  if (!baseUrl) return { items: fallback, source: "static" };
+  const docs = (await fetchCmsDocs(productsUrl(baseUrl))).filter(isCmsProduct);
+  if (docs.length === 0) return { items: fallback, source: "static" };
+  return { items: docs.map((d) => toProductDetail(d, locale, baseUrl)), source: "cms" };
 }

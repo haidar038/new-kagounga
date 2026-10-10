@@ -1,5 +1,17 @@
 import type { NewsPost } from "../types/content";
 import type { Locale } from "../i18n";
+import { formatDateLabel } from "../lib/format";
+import type { CmsPost, CmsSource } from "../lib/cms";
+import {
+  CMS_URL,
+  fetchCmsDocs,
+  isCmsPost,
+  pickLocale,
+  postBySlugUrl,
+  postsUrl,
+  resolveCmsImage,
+} from "../lib/cms";
+import { lexicalToMarkdown } from "../lib/lexical-markdown";
 import newsJson from "./news.json";
 
 function isOptionalString(value: unknown): boolean {
@@ -29,7 +41,7 @@ function isNewsPost(value: unknown): value is NewsPost {
   );
 }
 
-function loadPosts(): NewsPost[] {
+function loadStaticPosts(): NewsPost[] {
   const raw: unknown = newsJson;
   if (!Array.isArray(raw) || !raw.every(isNewsPost)) {
     throw new Error("src/data/news.json has invalid shape");
@@ -50,7 +62,7 @@ function loadPosts(): NewsPost[] {
 
 export const NEWS_POSTS: NewsPost[] = (() => {
   try {
-    return loadPosts();
+    return loadStaticPosts();
   } catch {
     return [];
   }
@@ -90,4 +102,62 @@ export function localizePost(post: NewsPost, locale: Locale): LocalizedPost {
     bodyMarkdown: post.bodyMarkdownId as string,
     isFallback: false,
   };
+}
+
+/** Dokumen CMS (`locale=all`) -> `LocalizedPost` + flag fallback eksplisit. */
+export function toLocalizedPost(doc: CmsPost, locale: Locale, baseUrl: string): LocalizedPost {
+  const title = pickLocale(doc.title, locale);
+  const description = pickLocale(doc.metaDescription, locale);
+  const excerpt = pickLocale(doc.excerpt, locale);
+  const lede = pickLocale(doc.lede, locale);
+  const coverAlt = pickLocale(doc.coverAlt, locale);
+  const content = pickLocale(doc.content, locale);
+  const dateISO = doc.publishedAt ?? "";
+  return {
+    slug: doc.slug,
+    title: title.value ?? "",
+    description: description.value ?? "",
+    dateISO,
+    dateLabel: dateISO ? formatDateLabel(dateISO, locale) : "",
+    cover: resolveCmsImage(doc.featuredImage, doc.coverUrl, baseUrl),
+    coverAlt: coverAlt.value ?? "",
+    excerpt: excerpt.value ?? "",
+    lede: lede.value ?? "",
+    bodyMarkdown: content.value ? lexicalToMarkdown(content.value) : "",
+    updatedAt: doc.updatedAt ?? doc.publishedAt ?? dateISO,
+    isFallback:
+      title.fallback ||
+      description.fallback ||
+      excerpt.fallback ||
+      lede.fallback ||
+      coverAlt.fallback ||
+      content.fallback,
+  };
+}
+
+/** Muat berita: CMS dulu, gagal/kosong/tanpa URL -> fallback statis. Tak pernah throw. */
+export async function loadPosts(
+  locale: Locale,
+  fallback: LocalizedPost[],
+  baseUrl: string = CMS_URL,
+): Promise<{ items: LocalizedPost[]; source: CmsSource }> {
+  if (!baseUrl) return { items: fallback, source: "static" };
+  const docs = (await fetchCmsDocs(postsUrl(baseUrl))).filter(isCmsPost);
+  if (docs.length === 0) return { items: fallback, source: "static" };
+  return { items: docs.map((d) => toLocalizedPost(d, locale, baseUrl)), source: "cms" };
+}
+
+/** Satu artikel by slug: CMS dulu, lalu fallback statis. Tak pernah throw. */
+export async function loadPostBySlug(
+  slug: string,
+  locale: Locale,
+  fallback: LocalizedPost | undefined,
+  baseUrl: string = CMS_URL,
+): Promise<{ post: LocalizedPost | undefined; source: CmsSource }> {
+  if (baseUrl) {
+    const docs = (await fetchCmsDocs(postBySlugUrl(baseUrl, slug))).filter(isCmsPost);
+    const found = docs.find((d) => d.slug.toLowerCase() === slug.trim().toLowerCase());
+    if (found) return { post: toLocalizedPost(found, locale, baseUrl), source: "cms" };
+  }
+  return { post: fallback, source: "static" };
 }

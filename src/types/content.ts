@@ -23,7 +23,8 @@ export const productIds = [
   "pala",
   "cengkeh",
 ] as const;
-export type ProductId = (typeof productIds)[number];
+/** Slug seed statis. `ProductId` sengaja string terbuka untuk produk CMS baru. */
+export type ProductId = string;
 
 export interface ProductSpec {
   label: string;
@@ -58,6 +59,8 @@ export interface NewsPost {
   lede: string;
   /** Full article body as markdown (blank-line separated paragraphs, **bold** inline). */
   bodyMarkdown: string;
+  /** Last content change (CMS `updatedAt`). Absent = fall back to `dateISO`. */
+  updatedAt?: string;
   /** Indonesian overlay. Absent = render EN + fallback badge. */
   titleId?: string;
   descriptionId?: string;
