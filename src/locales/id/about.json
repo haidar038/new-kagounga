@@ -1,1 +1,65 @@
-{"copilot": {"lede": "Kagōunga dibentuk bersama petani, seniman, musisi, dan para kreator dari Maluku Utara dan sekitarnya. Delapan dari sekian banyak tangan di balik gerakan ini.", "titleBold": "Co-Pilot", "titleLight": " Kami."}, "hero": {"eyebrow": "Tentang Kagōunga", "lede": "Berakar di Ternate, bertumbuh melampaui batas.", "titleBold": "Cerita", "titleLight": " Kami."}, "intro": {"and": "dan", "cofounder": "Aiya Lee (Co-Founder)", "founder": "Heri Susanto (Founder)", "movement": "Move, Moreover!", "p1a": "Kagōunga adalah perusahaan Maluku Utara yang mengolah warisan rasa, material, dan kearifan lokal menjadi produk, pengalaman, dan ekspresi kreatif. Didirikan oleh ", "p1b": ", Kagōunga menciptakan Popeda Soup, Sensory Candle, Botanical Soap, Visual Artwork, dan Brand Music. Semuanya berpijak pada keaslian, kualitas, keberlanjutan, dan rantai pasok yang berakar di komunitas lokal.", "p2a": "Kagōunga juga sebuah gerakan budaya, dibangun bersama orang-orang yang menjadikan Maluku Utara apa adanya: petani, nelayan, pecinta alam, pendaki, klub selam, pengrajin, seniman, komposer, penyanyi, penari, fotografer, penulis, jurnalis, desainer lampu, model, arsitek, insinyur perangkat lunak, dan anak muda daerah. Melalui ", "p2b": ", kami bergerak bersama, membawa semangat Maluku Utara ke mana pun kami pergi."}, "roles": {"Andy": {"alt": "Potret Andy", "role": "Komposer Musik"}, "Arunika": {"alt": "Potret Arunika", "role": "Fotografer"}, "Dayo": {"alt": "Potret Dayo", "role": "Petani"}, "Fadrié": {"alt": "Potret Fadrié", "role": "Seniman Visual"}, "Gilang": {"alt": "Potret Gilang", "role": "Penari"}, "Hydr": {"alt": "Potret Hydr", "role": "Insinyur Perangkat Lunak"}, "Hylda": {"alt": "Potret Hylda", "role": "Seniman Visual"}, "Joshua": {"alt": "Potret Joshua", "role": "Seniman Visual"}, "Maryam": {"alt": "Potret Maryam", "role": "Nelayan"}, "Shahnaz": {"alt": "Potret Shahnaz", "role": "Seniman Visual"}}}
+{
+    "copilot": {
+        "lede": "Kagōunga dibentuk bersama petani, seniman, musisi, dan para kreator dari Maluku Utara dan sekitarnya. Sepuluh dari sekian banyak tangan di balik gerakan ini.",
+        "titleBold": "Co-Pilot",
+        "titleLight": " Kami."
+    },
+    "hero": {
+        "eyebrow": "Tentang Kagōunga",
+        "lede": "Berakar di Ternate, bertumbuh melampaui batas.",
+        "titleBold": "Cerita",
+        "titleLight": " Kami."
+    },
+    "intro": {
+        "and": "dan",
+        "cofounder": "Aiya Lee (Co-Founder)",
+        "founder": "Heri Susanto (Founder)",
+        "movement": "Move, Moreover!",
+        "p1a": "Kagōunga adalah perusahaan Maluku Utara yang mengolah warisan rasa, material, dan kearifan lokal menjadi produk, pengalaman, dan ekspresi kreatif. Didirikan oleh ",
+        "p1b": ", Kagōunga menciptakan Popeda Soup, Sensory Candle, Botanical Soap, Visual Artwork, dan Brand Music. Semuanya berpijak pada keaslian, kualitas, keberlanjutan, dan rantai pasok yang berakar di komunitas lokal.",
+        "p2a": "Kagōunga juga sebuah gerakan budaya, dibangun bersama orang-orang yang menjadikan Maluku Utara apa adanya: petani, nelayan, pecinta alam, pendaki, klub selam, pengrajin, seniman, komposer, penyanyi, penari, fotografer, penulis, jurnalis, desainer lampu, model, arsitek, insinyur perangkat lunak, dan anak muda daerah. Melalui ",
+        "p2b": ", kami bergerak bersama, membawa semangat Maluku Utara ke mana pun kami pergi."
+    },
+    "roles": {
+        "Andy": {
+            "alt": "Potret Andy",
+            "role": "Komposer Musik"
+        },
+        "Arunika": {
+            "alt": "Potret Arunika",
+            "role": "Fotografer"
+        },
+        "Dayo": {
+            "alt": "Potret Dayo",
+            "role": "Petani"
+        },
+        "Fadrié": {
+            "alt": "Potret Fadrié",
+            "role": "Seniman Visual"
+        },
+        "Gilang": {
+            "alt": "Potret Gilang",
+            "role": "Penari"
+        },
+        "Hydr": {
+            "alt": "Potret Hydr",
+            "role": "Insinyur Perangkat Lunak"
+        },
+        "Hylda": {
+            "alt": "Potret Hylda",
+            "role": "Seniman Visual"
+        },
+        "Joshua": {
+            "alt": "Potret Joshua",
+            "role": "Seniman Visual"
+        },
+        "Maryam": {
+            "alt": "Potret Maryam",
+            "role": "Nelayan"
+        },
+        "Shahnaz": {
+            "alt": "Potret Shahnaz",
+            "role": "Seniman Visual"
+        }
+    }
+}

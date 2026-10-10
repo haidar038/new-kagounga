@@ -1,1 +1,51 @@
-{"hero": {"events": "View Events", "explore": "Explore Our World", "lede": "We transcend all boundaries, imaginable.", "stats": ["Shipped Products", "Countries Served", "Signatures"], "tisan": "Tisan holding sago. Hover to see her face"}, "milestones": {"lede": "An overview of Kagōunga's annual journey across exhibitions, music, pop-ups, and collaborative ventures. Upcoming schedules are updated dynamically.", "next": "Next page", "pageOf": "Go to page {{current}} of {{total}}", "pages": "Change month page", "prev": "Previous page", "status": {"announced": "TO BE ANNOUNCED", "done": "Completed", "idle": "No Agenda", "noAgenda": "NO AGENDA", "scheduled": "Scheduled", "tba": "TBA"}, "titleBold": "Milestones", "titleLight": " in Motion.", "yearLabel": "Select year"}, "movement": {"lede": "Everything Kagōunga creates grows from four connected movements: innovation, culture, collaboration, and global reach.", "titleBold": "Four movements,", "titleLight": " One shared purpose."}, "partners": {"lede": "A strategic convergence connecting visionary partners who build with us and the media platforms that amplify our journey. Together, these distinct networks form a unified ecosystem driving meaningful impact, innovation, and sustainable growth.", "region": "Partner logos", "titleBold": "Stronger", "titleLight": " Together."}, "signature": {"collapse": "Hide description", "expand": "Show full description", "inquiry": "Business Inquiry", "lede": "Five distinct forms of expression bound by one identity: gastronomy, personal care, home fragrance, sonic identity, and fine art. Each piece remains deeply rooted in the cultural heritage of North Moluccas.", "show": "Show {{title}}", "titleBold": "Our", "titleLight": " Signature."}}
+{
+    "hero": {
+        "events": "View Events",
+        "explore": "Explore Our World",
+        "lede": "We transcend all boundaries, imaginable.",
+        "stats": [
+            "Shipped Products",
+            "Countries Served",
+            "Signatures"
+        ],
+        "tisan": "Tisan holding sago. Hover to see her face"
+    },
+    "milestones": {
+        "lede": "An overview of Kagōunga's annual journey across exhibitions, music, pop-ups, and collaborative ventures. Upcoming schedules are updated dynamically.",
+        "next": "Next page",
+        "pageOf": "Go to page {{current}} of {{total}}",
+        "pages": "Change month page",
+        "prev": "Previous page",
+        "status": {
+            "announced": "TO BE ANNOUNCED",
+            "done": "Completed",
+            "idle": "No Agenda",
+            "noAgenda": "NO AGENDA",
+            "scheduled": "Scheduled",
+            "tba": "TBA"
+        },
+        "titleBold": "Milestones",
+        "titleLight": " in Motion.",
+        "yearLabel": "Select year"
+    },
+    "movement": {
+        "lede": "Everything Kagōunga creates grows from four connected movements: innovation, culture, collaboration, and global reach.",
+        "titleBold": "Four movements,",
+        "titleLight": " One shared purpose."
+    },
+    "partners": {
+        "lede": "A strategic convergence connecting visionary partners who build with us and the media platforms that amplify our journey. Together, these distinct networks form a unified ecosystem driving meaningful impact, innovation, and sustainable growth.",
+        "region": "Partner logos",
+        "titleBold": "Stronger",
+        "titleLight": " Together."
+    },
+    "signature": {
+        "collapse": "Hide description",
+        "expand": "Show full description",
+        "inquiry": "Business Inquiry",
+        "lede": "Five distinct forms of expression bound by one identity: gastronomy, personal care, home fragrance, sonic identity, and fine art. Each piece remains deeply rooted in the cultural heritage of North Moluccas.",
+        "show": "Show {{title}}",
+        "titleBold": "Our",
+        "titleLight": " Signature."
+    }
+}

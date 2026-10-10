@@ -1,1 +1,121 @@
-{"hero": {"events": "Lihat Acara", "explore": "Jelajahi Dunia Kami", "lede": "Kami melampaui segala batas, yang terbayangkan.", "stats": ["Produk Terkirim", "Negara Terlayani", "Signature"], "tisan": "Tisan memegang sagu. Arahkan untuk melihat wajahnya"}, "milestones": {"lede": "Gambaran perjalanan tahunan Kagōunga lintas pameran, musik, pop-up, dan kolaborasi. Jadwal mendatang diperbarui secara dinamis.", "next": "Halaman berikutnya", "pageOf": "Ke halaman {{current}} dari {{total}}", "pages": "Pindah halaman bulan", "prev": "Halaman sebelumnya", "status": {"announced": "SEGERA DIUMUMKAN", "done": "Selesai", "idle": "Tanpa Agenda", "noAgenda": "TANPA AGENDA", "scheduled": "Terjadwal", "tba": "Segera Diumumkan"}, "titleBold": "Milestone", "titleLight": " Bergerak.", "yearLabel": "Pilih tahun"}, "movement": {"lede": "Semua yang diciptakan Kagōunga tumbuh dari empat gerakan yang terhubung: inovasi, budaya, kolaborasi, dan jangkauan global.", "titleBold": "Empat gerakan,", "titleLight": " Satu tujuan bersama."}, "partners": {"lede": "Konvergensi strategis yang menghubungkan para partner visioner yang membangun bersama kami dan platform media yang menggaungkan perjalanan kami. Bersama, jaringan yang berbeda ini membentuk ekosistem terpadu yang mendorong dampak bermakna, inovasi, dan pertumbuhan berkelanjutan.", "region": "Logo partner", "titleBold": "Lebih Kuat", "titleLight": " Bersama."}, "signature": {"collapse": "Sembunyikan deskripsi", "expand": "Tampilkan deskripsi lengkap", "inquiry": "Inquiry Bisnis", "lede": "Lima wujud ekspresi berbeda dalam satu identitas: gastronomi, perawatan diri, wewangian rumah, identitas sonik, dan seni rupa. Setiap karya berakar kuat pada warisan budaya Maluku Utara.", "show": "Tampilkan {{title}}", "titleBold": "Signature", "titleLight": " Kami."}, "movements": {"Creative Collab": {"description": "Kami bekerja dengan seniman, musisi, desainer, dan komunitas untuk menjelajahi cara baru mengekspresikan budaya kami.", "title": "Kolaborasi Kreatif"}, "Cultural Preservation": {"description": "Kami menjaga pengetahuan, tradisi, dan cerita Maluku Utara tetap hidup dan relevan untuk generasi mendatang.", "title": "Pelestarian Budaya"}, "Food Innovation": {"description": "Kami membawa makanan tradisional ke kehidupan modern sambil setia pada rasa, bahan, dan identitas aslinya.", "title": "Inovasi Pangan"}, "Global Reach": {"description": "Kami membagikan cerita, rasa, dan perspektif kepulauan kepada orang-orang di luar Maluku Utara.", "title": "Jangkauan Global"}}, "signatures": {"artwork": {"alt": "Tiga lukisan inspirasi Maluku: laut, palem, dan panen", "category": "Seni Rupa", "meta": "Ukuran Koleksi 9x12 cm · Kolaborasi Seniman Lokal · Storytelling Budaya · Edisi Batch Berganti · Termasuk di Setiap Kemasan", "paragraphs": ["Koleksi eksklusif kartu seni koleksi 9x12 cm yang dibuat lewat kemitraan kolaboratif dengan seniman lokal Maluku Utara berbakat. Setiap karya orisinal menggambarkan kisah visual intim tentang identitas, warisan budaya, dan keseharian Kepulauan Rempah lewat gaya khas tiap kreator.", "Tersimpan di setiap kemasan Popeda Soup, karya bernilai tinggi ini berganti tiap batch produksi, menawarkan kanvas autentik narasi daerah untuk dikoleksi. Jembatan yang menghubungkan gastronomi dengan ekspresi seni lokal."], "title": "Visual Artwork"}, "candle": {"alt": "Lilin sensorik dikelilingi cengkeh, kayu manis, dan pala", "category": "Wewangian Rumah", "meta": "100% Rempah Asli · Minyak Esensial Murni · Bakaran Wax Bersih · Relaksasi Mindful · Dibuat Etis", "paragraphs": ["Lilin aromaterapi berinfusi rempah asli Maluku Utara. Dibuat dengan minyak esensial murni dari cengkeh, pala, dan flora botani daerah, perlahan memenuhi ruangmu dengan kehangatan autentik yang membumi.", "Dirancang membangkitkan ketenangan, relaksasi mendalam, dan kedamaian batin lewat esensi aromatik historis Kepulauan Rempah yang kaya. Dituang dengan wax alami premium untuk bakaran bersih, non-toksik, dan tahan lama."], "title": "Sensory Candle"}, "music": {"alt": "Pria mendengarkan cangkang laut: identitas sonik Kagōunga", "category": "Identitas Sonik", "meta": "Komposisi Kolaboratif · Master Lokal · Narasi Leluhur · Warisan Budaya · Soundscape Bespoke", "paragraphs": ["Pengalaman audio bespoke yang jauh melampaui soundscape stok konvensional, menyelaraskan unsur musik universal dengan akar tradisi. Diciptakan lewat kolaborasi erat dengan musisi dan komposer lokal, setiap skor, aransemen, dan lapisan harmoni direkayasa dengan cermat untuk memuat jiwa daerah yang autentik.", "Lirisisme puitisnya menjadi narasi rumah yang mengharukan, menghormati kearifan leluhur, warisan budaya, dan silsilah. Melampaui musik latar biasa menjadi identitas sonik evokatif yang mengikat legacy, tempat, dan tradisi."], "title": "Brand Music"}, "popeda": {"alt": "Kotak Popeda Soup Kagōunga dengan sagu lembut dalam kuah ikan kunyit", "category": "Gastronomi", "meta": "Siap dalam 5 menit · Net 50 g · Bersertifikat Halal · Kebanggaan Pulau Ternate", "paragraphs": ["Sagu lembut autentik disajikan dengan kuah ikan kunyit gurih, rempah aromatik segar, dan perasan calamansi yang menyegarkan. Dikemas dengan potongan tuna melimpah dan sayuran dehidrasi. Terbuat dari 100% bahan alami tanpa pengawet, tahan 12 bulan dan bersertifikat Halal.", "Di Maluku Utara, warga mengolah batang palem sagu menjadi pati, lalu dimasak menjadi makanan pokok karbohidrat yang kental dan kenyal. Palem sagu tumbuh subur di bantaran sungai dan rawa, membutuhkan minimal tujuh tahun tumbuh sebelum siap panen."], "title": "Popeda Soup"}, "soap": {"alt": "Sabun minyak esensial organik Gosora dan Bualawa", "category": "Perawatan Diri", "meta": "100% Rempah Asli · Kaya Antioksidan · Aroma Signature · Formula Murni · Dipasok Etis", "paragraphs": ["Sabun alami berbahan rempah lokal murni, menjembatani warisan kepulauan berabad-abad dengan skincare modern. Dibuat dengan ekstrak rempah murni yang dipanen langsung dari tanah subur Ternate, menutrisi dan memperkuat skin barrier dari tekanan lingkungan.", "Setiap busa melepaskan aroma eksotis autentik yang mengubah cuci harian menjadi pengalaman spa mewah yang menenangkan. Sepenuhnya alami tanpa pengawet, menyehatkan kulit dan bersertifikat Halal."], "title": "Botanical Soap"}}}
+{
+    "hero": {
+        "events": "Lihat Agenda",
+        "explore": "Jelajahi Dunia Kami",
+        "lede": "Melangkah lebih jauh, melampaui batas.",
+        "stats": [
+            "Produk Terkirim",
+            "Negara Dijangkau",
+            "Produk Utama"
+        ],
+        "tisan": "Tisan memegang sagu. Arahkan untuk melihat wajahnya"
+    },
+    "milestones": {
+        "lede": "Gambaran perjalanan tahunan Kagōunga lintas pameran, musik, pop-up, dan kolaborasi. Jadwal mendatang diperbarui secara dinamis.",
+        "next": "Halaman berikutnya",
+        "pageOf": "Ke halaman {{current}} dari {{total}}",
+        "pages": "Pindah halaman bulan",
+        "prev": "Halaman sebelumnya",
+        "status": {
+            "announced": "SEGERA DIUMUMKAN",
+            "done": "Selesai",
+            "idle": "Tanpa Agenda",
+            "noAgenda": "TANPA AGENDA",
+            "scheduled": "Terjadwal",
+            "tba": "Segera Diumumkan"
+        },
+        "titleBold": "Catatan",
+        "titleLight": " Perjalanan.",
+        "yearLabel": "Pilih tahun"
+    },
+    "movement": {
+        "lede": "Semua yang diciptakan Kagōunga tumbuh dari empat gerakan yang terhubung: inovasi, budaya, kolaborasi, dan jangkauan global.",
+        "titleBold": "Empat gerakan,",
+        "titleLight": " Satu tujuan."
+    },
+    "partners": {
+        "lede": "Konvergensi strategis yang menghubungkan para partner visioner yang membangun bersama kami dan platform media yang menggaungkan perjalanan kami. Bersama, jaringan yang berbeda ini membentuk ekosistem terpadu yang mendorong dampak bermakna, inovasi, dan pertumbuhan berkelanjutan.",
+        "region": "Logo partner",
+        "titleBold": "Lebih Kuat",
+        "titleLight": " Bersama."
+    },
+    "signature": {
+        "collapse": "Sembunyikan deskripsi",
+        "expand": "Tampilkan deskripsi lengkap",
+        "inquiry": "Inquiry Bisnis",
+        "lede": "Lima wujud ekspresi berbeda dalam satu identitas: gastronomi, perawatan diri, wewangian rumah, identitas sonik, dan seni rupa. Setiap karya berakar kuat pada warisan budaya Maluku Utara.",
+        "show": "Tampilkan {{title}}",
+        "titleBold": "Produk",
+        "titleLight": " Unggulan."
+    },
+    "movements": {
+        "Creative Collab": {
+            "description": "Kami bekerja dengan seniman, musisi, desainer, dan komunitas untuk menjelajahi cara baru mengekspresikan budaya kami.",
+            "title": "Kolaborasi Kreatif"
+        },
+        "Cultural Preservation": {
+            "description": "Kami menjaga pengetahuan, tradisi, dan cerita Maluku Utara tetap hidup dan relevan untuk generasi mendatang.",
+            "title": "Pelestarian Budaya"
+        },
+        "Food Innovation": {
+            "description": "Kami membawa makanan tradisional ke kehidupan modern sambil setia pada rasa, bahan, dan identitas aslinya.",
+            "title": "Inovasi Pangan"
+        },
+        "Global Reach": {
+            "description": "Kami membagikan cerita, rasa, dan perspektif kepulauan kepada orang-orang di luar Maluku Utara.",
+            "title": "Jangkauan Global"
+        }
+    },
+    "signatures": {
+        "artwork": {
+            "alt": "Tiga lukisan inspirasi Maluku: laut, palem, dan panen",
+            "category": "Seni Rupa",
+            "meta": "Ukuran Koleksi 9x12 cm · Kolaborasi Seniman Lokal · Storytelling Budaya · Edisi Batch Berganti · Termasuk di Setiap Kemasan",
+            "paragraphs": [
+                "Koleksi eksklusif kartu seni koleksi 9x12 cm yang dibuat lewat kemitraan kolaboratif dengan seniman lokal Maluku Utara berbakat. Setiap karya orisinal menggambarkan kisah visual intim tentang identitas, warisan budaya, dan keseharian Kepulauan Rempah lewat gaya khas tiap kreator.",
+                "Tersimpan di setiap kemasan Popeda Soup, karya bernilai tinggi ini berganti tiap batch produksi, menawarkan kanvas autentik narasi daerah untuk dikoleksi. Jembatan yang menghubungkan gastronomi dengan ekspresi seni lokal."
+            ],
+            "title": "Visual Artwork"
+        },
+        "candle": {
+            "alt": "Lilin sensorik dikelilingi cengkeh, kayu manis, dan pala",
+            "category": "Wewangian Rumah",
+            "meta": "100% Rempah Asli · Minyak Esensial Murni · Bakaran Wax Bersih · Relaksasi Mindful · Dibuat Etis",
+            "paragraphs": [
+                "Lilin aromaterapi berinfusi rempah asli Maluku Utara. Dibuat dengan minyak esensial murni dari cengkeh, pala, dan flora botani daerah, perlahan memenuhi ruangmu dengan kehangatan autentik yang membumi.",
+                "Dirancang membangkitkan ketenangan, relaksasi mendalam, dan kedamaian batin lewat esensi aromatik historis Kepulauan Rempah yang kaya. Dituang dengan wax alami premium untuk bakaran bersih, non-toksik, dan tahan lama."
+            ],
+            "title": "Sensory Candle"
+        },
+        "music": {
+            "alt": "Pria mendengarkan cangkang laut: identitas sonik Kagōunga",
+            "category": "Identitas Sonik",
+            "meta": "Komposisi Kolaboratif · Master Lokal · Narasi Leluhur · Warisan Budaya · Soundscape Bespoke",
+            "paragraphs": [
+                "Pengalaman audio bespoke yang jauh melampaui soundscape stok konvensional, menyelaraskan unsur musik universal dengan akar tradisi. Diciptakan lewat kolaborasi erat dengan musisi dan komposer lokal, setiap skor, aransemen, dan lapisan harmoni direkayasa dengan cermat untuk memuat jiwa daerah yang autentik.",
+                "Lirisisme puitisnya menjadi narasi rumah yang mengharukan, menghormati kearifan leluhur, warisan budaya, dan silsilah. Melampaui musik latar biasa menjadi identitas sonik evokatif yang mengikat legacy, tempat, dan tradisi."
+            ],
+            "title": "Brand Music"
+        },
+        "popeda": {
+            "alt": "Kotak Popeda Soup Kagōunga dengan sagu lembut dalam kuah ikan kunyit",
+            "category": "Gastronomi",
+            "meta": "Siap dalam 5 menit · Net 50 g · Bersertifikat Halal · Kebanggaan Pulau Ternate",
+            "paragraphs": [
+                "Sagu lembut autentik disajikan dengan kuah ikan kunyit gurih, rempah aromatik segar, dan perasan calamansi yang menyegarkan. Dikemas dengan potongan tuna melimpah dan sayuran dehidrasi. Terbuat dari 100% bahan alami tanpa pengawet, tahan 12 bulan dan bersertifikat Halal.",
+                "Di Maluku Utara, warga mengolah batang palem sagu menjadi pati, lalu dimasak menjadi makanan pokok karbohidrat yang kental dan kenyal. Palem sagu tumbuh subur di bantaran sungai dan rawa, membutuhkan minimal tujuh tahun tumbuh sebelum siap panen."
+            ],
+            "title": "Popeda Soup"
+        },
+        "soap": {
+            "alt": "Sabun minyak esensial organik Gosora dan Bualawa",
+            "category": "Perawatan Diri",
+            "meta": "100% Rempah Asli · Kaya Antioksidan · Aroma Signature · Formula Murni · Dipasok Etis",
+            "paragraphs": [
+                "Sabun alami berbahan rempah lokal murni, menjembatani warisan kepulauan berabad-abad dengan skincare modern. Dibuat dengan ekstrak rempah murni yang dipanen langsung dari tanah subur Ternate, menutrisi dan memperkuat skin barrier dari tekanan lingkungan.",
+                "Setiap busa melepaskan aroma eksotis autentik yang mengubah cuci harian menjadi pengalaman spa mewah yang menenangkan. Sepenuhnya alami tanpa pengawet, menyehatkan kulit dan bersertifikat Halal."
+            ],
+            "title": "Botanical Soap"
+        }
+    }
+}
