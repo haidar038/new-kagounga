@@ -45,6 +45,20 @@ export interface ProductDetail {
   inside: string[] | null;
   note: string;
   per: string;
+  /** Separate detail fields (all products, all optional). */
+  packaging?: string | null;
+  dimensions?: string | null;
+  netWeight?: string | null;
+  grossWeight?: string | null;
+  origin?: string | null;
+  shelfLife?: string | null;
+  certification?: string | null;
+  /** Wholesale tier (B2B). Null = retail only. */
+  moq?: number | null;
+  moqUnit?: string | null;
+  wholesalePrice?: string | null;
+  wholesalePer?: string | null;
+  shipping?: string | null;
 }
 
 export interface NewsPost {

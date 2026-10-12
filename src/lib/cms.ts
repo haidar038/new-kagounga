@@ -1,7 +1,7 @@
 /**
  * Transport CMS (Payload) + tipe DTO cermin `kagounga-cms/src/payload-types.ts`.
  * Tanpa workspace: tipe dijaga sinkron manual (D-010). Tanpa throw —
- * semua fetch gagal -> `null`, loader -> fallback statis.
+ * semua fetch gagal -> `null`, loader -> fallback statis + flag `error`.
  */
 
 const RAW_URL = (import.meta.env?.VITE_CMS_URL as string | undefined) ?? "";
@@ -10,6 +10,13 @@ const RAW_URL = (import.meta.env?.VITE_CMS_URL as string | undefined) ?? "";
 export const CMS_URL = RAW_URL.replace(/\/+$/, "");
 
 export type CmsSource = "cms" | "static";
+
+/** Hasil loader: `error=true` = fetch CMS gagal, UI tampil fallback + banner inline. */
+export interface CmsResult<T> {
+  items: T[];
+  source: CmsSource;
+  error: boolean;
+}
 
 export interface CmsMedia {
   url?: string | null;
@@ -28,6 +35,19 @@ export interface CmsProduct {
   insideTitle?: CmsLocaleValue<string>;
   inside?: CmsLocaleValue<string[]> | null;
   per?: CmsLocaleValue<string>;
+  packaging?: CmsLocaleValue<string>;
+  dimensions?: string | null;
+  netWeight?: string | null;
+  grossWeight?: string | null;
+  origin?: CmsLocaleValue<string>;
+  shelfLife?: CmsLocaleValue<string>;
+  certification?: CmsLocaleValue<string>;
+  moq?: number | null;
+  moqUnit?: CmsLocaleValue<string>;
+  wholesalePriceNumber?: number | null;
+  wholesaleCurrency?: string | null;
+  wholesalePer?: CmsLocaleValue<string>;
+  shipping?: CmsLocaleValue<string>;
   alt?: string | null;
   image?: number | CmsMedia | null;
   imageUrl?: string | null;
@@ -144,9 +164,16 @@ export function postBySlugUrl(baseUrl: string, slug: string): string {
 }
 
 export async function fetchCmsDocs(url: string): Promise<unknown[]> {
+  return (await fetchCmsResult(url)).docs;
+}
+
+/** Seperti `fetchCmsDocs` + flag transport gagal (timeout, offline, HTTP !ok). */
+export async function fetchCmsResult(url: string): Promise<{ docs: unknown[]; error: boolean }> {
   try {
-    return docsOf(await fetchJson(url));
+    const body = await fetchJson(url);
+    if (body === null) return { docs: [], error: true };
+    return { docs: docsOf(body), error: false };
   } catch {
-    return [];
+    return { docs: [], error: false };
   }
 }

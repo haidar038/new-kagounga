@@ -2,10 +2,10 @@ import type { ProductDetail } from "../types/content";
 import type { Locale } from "../i18n";
 import { cld } from "../lib/cloudinary";
 import { orderMessage, waLink } from "../lib/whatsapp";
-import type { CmsProduct, CmsSource } from "../lib/cms";
+import type { CmsProduct, CmsResult } from "../lib/cms";
 import {
   CMS_URL,
-  fetchCmsDocs,
+  fetchCmsResult,
   formatPrice,
   isCmsProduct,
   pickLocale,
@@ -29,29 +29,30 @@ export const PRODUCTS: ProductDetail[] = [
     badges: ["Net 50 g", "Halal certified", "12-month shelf life"],
     price: "$2.53",
     eyebrow: "Popeda Instant · 50 g per box",
-    specs: [
-      { label: "Dimensions", value: "10 × 4 × 6.5 cm" },
-      { label: "Packaging", value: "Ivory 350 g, matte laminated, tuck-top" },
-      { label: "Net weight", value: "50 g" },
-      { label: "Gross weight", value: "60 g" },
-      { label: "Origin", value: "Ternate, North Maluku, Indonesia" },
-      { label: "HS Code", value: "1901.90.99" },
-      {
-        label: "Certification",
-        value: "Halal Indonesia (ID82410021232450325)",
-      },
-    ],
+    specs: [{ label: "HS Code", value: "1901.90.99" }],
     insideTitle: "Inside the box",
     inside: [
       "Sago starch",
-      "Turmeric fish soup pasta",
-      "Dry fish",
-      "Dry vegetables",
-      "Serving suggestions",
-      "1 pcs collectible artwork",
+      "Turmeric fish soup seasoning",
+      "Dry tuna",
+      "Vegetables",
+      "1 collectible artwork",
     ],
     note: "100% natural ingredients, no preservatives, shelf life up to 12 months post-production.",
     per: "/ box",
+    packaging: "350 gsm Ivory Board, Matte Laminated, Tuck-End Box",
+    dimensions: "8.5 x 14 x 3 cm",
+    netWeight: "50 g",
+    grossWeight: "60 g",
+    origin: "Ternate, North Maluku, Indonesia",
+    shelfLife: "Up to 12 months",
+    certification:
+      "P-IRT, Halal Indonesia, Nutrition Fact, Intellectual Property Rights (IPR)",
+    moq: 200,
+    moqUnit: "units",
+    wholesalePrice: "$1.90",
+    wholesalePer: "/ unit",
+    shipping: "Excluded",
   },
   {
     id: "sago",
@@ -220,6 +221,14 @@ type ProductOverlay = {
   inside?: string[] | null;
   note?: string;
   per?: string;
+  packaging?: string | null;
+  origin?: string | null;
+  shelfLife?: string | null;
+  certification?: string | null;
+  moqUnit?: string | null;
+  wholesalePrice?: string | null;
+  wholesalePer?: string | null;
+  shipping?: string | null;
 };
 
 const ID_OVERLAYS = (idCatalog as { products?: Record<string, ProductOverlay> })
@@ -246,6 +255,13 @@ export function toProductDetail(doc: CmsProduct, locale: Locale, baseUrl: string
   const insideTitle = pickLocale(doc.insideTitle, locale);
   const inside = pickLocale(doc.inside, locale);
   const per = pickLocale(doc.per, locale);
+  const packaging = pickLocale(doc.packaging, locale);
+  const origin = pickLocale(doc.origin, locale);
+  const shelfLife = pickLocale(doc.shelfLife, locale);
+  const certification = pickLocale(doc.certification, locale);
+  const moqUnit = pickLocale(doc.moqUnit, locale);
+  const wholesalePer = pickLocale(doc.wholesalePer, locale);
+  const shipping = pickLocale(doc.shipping, locale);
   return {
     id: doc.slug,
     name: doc.title,
@@ -260,19 +276,36 @@ export function toProductDetail(doc: CmsProduct, locale: Locale, baseUrl: string
     inside: inside.value ?? null,
     note: note.value ?? "",
     per: per.value ?? "",
+    packaging: packaging.value ?? null,
+    dimensions: doc.dimensions ?? null,
+    netWeight: doc.netWeight ?? null,
+    grossWeight: doc.grossWeight ?? null,
+    origin: origin.value ?? null,
+    shelfLife: shelfLife.value ?? null,
+    certification: certification.value ?? null,
+    moq: doc.moq ?? null,
+    moqUnit: moqUnit.value ?? null,
+    wholesalePrice:
+      doc.wholesalePriceNumber == null
+        ? null
+        : formatPrice(doc.wholesalePriceNumber, doc.wholesaleCurrency),
+    wholesalePer: wholesalePer.value ?? null,
+    shipping: shipping.value ?? null,
   };
 }
 
 /**
  * Muat katalog: CMS dulu, gagal/kosong/tanpa URL -> fallback statis. Tak pernah throw.
+ * `error=true` hanya bila transport CMS gagal (halaman tetap tampil + banner inline).
  */
 export async function loadProducts(
   locale: Locale,
   fallback: ProductDetail[],
   baseUrl: string = CMS_URL,
-): Promise<{ items: ProductDetail[]; source: CmsSource }> {
-  if (!baseUrl) return { items: fallback, source: "static" };
-  const docs = (await fetchCmsDocs(productsUrl(baseUrl))).filter(isCmsProduct);
-  if (docs.length === 0) return { items: fallback, source: "static" };
-  return { items: docs.map((d) => toProductDetail(d, locale, baseUrl)), source: "cms" };
+): Promise<CmsResult<ProductDetail>> {
+  if (!baseUrl) return { items: fallback, source: "static", error: false };
+  const { docs, error } = await fetchCmsResult(productsUrl(baseUrl));
+  const valid = docs.filter(isCmsProduct);
+  if (valid.length === 0) return { items: fallback, source: "static", error };
+  return { items: valid.map((d) => toProductDetail(d, locale, baseUrl)), source: "cms", error: false };
 }

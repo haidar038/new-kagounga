@@ -1,10 +1,11 @@
 import type { NewsPost } from "../types/content";
 import type { Locale } from "../i18n";
 import { formatDateLabel } from "../lib/format";
-import type { CmsPost, CmsSource } from "../lib/cms";
+import type { CmsPost, CmsResult, CmsSource } from "../lib/cms";
 import {
   CMS_URL,
   fetchCmsDocs,
+  fetchCmsResult,
   isCmsPost,
   pickLocale,
   postBySlugUrl,
@@ -140,11 +141,12 @@ export async function loadPosts(
   locale: Locale,
   fallback: LocalizedPost[],
   baseUrl: string = CMS_URL,
-): Promise<{ items: LocalizedPost[]; source: CmsSource }> {
-  if (!baseUrl) return { items: fallback, source: "static" };
-  const docs = (await fetchCmsDocs(postsUrl(baseUrl))).filter(isCmsPost);
-  if (docs.length === 0) return { items: fallback, source: "static" };
-  return { items: docs.map((d) => toLocalizedPost(d, locale, baseUrl)), source: "cms" };
+): Promise<CmsResult<LocalizedPost>> {
+  if (!baseUrl) return { items: fallback, source: "static", error: false };
+  const { docs, error } = await fetchCmsResult(postsUrl(baseUrl));
+  const valid = docs.filter(isCmsPost);
+  if (valid.length === 0) return { items: fallback, source: "static", error };
+  return { items: valid.map((d) => toLocalizedPost(d, locale, baseUrl)), source: "cms", error: false };
 }
 
 /** Satu artikel by slug: CMS dulu, lalu fallback statis. Tak pernah throw. */

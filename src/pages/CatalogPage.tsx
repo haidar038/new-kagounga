@@ -24,6 +24,9 @@ export function CatalogPage(): React.JSX.Element {
   const locale = useLocale();
   const [activeId, setActiveId] = useState<ProductId | null>(null);
   // Statis dulu (SEO/prerender utuh), upgrade ke CMS bila reachable.
+  // CMS gagal -> tetap tampil fallback + banner inline di dalam container grid.
+  const [failed, setFailed] = useState(false);
+  const [attempt, setAttempt] = useState(0);
   const [cached, setCached] = useState(() => ({ locale, products: getProducts(locale) }));
   if (cached.locale !== locale) {
     setCached({ locale, products: getProducts(locale) });
@@ -31,12 +34,14 @@ export function CatalogPage(): React.JSX.Element {
   useEffect(() => {
     let on = true;
     loadProducts(locale, getProducts(locale)).then((r) => {
-      if (on && r.source === "cms") setCached({ locale, products: r.items });
+      if (!on) return;
+      if (r.source === "cms") setCached({ locale, products: r.items });
+      setFailed(r.error);
     });
     return () => {
       on = false;
     };
-  }, [locale]);
+  }, [locale, attempt]);
   const products = cached.products;
   const active = products.find((p) => p.id === activeId) ?? null;
   const tiles = t("b2b.tiles", { returnObjects: true }) as string[];
@@ -87,6 +92,25 @@ export function CatalogPage(): React.JSX.Element {
           </Reveal>
           <div className="mt-8 border-t border-ink/10" />
 
+          {failed && (
+            <div
+              role="alert"
+              className="mt-8 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-ink/15 bg-cream px-5 py-4 text-sm"
+            >
+              <p aria-live="polite" className="font-medium text-ink/80">
+                {t("data.loadError", { ns: "common" })}
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setAttempt((a) => a + 1);
+                }}
+                className="rounded-full border border-ink/15 px-5 py-2 text-sm font-bold hover:border-ink/40"
+              >
+                {t("data.retry", { ns: "common" })}
+              </button>
+            </div>
+          )}
           <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
             {products.map((product) => (
               <ProductCard

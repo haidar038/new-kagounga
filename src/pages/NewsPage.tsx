@@ -11,6 +11,9 @@ export function NewsPage(): React.JSX.Element {
   const { t } = useTranslation(["news", "seo", "common"]);
   const locale = useLocale();
   // Statis dulu (SEO/prerender utuh), upgrade ke CMS bila reachable.
+  // CMS gagal -> tetap tampil fallback + banner inline di dalam container grid.
+  const [failed, setFailed] = useState(false);
+  const [attempt, setAttempt] = useState(0);
   const [cached, setCached] = useState(() => ({
     locale,
     posts: NEWS_POSTS.map((p) => localizePost(p, locale)),
@@ -22,12 +25,14 @@ export function NewsPage(): React.JSX.Element {
     const fallback = NEWS_POSTS.map((p) => localizePost(p, locale));
     let on = true;
     loadPosts(locale, fallback).then((r) => {
-      if (on && r.source === "cms") setCached({ locale, posts: r.items });
+      if (!on) return;
+      if (r.source === "cms") setCached({ locale, posts: r.items });
+      setFailed(r.error);
     });
     return () => {
       on = false;
     };
-  }, [locale]);
+  }, [locale, attempt]);
   const posts = cached.posts;
   useDocumentMeta({
     title: t("news.title", { ns: "seo" }),
@@ -63,6 +68,25 @@ export function NewsPage(): React.JSX.Element {
       />
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
+          {failed && (
+            <div
+              role="alert"
+              className="mb-8 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-ink/15 bg-cream px-5 py-4 text-sm"
+            >
+              <p aria-live="polite" className="font-medium text-ink/80">
+                {t("data.loadError", { ns: "common" })}
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setAttempt((a) => a + 1);
+                }}
+                className="rounded-full border border-ink/15 px-5 py-2 text-sm font-bold hover:border-ink/40"
+              >
+                {t("data.retry", { ns: "common" })}
+              </button>
+            </div>
+          )}
           {posts.length === 0 ? (
             <p aria-live="polite" className="text-[15px] text-ink/70">
               {t("empty")}

@@ -5,6 +5,26 @@ import type { ProductDetail } from "../types/content";
 import { orderHref } from "../data/products";
 import { useLocale } from "../i18n";
 
+/** Spec rows covered by the separate Details section are hidden there to avoid duplication. */
+const DETAIL_LABELS: Record<string, "packaging" | "dimensions" | "netWeight" | "grossWeight" | "origin" | "shelfLife" | "certification"> = {
+  packaging: "packaging",
+  kemasan: "packaging",
+  dimensions: "dimensions",
+  dimensi: "dimensions",
+  "net weight": "netWeight",
+  "berat bersih": "netWeight",
+  "gross weight": "grossWeight",
+  "berat kotor": "grossWeight",
+  origin: "origin",
+  "country of origin": "origin",
+  asal: "origin",
+  "negara asal": "origin",
+  "shelf life": "shelfLife",
+  "masa simpan": "shelfLife",
+  certification: "certification",
+  sertifikasi: "certification",
+};
+
 /** Single generic dialog fed by the selected product. */
 export function ProductDialog({
   product,
@@ -78,16 +98,95 @@ export function ProductDialog({
             {t("dialog.specs")}
           </h4>
           <dl className="mt-3 grid gap-2 text-[13px]">
-            {product.specs.map((spec, i) => (
-              <div
-                key={spec.label}
-                className={`flex justify-between gap-4${i < product.specs.length - 1 ? " border-b border-ink/10 pb-2" : ""}`}
-              >
-                <dt className="text-ink/60">{spec.label}</dt>
-                <dd className="text-right font-bold">{spec.value}</dd>
-              </div>
-            ))}
+            {product.specs
+              .filter((spec) => {
+                const key = DETAIL_LABELS[spec.label.trim().toLowerCase()];
+                if (!key) return true;
+                const v = product[key];
+                return v == null || v === "";
+              })
+              .map((spec, i, arr) => (
+                <div
+                  key={spec.label}
+                  className={`flex justify-between gap-4${i < arr.length - 1 ? " border-b border-ink/10 pb-2" : ""}`}
+                >
+                  <dt className="text-ink/60">{spec.label}</dt>
+                  <dd className="text-right font-bold">{spec.value}</dd>
+                </div>
+              ))}
           </dl>
+          {(product.packaging ??
+            product.dimensions ??
+            product.netWeight ??
+            product.grossWeight ??
+            product.origin ??
+            product.shelfLife ??
+            product.certification) != null && (
+            <>
+              <h4 className="mt-6 text-[12px] font-bold uppercase tracking-[0.18em] text-ink/50">
+                {t("dialog.details")}
+              </h4>
+              <dl className="mt-3 grid gap-2 text-[13px]">
+                {(
+                  [
+                    ["packaging", product.packaging],
+                    ["dimensions", product.dimensions],
+                    ["netWeight", product.netWeight],
+                    ["grossWeight", product.grossWeight],
+                    ["origin", product.origin],
+                    ["shelfLife", product.shelfLife],
+                    ["certification", product.certification],
+                  ] as const
+                )
+                  .filter(([, v]) => v != null && v !== "")
+                  .map(([k, v], i, arr) => (
+                    <div
+                      key={k}
+                      className={`flex justify-between gap-4${i < arr.length - 1 ? " border-b border-ink/10 pb-2" : ""}`}
+                    >
+                      <dt className="text-ink/60">{t(`dialog.${k}`)}</dt>
+                      <dd className="text-right font-bold">{v}</dd>
+                    </div>
+                  ))}
+              </dl>
+            </>
+          )}
+          {(product.moq ?? product.wholesalePrice ?? product.shipping) != null && (
+            <>
+              <h4 className="mt-6 text-[12px] font-bold uppercase tracking-[0.18em] text-ink/50">
+                {t("dialog.wholesaleTitle")}
+              </h4>
+              <dl className="mt-3 grid gap-2 text-[13px]">
+                {(
+                  [
+                    [
+                      "moq",
+                      product.moq == null
+                        ? null
+                        : `${product.moq}${product.moqUnit ? ` ${product.moqUnit}` : ""}`,
+                    ],
+                    [
+                      "wholesalePrice",
+                      product.wholesalePrice == null
+                        ? null
+                        : `${product.wholesalePrice}${product.wholesalePer ? ` ${product.wholesalePer}` : ""}`,
+                    ],
+                    ["shipping", product.shipping],
+                  ] as const
+                )
+                  .filter(([, v]) => v != null && v !== "")
+                  .map(([k, v], i, arr) => (
+                    <div
+                      key={k}
+                      className={`flex justify-between gap-4${i < arr.length - 1 ? " border-b border-ink/10 pb-2" : ""}`}
+                    >
+                      <dt className="text-ink/60">{t(`dialog.${k}`)}</dt>
+                      <dd className="text-right font-bold">{v}</dd>
+                    </div>
+                  ))}
+              </dl>
+            </>
+          )}
           {product.inside && (
             <>
               <h4 className="mt-6 text-[12px] font-bold uppercase tracking-[0.18em] text-ink/50">
