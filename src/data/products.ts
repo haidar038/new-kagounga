@@ -39,7 +39,7 @@ export const PRODUCTS: ProductDetail[] = [
       "1 collectible artwork",
     ],
     note: "100% natural ingredients, no preservatives, shelf life up to 12 months post-production.",
-    per: "/ box",
+    per: "box",
     packaging: "350 gsm Ivory Board, Matte Laminated, Tuck-End Box",
     dimensions: "8.5 x 14 x 3 cm",
     netWeight: "50 g",
@@ -51,7 +51,7 @@ export const PRODUCTS: ProductDetail[] = [
     moq: 200,
     moqUnit: "units",
     wholesalePrice: "$1.90",
-    wholesalePer: "/ unit",
+    wholesalePer: "unit",
     shipping: "Excluded",
   },
   {
@@ -79,7 +79,7 @@ export const PRODUCTS: ProductDetail[] = [
     insideTitle: null,
     inside: null,
     note: "100% natural ingredients, no preservatives, shelf life up to 24 months post-production.",
-    per: "/ pouch",
+    per: "pouch",
   },
   {
     id: "tuna",
@@ -100,7 +100,7 @@ export const PRODUCTS: ProductDetail[] = [
     insideTitle: null,
     inside: null,
     note: "Wild-caught tuna, cleaned and sun-dried. No preservatives. Ready for soups and sambal.",
-    per: "/ pouch",
+    per: "pouch",
   },
   {
     id: "seasoning",
@@ -121,7 +121,7 @@ export const PRODUCTS: ProductDetail[] = [
     insideTitle: "Blended with",
     inside: ["Turmeric", "Dried fish powder", "Sea salt", "Mixed spices"],
     note: "Stir into hot water or broth for an instant turmeric fish soup base.",
-    per: "/ pack",
+    per: "pack",
   },
   {
     id: "kenari",
@@ -142,7 +142,7 @@ export const PRODUCTS: ProductDetail[] = [
     insideTitle: "Roasted with",
     inside: ["Roasted kenari nuts", "Sea salt"],
     note: "Buttery native nuts, roasted and lightly salted. Ready to snack.",
-    per: "/ pouch",
+    per: "pouch",
   },
   {
     id: "telang",
@@ -163,7 +163,7 @@ export const PRODUCTS: ProductDetail[] = [
     insideTitle: "Contents",
     inside: ["Dried butterfly pea flowers"],
     note: "Steep for natural blue tea. Turns purple with a splash of calamansi.",
-    per: "/ pouch",
+    per: "pouch",
   },
   {
     id: "pala",
@@ -183,7 +183,7 @@ export const PRODUCTS: ProductDetail[] = [
     insideTitle: "Contents",
     inside: ["Whole nutmeg", "Mace (fuli)"],
     note: "Sun-dried whole spices from Moluccan groves. The legendary Spice Islands pair.",
-    per: "/ pouch",
+    per: "pouch",
   },
   {
     id: "cengkeh",
@@ -204,7 +204,7 @@ export const PRODUCTS: ProductDetail[] = [
     insideTitle: "Contents",
     inside: ["Whole dried cloves"],
     note: "Hand-picked buds, sun-dried for intense aroma. For cooking and beverages.",
-    per: "/ pouch",
+    per: "pouch",
   },
 ];
 

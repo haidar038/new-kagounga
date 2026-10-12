@@ -5,6 +5,11 @@ import type { ProductDetail } from "../types/content";
 import { orderHref } from "../data/products";
 import { useLocale } from "../i18n";
 
+/** Strip legacy "/ " prefix: "/ box" -> "box". Values from dropdowns are already bare. */
+function bareUnit(value: string): string {
+  return value.replace(/^\s*\/?\s*/, "").trim();
+}
+
 /** Spec rows covered by the separate Details section are hidden there to avoid duplication. */
 const DETAIL_LABELS: Record<string, "packaging" | "dimensions" | "netWeight" | "grossWeight" | "origin" | "shelfLife" | "certification"> = {
   packaging: "packaging",
@@ -169,7 +174,7 @@ export function ProductDialog({
                       "wholesalePrice",
                       product.wholesalePrice == null
                         ? null
-                        : `${product.wholesalePrice}${product.wholesalePer ? ` ${product.wholesalePer}` : ""}`,
+                        : `${product.wholesalePrice}${product.wholesalePer ? ` / ${bareUnit(product.wholesalePer)}` : ""}`,
                     ],
                     ["shipping", product.shipping],
                   ] as const
@@ -209,7 +214,7 @@ export function ProductDialog({
             <p className="text-lg font-black">
               {product.price}{" "}
               <span className="text-[13px] font-medium text-ink/60">
-                {product.per}
+                {product.per ? `/ ${bareUnit(product.per)}` : ""}
               </span>
             </p>
             <div className="flex gap-2">
