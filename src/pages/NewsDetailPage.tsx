@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { SITE_URL, useDocumentMeta } from "../hooks/useDocumentMeta";
-import { breadcrumbLd, graphLd } from "../lib/seo";
+import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import { getPost, loadPostBySlug, localizePost } from "../data/news";
 import { localeLink, useLocale, type Locale } from "../i18n";
 import { NewsArticle } from "../components/NewsArticle";
@@ -49,37 +48,6 @@ export function NewsDetailPage(): React.JSX.Element {
     publishedTime: post ? new Date(post.dateISO).toISOString() : undefined,
     modifiedTime: post ? new Date(post.updatedAt || post.dateISO).toISOString() : undefined,
     author: post ? "Kagōunga" : undefined,
-    jsonLd: post
-      ? graphLd([
-          {
-            "@type": "NewsArticle",
-            headline: post.title,
-            description: post.description,
-            image: [post.cover],
-            inLanguage: locale,
-            datePublished: new Date(post.dateISO).toISOString(),
-            dateModified: new Date(post.updatedAt || post.dateISO).toISOString(),
-            author: { "@type": "Organization", name: "Kagōunga", url: `${SITE_URL}/` },
-            publisher: {
-              "@type": "Organization",
-              name: "Kagōunga",
-              logo: {
-                "@type": "ImageObject",
-                url: "https://res.cloudinary.com/fal5otmd/image/upload/f_auto,q_auto/logo-primary-emblem.svg",
-              },
-            },
-            mainEntityOfPage: `${SITE_URL}${prefix}/news/${post.slug}`,
-          },
-          breadcrumbLd(
-            [
-              { name: t("home", { ns: "common" }), path: "/" },
-              { name: t("news", { ns: "common" }), path: "/news" },
-              { name: post.title, path: `/news/${post.slug}` },
-            ],
-            SITE_URL,
-          ),
-        ])
-      : undefined,
   });
 
   if (!post) {

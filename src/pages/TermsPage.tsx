@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useDocumentMeta, SITE_URL } from "../hooks/useDocumentMeta";
-import { breadcrumbLd, graphLd } from "../lib/seo";
+import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import { PageHero } from "../components/PageHero";
 import { Reveal } from "../components/Reveal";
 import { useLocale } from "../i18n";
@@ -18,15 +17,6 @@ export function TermsPage(): React.JSX.Element {
     title: t("terms.title", { ns: "seo" }),
     description: t("terms.description", { ns: "seo" }),
     canonical: locale === "id" ? "/id/terms" : "/terms",
-    jsonLd: graphLd([
-      breadcrumbLd(
-        [
-          { name: t("home", { ns: "common" }), path: "/" },
-          { name: t("terms", { ns: "common" }), path: "/terms" },
-        ],
-        SITE_URL,
-      ),
-    ]),
   });
   const sections = t("terms.sections", { returnObjects: true }) as LegalSection[];
 

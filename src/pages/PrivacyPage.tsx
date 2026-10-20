@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useDocumentMeta, SITE_URL } from "../hooks/useDocumentMeta";
-import { breadcrumbLd, graphLd } from "../lib/seo";
+import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import { PageHero } from "../components/PageHero";
 import { Reveal } from "../components/Reveal";
 import { useLocale } from "../i18n";
@@ -18,15 +17,6 @@ export function PrivacyPage(): React.JSX.Element {
     title: t("privacy.title", { ns: "seo" }),
     description: t("privacy.description", { ns: "seo" }),
     canonical: locale === "id" ? "/id/privacy" : "/privacy",
-    jsonLd: graphLd([
-      breadcrumbLd(
-        [
-          { name: t("home", { ns: "common" }), path: "/" },
-          { name: t("privacy", { ns: "common" }), path: "/privacy" },
-        ],
-        SITE_URL,
-      ),
-    ]),
   });
   const sections = t("privacy.sections", { returnObjects: true }) as LegalSection[];
 

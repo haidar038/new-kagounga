@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useDocumentMeta, SITE_URL } from "../hooks/useDocumentMeta";
-import { breadcrumbLd, graphLd } from "../lib/seo";
+import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import { NEWS_POSTS, loadPosts, localizePost } from "../data/news";
 import { useLocale } from "../i18n";
 import { PageHero } from "../components/PageHero";
@@ -38,24 +37,6 @@ export function NewsPage(): React.JSX.Element {
     title: t("news.title", { ns: "seo" }),
     description: t("news.description", { ns: "seo" }),
     canonical: locale === "id" ? "/id/news" : "/news",
-    jsonLd: graphLd([
-      {
-        "@type": "ItemList",
-        itemListElement: posts.map((p, i) => ({
-          "@type": "ListItem",
-          position: i + 1,
-          url: `${SITE_URL}${locale === "id" ? "/id" : ""}/news/${p.slug}`,
-          name: p.title,
-        })),
-      },
-      breadcrumbLd(
-        [
-          { name: t("home", { ns: "common" }), path: "/" },
-          { name: t("news", { ns: "common" }), path: "/news" },
-        ],
-        SITE_URL,
-      ),
-    ]),
   });
 
   return (

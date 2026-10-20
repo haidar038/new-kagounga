@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useDocumentMeta, SITE_URL } from "../hooks/useDocumentMeta";
-import { breadcrumbLd, graphLd } from "../lib/seo";
+import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import { getCollaborators } from "../data/collaborators";
 import { useLocale } from "../i18n";
 import { PageHero } from "../components/PageHero";
@@ -13,15 +12,6 @@ export function AboutPage(): React.JSX.Element {
     title: t("about.title", { ns: "seo" }),
     description: t("about.description", { ns: "seo" }),
     canonical: locale === "id" ? "/id/about" : "/about",
-    jsonLd: graphLd([
-      breadcrumbLd(
-        [
-          { name: t("home", { ns: "common" }), path: "/" },
-          { name: t("about", { ns: "common" }), path: "/about" },
-        ],
-        SITE_URL,
-      ),
-    ]),
   });
   const items = getCollaborators(locale);
 

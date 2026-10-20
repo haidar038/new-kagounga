@@ -1,7 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { SITE_URL, useDocumentMeta } from "../hooks/useDocumentMeta";
-import { breadcrumbLd, graphLd } from "../lib/seo";
+import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import {
   ARTIST_PLAYER_SRC,
   DISTRIBUTORS,
@@ -21,25 +20,6 @@ export function MusicPage(): React.JSX.Element {
     title: t("music.title", { ns: "seo" }),
     description: t("music.description", { ns: "seo" }),
     canonical: locale === "id" ? "/id/music" : "/music",
-    jsonLd: graphLd([
-      {
-        "@type": "MusicGroup",
-        name: "Kagōunga",
-        url: `${SITE_URL}/music`,
-        track: TRACKS.map((track) => ({
-          "@type": "MusicRecording",
-          name: track.title,
-          byArtist: { "@type": "MusicGroup", name: track.artist },
-        })),
-      },
-      breadcrumbLd(
-        [
-          { name: t("home", { ns: "common" }), path: "/" },
-          { name: t("music", { ns: "common" }), path: "/music" },
-        ],
-        SITE_URL,
-      ),
-    ]),
   });
 
   return (

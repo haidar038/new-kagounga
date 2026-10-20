@@ -11,6 +11,10 @@
         "description": "Find Kagōunga distribution points across Indonesia and get in touch for business inquiry, partnership, or media.",
         "title": "Contact | Kagōunga"
     },
+    "error": {
+        "description": "The page could not be loaded. Please try again.",
+        "title": "Error | Kagōunga"
+    },
     "home": {
         "description": "Kagōunga. Five distinct forms of expression bound by one identity. Gastronomy, personal care, home fragrance, sonic identity, and fine art from North Moluccas.",
         "title": "Kagōunga | Move, Moreover."
@@ -22,6 +26,10 @@
     "news": {
         "description": "Stay updated with the latest news, events, and stories from Kagōunga: popeda, North Moluccan cuisine, and local culture.",
         "title": "News & Stories | Kagōunga"
+    },
+    "maintenance": {
+        "description": "Kagōunga is temporarily unavailable for maintenance.",
+        "title": "Temporarily Unavailable | Kagōunga"
     },
     "notFound": {
         "description": "The page you are looking for does not exist.",

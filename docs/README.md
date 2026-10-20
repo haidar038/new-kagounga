@@ -8,6 +8,7 @@ Sumber tunggal arah kerja. Baca urut ini sebelum ubah kode.
 4. `TASKLIST.md` — daftar tugas ceklis per fase. Update status di sini saja.
 5. `CHANGELOG.md` — catat tiap selesai fase / rilis.
 6. `I18N-PLAN.md` — rencana i18n P4 (baca penuh sebelum eksekusi T-P4-xx).
+7. `SEO-ACTION-PLAN.md` — hardening SEO 2026-10-20: status P0/P1-4/P1-5, panduan P1-6/P1-7/P1-8/P2.
 
 Aturan pakai:
 - Mulai sesi baru: baca `GUARDRAILS.md` + fase aktif di `PHASES.md` + tugas terbuka di `TASKLIST.md`.

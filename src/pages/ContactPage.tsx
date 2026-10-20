@@ -1,7 +1,6 @@
 import { Mail, MapPin, Phone } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { SITE_URL, useDocumentMeta } from "../hooks/useDocumentMeta";
-import { breadcrumbLd, graphLd } from "../lib/seo";
+import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import { CONTACT, SOCIALS } from "../data/site";
 import { useLocale } from "../i18n";
 import { FindUs } from "../features/contact/FindUs";
@@ -15,31 +14,6 @@ export function ContactPage(): React.JSX.Element {
     title: t("contact.title", { ns: "seo" }),
     description: t("contact.description", { ns: "seo" }),
     canonical: locale === "id" ? "/id/contact" : "/contact",
-    jsonLd: graphLd([
-      {
-        "@type": "LocalBusiness",
-        "@id": `${SITE_URL}/contact#business`,
-        name: "Kagōunga",
-        url: `${SITE_URL}/contact`,
-        email: CONTACT.email,
-        telephone: "+62 811-1538-111",
-        address: {
-          "@type": "PostalAddress",
-          streetAddress: CONTACT.address[0],
-          addressLocality: "Ternate",
-          postalCode: "97751",
-          addressCountry: "ID",
-        },
-        sameAs: SOCIALS.map((s) => s.href),
-      },
-      breadcrumbLd(
-        [
-          { name: t("home", { ns: "common" }), path: "/" },
-          { name: t("contact", { ns: "common" }), path: "/contact" },
-        ],
-        SITE_URL,
-      ),
-    ]),
   });
 
   return (

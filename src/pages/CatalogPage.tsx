@@ -8,8 +8,7 @@ import {
   UtensilsCrossed,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useDocumentMeta, SITE_URL } from "../hooks/useDocumentMeta";
-import { breadcrumbLd, graphLd } from "../lib/seo";
+import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import { getProducts, loadProducts } from "../data/products";
 import { useLocale } from "../i18n";
 import type { ProductId } from "../types/content";
@@ -50,29 +49,6 @@ export function CatalogPage(): React.JSX.Element {
     title: t("catalog.title", { ns: "seo" }),
     description: t("catalog.description", { ns: "seo" }),
     canonical: locale === "id" ? "/id/catalog" : "/catalog",
-    jsonLd: graphLd([
-      {
-        "@type": "ItemList",
-        itemListElement: products.map((p, i) => ({
-          "@type": "ListItem",
-          position: i + 1,
-          item: {
-            "@type": "Product",
-            name: p.name,
-            image: p.image,
-            description: p.blurb,
-            brand: { "@type": "Brand", name: "Kagōunga" },
-          },
-        })),
-      },
-      breadcrumbLd(
-        [
-          { name: t("home", { ns: "common" }), path: "/" },
-          { name: t("catalog", { ns: "common" }), path: "/catalog" },
-        ],
-        SITE_URL,
-      ),
-    ]),
   });
 
   return (

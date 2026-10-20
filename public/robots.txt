@@ -9,3 +9,4 @@ Disallow: /*?fbclid=
 Disallow: /*?gclid=
 
 Sitemap: https://kagounga.com/sitemap.xml
+Sitemap: https://kagounga.com/sitemap-images.xml

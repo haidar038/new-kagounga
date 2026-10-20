@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import type { SignatureId } from "../../types/content";
@@ -6,6 +6,7 @@ import { SIGNATURES, getSignatures } from "../../data/signatures";
 import { WHATSAPP_ICON } from "../../data/site";
 import { inquiryMessage, waLink } from "../../lib/whatsapp";
 import { useLocale } from "../../i18n";
+import { useHydrated } from "../../hooks/useHydrated";
 import { Reveal } from "../../components/Reveal";
 import { cn } from "../../lib/cn";
 
@@ -28,26 +29,24 @@ export function Signature(): React.JSX.Element {
   const { t } = useTranslation("home");
   const locale = useLocale();
   const { search } = useLocation();
-  const [prevSearch, setPrevSearch] = useState(search);
-  const [sigId, setSigId] = useState<SignatureId>(() => {
-    const sig = new URLSearchParams(search).get("sig");
-    return (
-      (sig && SIGNATURES.some((s) => s.id === sig) ? sig : "popeda") as SignatureId
-    );
-  });
+  const hydrated = useHydrated();
+  const [selectedId, setSelectedId] = useState<SignatureId | null>(null);
   const [expanded, setExpanded] = useState(false);
   const items = getSignatures(locale);
+  const queryId = useMemo(() => {
+    const sig = new URLSearchParams(search).get("sig");
+    return sig && SIGNATURES.some((s) => s.id === sig)
+      ? (sig as SignatureId)
+      : null;
+  }, [search]);
+  const sigId = selectedId ?? (hydrated ? queryId : null) ?? "popeda";
   const main = items.find((s) => s.id === sigId) ?? items[0];
   const thumbs = items.filter((s) => s.id !== sigId);
 
-  if (prevSearch !== search) {
-    setPrevSearch(search);
-    const sig = new URLSearchParams(search).get("sig");
-    if (sig && SIGNATURES.some((s) => s.id === sig)) {
-      setSigId(sig as SignatureId);
-      setExpanded(false);
-    }
-  }
+  const selectSignature = (id: SignatureId): void => {
+    setSelectedId(id);
+    setExpanded(false);
+  };
 
   return (
     <section id="signature" className="pb-16 md:pb-24">
@@ -151,7 +150,7 @@ export function Signature(): React.JSX.Element {
               type="button"
               aria-label={t("signature.show", { title: p.title })}
               onClick={() => {
-                setSigId(p.id);
+                selectSignature(p.id);
                 setExpanded(false);
               }}
               className="card-hover overflow-hidden rounded-3xl border border-ink/10 bg-white text-left"

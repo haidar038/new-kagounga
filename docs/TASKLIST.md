@@ -41,6 +41,14 @@
 - [x] T-P3-01 Cloudinary (selesai 2026-10-09): helper `src/lib/cloudinary.ts` (`f_auto,q_auto` + width, cloud `fal5otmd` via `VITE_CLOUDINARY_CLOUD_NAME`). 64 ref `/img/*` di `src` -> 0 (sisa favicon lokal). News `https` lolos normalisasi cover. File lokal `public/img` belum hapus (fallback + favicon).
 - [x] T-P3-06 CHANGELOG + baseline kunci (entri ini).
 
+## P5 — SEO hardening (selesai 2026-10-20, tsc 0, oxlint 0, build OK 22+404)
+- [x] T-P5-01 Soft 404: hapus catch-all rewrite, generate `dist/404.html` (noindex, tanpa canonical), `StatusPage` + `ErrorPage` + `AppErrorBoundary`.
+- [x] T-P5-02 Image sitemap: `absMedia()` untuk cover CMS, guard cover kosong, robots cantumkan `sitemap-images.xml`.
+- [x] T-P5-03 JSON-LD satu sumber di `seo-build.mjs`: Organization/WebSite/WebPage, Product+Offer, LocalBusiness, MusicGroup, NewsArticle, ItemList, breadcrumb locale; hapus injeksi client.
+- [x] T-P5-04 Footer menempel viewport (`flex min-h-dvh` + `flex-1`).
+- [x] T-P5-05 Guide `SEO-ACTION-PLAN.md` (P1-6/P1-7/P1-8/P2).
+- [x] T-P5-06 Body prerender P1-4: route tree bersama, `entry-server.tsx` (`renderToString` setelah preload chunk), `seo-build.mjs` inject body 22 URL, hydration deterministik + `noscript` reveal; `404.html` tetap kosong/noindex. `tsc` 0, `oxlint` 0, build OK.
+
 ## P4 — i18n (selesai 2026-10-10, tsc 0, oxlint 0, build OK 22 halaman)
 - [x] T-P4-01 Fondasi: `i18next` + `react-i18next`, `src/i18n/index.ts` (resources statis, fallback EN, `kga-lang`), `useLocale`, `src/lib/format.ts` (`Intl` tanggal/bulan), `tsc` 0.
 - [x] T-P4-02 Routing + switcher: cabang `/id/*` di `src/app/router.tsx`, mirror path, `LanguageSwitcher` header/mobile/footer, `LocaleBanner` 1x tanpa auto-redirect, `LocaleSync` (`document.lang` + simpan pref).

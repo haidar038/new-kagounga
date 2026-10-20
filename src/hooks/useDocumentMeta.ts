@@ -33,8 +33,6 @@ export interface DocumentMeta {
   publishedTime?: string;
   modifiedTime?: string;
   author?: string;
-  /** JSON-LD object injected as page script. Removed on unmount. */
-  jsonLd?: unknown;
 }
 
 function upsertMeta(attr: "name" | "property", key: string, content: string): void {
@@ -79,9 +77,7 @@ export function useDocumentMeta({
   publishedTime,
   modifiedTime,
   author,
-  jsonLd,
 }: DocumentMeta): void {
-  const jsonKey = jsonLd === undefined ? "" : JSON.stringify(jsonLd);
   useEffect(() => {
     document.title = title;
     upsertMeta("name", "description", description);
@@ -98,10 +94,19 @@ export function useDocumentMeta({
     const idUrl = absUrl(toLocalePath(enPath === "" ? "/" : enPath, "id"), SITE_URL);
     const img = image ?? DEFAULT_OG_IMAGE;
     const imgAlt = imageAlt ?? title;
-    upsertLink("canonical", url);
-    upsertLink("alternate", enUrl, "en");
-    upsertLink("alternate", idUrl, "id");
-    upsertLink("alternate", enUrl, "x-default");
+    if (noindex) {
+      document.head.querySelector('link[rel="canonical"]')?.remove();
+      document.head
+        .querySelectorAll('link[rel="alternate"][hreflang]')
+        .forEach((el) => {
+          el.remove();
+        });
+    } else {
+      upsertLink("canonical", url);
+      upsertLink("alternate", enUrl, "en");
+      upsertLink("alternate", idUrl, "id");
+      upsertLink("alternate", enUrl, "x-default");
+    }
 
     upsertMeta("property", "og:type", type);
     upsertMeta("property", "og:site_name", "Kagōunga");
@@ -146,18 +151,5 @@ export function useDocumentMeta({
       | string
       | undefined;
     if (bingVerify) upsertMeta("name", "msvalidate.01", bingVerify);
-
-    const scriptId = "kga-jsonld-page";
-    document.getElementById(scriptId)?.remove();
-    if (jsonKey) {
-      const s = document.createElement("script");
-      s.id = scriptId;
-      s.type = "application/ld+json";
-      s.textContent = jsonKey;
-      document.head.appendChild(s);
-    }
-    return () => {
-      document.getElementById(scriptId)?.remove();
-    };
-  }, [title, description, canonical, image, imageAlt, imageWidth, imageHeight, type, noindex, publishedTime, modifiedTime, author, jsonKey]);
+  }, [title, description, canonical, image, imageAlt, imageWidth, imageHeight, type, noindex, publishedTime, modifiedTime, author]);
 }

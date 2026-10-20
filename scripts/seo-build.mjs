@@ -6,6 +6,7 @@
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { createServer } from "vite";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const DIST = join(ROOT, "dist");
@@ -23,6 +24,17 @@ const OG_DEFAULT =
 const LOGO =
   "https://res.cloudinary.com/fal5otmd/image/upload/f_auto,q_auto/logo-primary-emblem.svg";
 const today = new Date().toISOString().slice(0, 10);
+
+/** Absolute media URL. CMS may return relative paths or absolute Cloudinary URLs. */
+function absMedia(value) {
+  let s = String(value ?? "").trim();
+  if (!s) return "";
+  // Legacy CMS export wrote `${CMS}https://…`; keep only the nested absolute URL.
+  if (CMS && s.startsWith(`${CMS}http`)) s = s.slice(CMS.length);
+  if (/^https?:\/\//i.test(s)) return s;
+  if (!CMS) return s;
+  return `${CMS}${s.startsWith("/") ? "" : "/"}${s}`;
+}
 
 const readJson = (p) => JSON.parse(readFileSync(p, "utf8"));
 const seo = { en: readJson(join(LOCALES_DIR, "en", "seo.json")), id: readJson(join(LOCALES_DIR, "id", "seo.json")) };
@@ -53,12 +65,11 @@ function cmsPost(p) {
   const title = pickBag(p.title);
   const desc = pickBag(p.metaDescription);
   const coverAlt = pickBag(p.coverAlt);
-  const cover =
-    typeof p.coverUrl === "string" && p.coverUrl
-      ? p.coverUrl
-      : p.featuredImage && typeof p.featuredImage === "object" && p.featuredImage.url
-        ? `${CMS}${p.featuredImage.url}`
-        : "";
+  const featured =
+    p.featuredImage && typeof p.featuredImage === "object" && p.featuredImage.url
+      ? p.featuredImage.url
+      : "";
+  const cover = absMedia(p.coverUrl) || absMedia(featured);
   const dateISO = String(p.publishedAt ?? p.createdAt ?? "").slice(0, 10);
   return {
     slug: String(p.slug),
@@ -103,6 +114,70 @@ async function loadNews() {
 }
 
 const { list: news, source: newsSource } = await loadNews();
+
+const FALLBACK_CONTACT = {
+  email: "hello@kagounga.com",
+  phoneLabel: "+62 811-1538-111",
+  address: ["Jl. Raya Pertamina, No.800, Jambula", "Ternate, Indonesia, 97751"],
+};
+const FALLBACK_SOCIALS = [
+  "https://www.instagram.com/kagounga.id/",
+  "https://www.tiktok.com/@kagounga.id/",
+  "https://x.com/kagounga/",
+  "https://www.threads.com/@kagounga.id",
+  "https://www.youtube.com/@Kagounga",
+];
+
+/** Create one Vite SSR server for schema data + route body prerendering. */
+async function createSsrServer() {
+  return createServer({
+    server: { middlewareMode: true, hmr: false },
+    appType: "custom",
+    logLevel: "silent",
+  });
+}
+
+/** Load typed site data through Vite so schema matches the app, without duplicating it. */
+async function loadSchemaData(server) {
+  try {
+    const [productsMod, siteMod, tracksMod] = await Promise.all([
+      server.ssrLoadModule("/src/data/products.ts"),
+      server.ssrLoadModule("/src/data/site.ts"),
+      server.ssrLoadModule("/src/data/tracks.ts"),
+    ]);
+    return {
+      products: {
+        en: productsMod.getProducts("en"),
+        id: productsMod.getProducts("id"),
+      },
+      contact: siteMod.CONTACT,
+      socials: siteMod.SOCIALS.map((s) => s.href),
+      tracks: tracksMod.TRACKS,
+    };
+  } catch (error) {
+    console.warn(`seo-build: schema data unavailable (${error.message})`);
+    return { products: { en: [], id: [] }, contact: null, socials: [], tracks: [] };
+  }
+}
+
+let ssrServer;
+try {
+  ssrServer = await createSsrServer();
+} catch (error) {
+  console.warn(`seo-build: Vite SSR unavailable (${error.message})`);
+}
+const schemaData = ssrServer
+  ? await loadSchemaData(ssrServer)
+  : { products: { en: [], id: [] }, contact: null, socials: [], tracks: [] };
+let renderRouteBody = null;
+if (ssrServer) {
+  try {
+    const mod = await ssrServer.ssrLoadModule("/src/entry-server.tsx");
+    renderRouteBody = mod.render;
+  } catch (error) {
+    console.warn(`seo-build: body prerender unavailable (${error.message})`);
+  }
+}
 const first = news[0];
 const newsLastmod = first ? String(first.updatedAt || first.dateISO).slice(0, 10) : today;
 
@@ -126,6 +201,7 @@ for (const locale of ["en", "id"]) {
     ROUTES.push({
       path,
       locale,
+      key: b.key,
       title: seo[locale][b.key].title,
       desc: seo[locale][b.key].description,
       type: b.type,
@@ -135,7 +211,12 @@ for (const locale of ["en", "id"]) {
       crumbs: b.crumbs
         ? b.crumbs.map((k, i) => ({
             name: crumbs[locale][k],
-            path: i === 0 ? "/" : b.en,
+            path:
+              i === 0
+                ? locale === "id"
+                  ? "/id"
+                  : "/"
+                : `${prefix}${b.en}`,
           }))
         : null,
     });
@@ -156,9 +237,12 @@ for (const locale of ["en", "id"]) {
       lastmod: String(p.updatedAt || p.dateISO).slice(0, 10),
       publishedTime: new Date(p.dateISO).toISOString(),
       crumbs: [
-        { name: crumbs[locale].home, path: "/" },
-        { name: crumbs[locale].news, path: "/news" },
-        { name: useId ? p.titleId : p.title, path: `/news/${p.slug}` },
+        { name: crumbs[locale].home, path: locale === "id" ? "/id" : "/" },
+        { name: crumbs[locale].news, path: `${prefix}/news` },
+        {
+          name: useId ? p.titleId : p.title,
+          path: `${prefix}/news/${p.slug}`,
+        },
       ],
       news: p,
       newsId: useId,
@@ -205,60 +289,223 @@ function setLink(html, rel, href, hreflang) {
   return sel.test(html) ? html.replace(sel, () => tag) : html.replace("</head>", () => `${tag}\n</head>`);
 }
 
-function pageJsonLd(route, url) {
-  const nodes = [];
-  if (route.path === "/" || route.path === "/id") {
-    nodes.push(
+function priceOf(display) {
+  const match = String(display ?? "").match(/\d+(?:[.,]\d+)?/);
+  if (!match) return null;
+  const value = Number(match[0].replace(",", "."));
+  return Number.isFinite(value) ? value : null;
+}
+
+function contactOf(data) {
+  return data.contact ?? FALLBACK_CONTACT;
+}
+
+function socialsOf(data) {
+  return data.socials.length ? data.socials : FALLBACK_SOCIALS;
+}
+
+function organizationNode(data) {
+  const contact = contactOf(data);
+  return {
+    "@type": "Organization",
+    "@id": `${SITE}/#organization`,
+    name: "Kagōunga",
+    url: `${SITE}/`,
+    logo: { "@type": "ImageObject", url: LOGO },
+    image: LOGO,
+    email: contact.email,
+    telephone: contact.phoneLabel,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: contact.address[0],
+      addressLocality: "Ternate",
+      addressRegion: "North Maluku",
+      postalCode: "97751",
+      addressCountry: "ID",
+    },
+    contactPoint: [
       {
-        "@type": "Organization",
-        "@id": `${SITE}/#organization`,
-        name: "Kagōunga",
-        url: `${SITE}/`,
-        logo: LOGO,
-        sameAs: [
-          "https://www.instagram.com/kagounga.id/",
-          "https://www.tiktok.com/@kagounga.id/",
-          "https://x.com/kagounga/",
-          "https://www.threads.com/@kagounga.id",
-          "https://www.youtube.com/@Kagounga",
-        ],
+        "@type": "ContactPoint",
+        contactType: "customer service",
+        email: contact.email,
+        telephone: contact.phoneLabel,
+        areaServed: "ID",
+        availableLanguage: ["en", "id"],
       },
-      { "@type": "WebSite", "@id": `${SITE}/#website`, url: `${SITE}/`, name: "Kagōunga", inLanguage: route.locale },
-    );
-  } else {
-    if (route.news) {
-      const p = route.news;
-      const title = route.newsId ? p.titleId : p.title;
-      const desc = route.newsId && p.descriptionId ? p.descriptionId : p.description;
-      nodes.push({
-        "@type": "NewsArticle",
-        headline: title,
-        description: desc,
-        image: [p.cover],
-        inLanguage: route.locale,
-        datePublished: new Date(p.dateISO).toISOString(),
-        dateModified: new Date(p.updatedAt || p.dateISO).toISOString(),
-        author: { "@type": "Organization", name: "Kagōunga", url: `${SITE}/` },
-        publisher: { "@type": "Organization", name: "Kagōunga", logo: { "@type": "ImageObject", url: LOGO } },
-        mainEntityOfPage: url,
-      });
-    }
-    if (route.crumbs) {
-      nodes.push({
-        "@type": "BreadcrumbList",
-        itemListElement: route.crumbs.map((c, i) => ({
-          "@type": "ListItem",
-          position: i + 1,
-          name: c.name,
-          item: c.path === "/" ? `${SITE}/` : `${SITE}${c.path}`,
-        })),
-      });
-    }
-  }
+    ],
+    sameAs: socialsOf(data),
+  };
+}
+
+function websiteNode() {
+  return {
+    "@type": "WebSite",
+    "@id": `${SITE}/#website`,
+    url: `${SITE}/`,
+    name: "Kagōunga",
+    publisher: { "@id": `${SITE}/#organization` },
+    inLanguage: ["en", "id"],
+  };
+}
+
+function webPageNode(route, url) {
+  return {
+    "@type": "WebPage",
+    "@id": url,
+    url,
+    name: route.title,
+    description: route.desc,
+    inLanguage: route.locale,
+    isPartOf: { "@id": `${SITE}/#website` },
+    about: { "@id": `${SITE}/#organization` },
+  };
+}
+
+function breadcrumbNode(route, url) {
+  return {
+    "@type": "BreadcrumbList",
+    "@id": `${url}#breadcrumb`,
+    itemListElement: route.crumbs.map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: c.name,
+      item: `${SITE}${c.path}`,
+    })),
+  };
+}
+
+function productListNode(route, url, data) {
+  const products = data.products[route.locale] ?? [];
+  return {
+    "@type": "ItemList",
+    "@id": `${url}#products`,
+    name:
+      route.locale === "id"
+        ? "Katalog produk Kagōunga"
+        : "Kagōunga product catalog",
+    numberOfItems: products.length,
+    itemListElement: products.map((p, i) => {
+      const price = priceOf(p.price);
+      return {
+        "@type": "ListItem",
+        position: i + 1,
+        item: {
+          "@type": "Product",
+          "@id": `${url}#${p.id}`,
+          name: p.name,
+          image: p.image,
+          description: p.blurb,
+          sku: p.id,
+          brand: { "@type": "Brand", name: "Kagōunga" },
+          ...(price == null
+            ? {}
+            : {
+                offers: {
+                  "@type": "Offer",
+                  price,
+                  priceCurrency: "USD",
+                  availability: "https://schema.org/InStock",
+                  url: `${url}#${p.id}`,
+                  seller: { "@id": `${SITE}/#organization` },
+                },
+              }),
+        },
+      };
+    }),
+  };
+}
+
+function newsListNode(route, url) {
+  const prefix = route.locale === "id" ? "/id" : "";
+  return {
+    "@type": "ItemList",
+    "@id": `${url}#news`,
+    name: route.locale === "id" ? "Berita Kagōunga" : "Kagōunga news",
+    numberOfItems: news.length,
+    itemListElement: news.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: `${SITE}${prefix}/news/${p.slug}`,
+      name: route.locale === "id" && p.titleId ? p.titleId : p.title,
+    })),
+  };
+}
+
+function articleNode(route, url) {
+  const p = route.news;
+  const title = route.newsId ? p.titleId : p.title;
+  const desc = route.newsId && p.descriptionId ? p.descriptionId : p.description;
+  const image = route.image || OG_DEFAULT;
+  return {
+    "@type": "NewsArticle",
+    "@id": `${url}#article`,
+    headline: title,
+    description: desc,
+    image: [image],
+    inLanguage: route.locale,
+    datePublished: new Date(p.dateISO).toISOString(),
+    dateModified: new Date(p.updatedAt || p.dateISO).toISOString(),
+    author: { "@id": `${SITE}/#organization` },
+    publisher: { "@id": `${SITE}/#organization` },
+    isPartOf: { "@id": `${SITE}/#website` },
+    mainEntityOfPage: { "@id": url },
+    breadcrumb: { "@id": `${url}#breadcrumb` },
+  };
+}
+
+function musicGroupNode(url, tracks) {
+  return {
+    "@type": "MusicGroup",
+    "@id": `${SITE}/#musicgroup`,
+    name: "Kagōunga",
+    url,
+    track: tracks.map((track) => ({
+      "@type": "MusicRecording",
+      name: track.title,
+      byArtist: { "@type": "MusicGroup", name: "Kagōunga" },
+    })),
+  };
+}
+
+function localBusinessNode(url, data) {
+  const contact = contactOf(data);
+  return {
+    "@type": "LocalBusiness",
+    "@id": `${SITE}/#localbusiness`,
+    name: "Kagōunga Head Office",
+    url,
+    image: LOGO,
+    email: contact.email,
+    telephone: contact.phoneLabel,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: contact.address[0],
+      addressLocality: "Ternate",
+      addressRegion: "North Maluku",
+      postalCode: "97751",
+      addressCountry: "ID",
+    },
+    parentOrganization: { "@id": `${SITE}/#organization` },
+    sameAs: socialsOf(data),
+  };
+}
+
+function pageJsonLd(route, url, data) {
+  const nodes = [
+    organizationNode(data),
+    websiteNode(),
+    webPageNode(route, url),
+  ];
+  if (route.key === "catalog") nodes.push(productListNode(route, url, data));
+  if (route.key === "contact") nodes.push(localBusinessNode(url, data));
+  if (route.key === "music") nodes.push(musicGroupNode(url, data.tracks));
+  if (route.key === "news" && !route.news) nodes.push(newsListNode(route, url));
+  if (route.news) nodes.push(articleNode(route, url));
+  if (route.crumbs) nodes.push(breadcrumbNode(route, url));
   return { "@context": "https://schema.org", "@graph": nodes };
 }
 
-function renderRoute(template, route) {
+function renderRoute(template, route, body = "") {
   const url = `${SITE}${route.path}`;
   const enPath = route.path.replace(/^\/id(?=\/|$)/, "") || "/";
   const enUrl = `${SITE}${enPath}`;
@@ -294,8 +541,14 @@ function renderRoute(template, route) {
       ? setMeta(html, "property", "article:published_time", route.publishedTime)
       : removeMeta(html, "property", "article:published_time");
   html = html.replace(/<script\s+id="kga-jsonld-page"[^>]*>.*?<\/script>\n?/s, "");
-  const ld = `<script type="application/ld+json">${JSON.stringify(pageJsonLd(route, url))}</script>`;
+  const ld = `<script id="kga-jsonld-page" type="application/ld+json">${JSON.stringify(pageJsonLd(route, url, schemaData))}</script>`;
   html = html.replace("</head>", () => `${ld}\n</head>`);
+  if (body) {
+    html = html.replace(
+      '<div id="root"></div>',
+      () => `<div id="root">${body}</div>`,
+    );
+  }
   return html;
 }
 
@@ -312,7 +565,7 @@ function buildSitemaps() {
 
   const imgUrls = [
     `  <url><loc>${xmlEsc(`${SITE}/`)}</loc><image:image><image:loc>${xmlEsc(OG_DEFAULT)}</image:loc><image:title>${xmlEsc(seo.en.home.title)}</image:title></image:image></url>`,
-    ...ROUTES.filter((r) => r.news).map(
+    ...ROUTES.filter((r) => r.news && r.image).map(
       (r) =>
         `  <url><loc>${xmlEsc(`${SITE}${r.path}`)}</loc><image:image><image:loc>${xmlEsc(r.image)}</image:loc><image:title>${xmlEsc(r.title)}</image:title></image:image></url>`,
     ),
@@ -332,10 +585,36 @@ if (!existsSync(TEMPLATE)) {
 }
 const template = readFileSync(TEMPLATE, "utf8");
 for (const route of ROUTES) {
-  const html = renderRoute(template, route);
+  let body = "";
+  if (renderRouteBody) {
+    try {
+      body = await renderRouteBody(route.path);
+    } catch (error) {
+      console.warn(`seo-build: body prerender failed ${route.path} (${error.message})`);
+    }
+  }
+  const html = renderRoute(template, route, body);
   const out = route.path === "/" ? join(DIST, "index.html") : join(DIST, route.path, "index.html");
   mkdirSync(dirname(out), { recursive: true });
   writeFileSync(out, html);
 }
+await ssrServer?.close();
+
+// Vercel serves dist/404.html (status 404) for unmatched paths. It boots the
+// SPA so the React catch-all still renders, but without canonical/hreflang.
+function render404(templateHtml) {
+  let html = templateHtml;
+  html = setTitle(html, "Not Found | Kagōunga");
+  html = setMeta(html, "name", "description", "The page you are looking for does not exist.");
+  html = setMeta(html, "name", "robots", "noindex, nofollow");
+  html = html.replace(/<link\s+rel="canonical"[^>]*>\n?/, "");
+  html = html.replace(/<link\s+rel="alternate"[^>]*>\n?/g, "");
+  html = html.replace(/<meta\s+property="og:url"[^>]*>\n?/, "");
+  return html;
+}
+
+writeFileSync(join(DIST, "404.html"), render404(template));
 buildSitemaps();
-console.log(`seo-build: ${ROUTES.length} pages, sitemap + sitemap-images written (SITE=${SITE}, news=${newsSource})`);
+console.log(
+  `seo-build: ${ROUTES.length} pages + 404.html, sitemap + sitemap-images written (SITE=${SITE}, news=${newsSource})`,
+);

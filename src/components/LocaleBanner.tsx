@@ -9,6 +9,7 @@ import {
   toLocalePath,
   useLocale,
 } from "../i18n";
+import { useHydrated } from "../hooks/useHydrated";
 
 /**
  * One-time Bahasa Indonesia suggestion. Shown only on EN routes to
@@ -19,11 +20,16 @@ export function LocaleBanner(): React.JSX.Element | null {
   const locale = useLocale();
   const { pathname, search, hash } = useLocation();
   const navigate = useNavigate();
-  const [visible, setVisible] = useState<boolean>(
-    () => locale === "en" && getStoredLocale() === null && shouldSuggestId(),
-  );
+  const hydrated = useHydrated();
+  const [dismissed, setDismissed] = useState(false);
+  const visible =
+    hydrated &&
+    !dismissed &&
+    locale === "en" &&
+    getStoredLocale() === null &&
+    shouldSuggestId();
 
-  if (!visible || locale !== "en") return null;
+  if (!visible) return null;
 
   return (
     <div
@@ -37,7 +43,7 @@ export function LocaleBanner(): React.JSX.Element | null {
           type="button"
           onClick={() => {
             setStoredLocale("id");
-            setVisible(false);
+            setDismissed(true);
             navigate(`${toLocalePath(pathname, "id")}${search}${hash}`);
           }}
           className="rounded-full bg-ink px-4 py-1.5 text-[12px] font-bold text-cream"
@@ -48,7 +54,7 @@ export function LocaleBanner(): React.JSX.Element | null {
           type="button"
           onClick={() => {
             dismissSuggest();
-            setVisible(false);
+            setDismissed(true);
           }}
           aria-label={t("banner.dismiss")}
           className="rounded-full border border-ink/15 px-4 py-1.5 text-[12px] font-bold"

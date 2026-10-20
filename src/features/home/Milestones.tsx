@@ -20,16 +20,7 @@ import { useMilestonesYear } from "../../hooks/useMilestones";
 import { Reveal } from "../../components/Reveal";
 import { cn } from "../../lib/cn";
 
-function initialYear(): CalYear {
-  const y = new Date().getFullYear();
-  return isCalYear(y) ? y : 2026;
-}
-
-function initialPage(isDesktop: boolean): number {
-  const now = new Date();
-  const anchor = isCalYear(now.getFullYear()) ? now.getMonth() : 9;
-  return Math.floor(anchor / (isDesktop ? 3 : 1));
-}
+const FIXED_NOW = new Date(2026, 0, 1);
 
 function MonthCard({
   year,
@@ -107,38 +98,37 @@ export function Milestones(): React.JSX.Element {
   const { t } = useTranslation("home");
   const locale = useLocale();
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const [now] = useState(() => new Date());
-  const [calYear, setCalYear] = useState<CalYear>(initialYear);
-  const [calPage, setCalPage] = useState<number>(() =>
-    initialPage(
-      typeof window === "undefined"
-        ? false
-        : window.matchMedia("(min-width: 768px)").matches,
-    ),
-  );
-  const anchorRef = useRef<number>(9);
+  // Fixed during SSR/hydration; switches to the client date after hydration.
+  const [now, setNow] = useState(FIXED_NOW);
+  useEffect(() => {
+    void Promise.resolve().then(() => {
+      setNow(new Date());
+    });
+  }, []);
+  const [selectedYear, setSelectedYear] = useState<CalYear | null>(null);
+  const currentYear = now.getFullYear();
+  const calYear =
+    selectedYear ??
+    (isCalYear(currentYear) ? currentYear : calYears[calYears.length - 1]);
+  const [anchorMonth, setAnchorMonth] = useState<number | null>(null);
   const touch = useRef<{ x: number; y: number } | null>(null);
   const { buckets: remote } = useMilestonesYear(calYear);
 
   const size = isDesktop ? 3 : 1;
   const pages = 12 / size;
+  const anchor = anchorMonth ?? now.getMonth();
+  const calPage = Math.floor(anchor / size);
   const buckets = remote ?? FALLBACK_MILESTONES[calYear];
   const months = pageMonths(calPage, size);
-
-  // Keep anchor month across breakpoint changes (3/page <-> 1/page).
-  useEffect(() => {
-    setCalPage(Math.floor(anchorRef.current / size));
-  }, [size]);
-  useEffect(() => {
-    anchorRef.current = Math.min(11, calPage * size);
-  }, [calPage, size]);
-
+  const moveMonth = (direction: number): void => {
+    setAnchorMonth((prev) => {
+      const from = prev ?? now.getMonth();
+      return (from + direction * size + 12) % 12;
+    });
+  };
   const selectYear = (year: CalYear): void => {
-    setCalYear(year);
-    const anchor =
-      year === now.getFullYear() ? now.getMonth() : 0;
-    anchorRef.current = anchor;
-    setCalPage(Math.floor(anchor / size));
+    setSelectedYear(year);
+    setAnchorMonth(year === now.getFullYear() ? now.getMonth() : 0);
   };
 
   return (
@@ -187,7 +177,7 @@ export function Milestones(): React.JSX.Element {
               type="button"
               aria-label={t("milestones.prev")}
               onClick={() => {
-                setCalPage((p) => (p - 1 + pages) % pages);
+                moveMonth(-1);
               }}
               className="grid size-11 place-items-center rounded-full border border-ink/10 bg-white transition hover:border-ink/30"
             >
@@ -197,7 +187,7 @@ export function Milestones(): React.JSX.Element {
               type="button"
               aria-label={t("milestones.next")}
               onClick={() => {
-                setCalPage((p) => (p + 1) % pages);
+                moveMonth(1);
               }}
               className="grid size-11 place-items-center rounded-full border border-ink/10 bg-white transition hover:border-ink/30"
             >
@@ -221,7 +211,7 @@ export function Milestones(): React.JSX.Element {
             const dx = t.clientX - start.x;
             const dy = t.clientY - start.y;
             if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
-            setCalPage((p) => (p + (dx < 0 ? 1 : -1) + pages) % pages);
+            moveMonth(dx < 0 ? 1 : -1);
           }}
           className="mt-6 grid animate-enter gap-5 md:grid-cols-3"
         >
@@ -270,7 +260,7 @@ export function Milestones(): React.JSX.Element {
                 aria-label={t("milestones.pageOf", { current: p + 1, total: pages })}
                 aria-current={p === calPage}
                 onClick={() => {
-                  setCalPage(p);
+                  setAnchorMonth(p * size);
                 }}
               >
                 <span

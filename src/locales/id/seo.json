@@ -11,6 +11,10 @@
         "description": "Temukan titik distribusi Kagōunga di seluruh Indonesia dan hubungi kami untuk inquiry bisnis, kemitraan, atau media.",
         "title": "Kontak | Kagōunga"
     },
+    "error": {
+        "description": "Halaman gagal dimuat. Silakan coba lagi.",
+        "title": "Kesalahan | Kagōunga"
+    },
     "home": {
         "description": "Kagōunga. Lima wujud ekspresi berbeda dalam satu identitas. Gastronomi, perawatan diri, wewangian rumah, identitas sonik, dan seni rupa dari Maluku Utara.",
         "title": "Kagōunga | Move, Moreover."
@@ -22,6 +26,10 @@
     "news": {
         "description": "Ikuti kabar terbaru, acara, dan cerita dari Kagōunga: popeda, kuliner Maluku Utara, dan budaya lokal.",
         "title": "Berita & Cerita | Kagōunga"
+    },
+    "maintenance": {
+        "description": "Kagōunga sedang tidak tersedia untuk perawatan.",
+        "title": "Sementara Tidak Tersedia | Kagōunga"
     },
     "notFound": {
         "description": "Halaman yang kamu cari tidak ada.",

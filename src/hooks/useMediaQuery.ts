@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 
 export function useMediaQuery(query: string): boolean {
-  const [matches, setMatches] = useState<boolean>(() =>
-    typeof window === "undefined"
-      ? false
-      : window.matchMedia(query).matches,
-  );
+  // Deterministic first render for SSR hydration; effect applies the real match.
+  const [matches, setMatches] = useState(false);
 
   useEffect(() => {
     const mq = window.matchMedia(query);

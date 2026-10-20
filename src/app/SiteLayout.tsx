@@ -10,8 +10,7 @@ import {
   setAnalyticsConsent,
   trackPageView,
 } from "../lib/analytics";
-
-import { SITE_URL } from "../hooks/useDocumentMeta";
+import { useHydrated } from "../hooks/useHydrated";
 
 function ScrollManager(): null {
   const { pathname, hash } = useLocation();
@@ -43,72 +42,26 @@ function PageViewTracker(): null {
   return null;
 }
 
-const ORG_JSONLD = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": `${SITE_URL}/#organization`,
-      name: "Kagōunga",
-      url: `${SITE_URL}/`,
-      logo: "https://res.cloudinary.com/fal5otmd/image/upload/f_auto,q_auto/logo-primary-emblem.svg",
-      email: "hello@kagounga.com",
-      telephone: "+62 811-1538-111",
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "Jl. Raya Pertamina, No.800, Jambula",
-        addressLocality: "Ternate",
-        postalCode: "97751",
-        addressCountry: "ID",
-      },
-      sameAs: [
-        "https://www.instagram.com/kagounga.id/",
-        "https://www.tiktok.com/@kagounga.id/",
-        "https://x.com/kagounga/",
-        "https://www.threads.com/@kagounga.id",
-        "https://www.youtube.com/@Kagounga",
-      ],
-    },
-    {
-      "@type": "WebSite",
-      "@id": `${SITE_URL}/#website`,
-      url: `${SITE_URL}/`,
-      name: "Kagōunga",
-      inLanguage: "en",
-      publisher: { "@id": `${SITE_URL}/#organization` },
-    },
-  ],
-};
-
-function OrgJsonLd(): null {
-  useEffect(() => {
-    const id = "kga-jsonld-org";
-    if (document.getElementById(id)) return;
-    const s = document.createElement("script");
-    s.id = id;
-    s.type = "application/ld+json";
-    s.textContent = JSON.stringify(ORG_JSONLD);
-    document.head.appendChild(s);
-  }, []);
-  return null;
-}
-
 function ConsentBanner(): React.JSX.Element | null {
   const { t } = useTranslation("common");
   const locale = useLocale();
-  const [visible, setVisible] = useState<boolean>(() => {
+  const hydrated = useHydrated();
+  const [decided, setDecided] = useState(false);
+  // Storage is client-only; useHydrated keeps SSR HTML identical.
+  let visible = false;
+  if (hydrated) {
     try {
-      return localStorage.getItem("kga-consent-v1") === null;
+      visible = localStorage.getItem("kga-consent-v1") === null;
     } catch {
-      return false;
+      visible = false;
     }
-  });
+  }
 
-  if (!visible) return null;
+  if (!visible || decided) return null;
 
   const decide = (granted: boolean): void => {
     setAnalyticsConsent(granted);
-    setVisible(false);
+    setDecided(true);
   };
 
   return (
@@ -164,16 +117,17 @@ function LocaleSync(): null {
 
 export function SiteLayout(): React.JSX.Element {
   return (
-    <>
+    <div className="flex min-h-dvh flex-col">
       <ScrollManager />
       <PageViewTracker />
       <LocaleSync />
-      <OrgJsonLd />
       <SiteHeader />
       <LocaleBanner />
-      <Outlet />
+      <div className="flex-1">
+        <Outlet />
+      </div>
       <SiteFooter />
       <ConsentBanner />
-    </>
+    </div>
   );
 }

@@ -31,24 +31,3 @@ export function toLocalePath(pathname: string, locale: SEOLocale): string {
 export function stripLocalePrefix(pathname: string): string {
   return toLocalePath(pathname, "en");
 }
-
-/** BreadcrumbList node. Pass page trail, e.g. [{name:"News",path:"/news"}]. */
-export function breadcrumbLd(
-  trail: Array<{ name: string; path: string }>,
-  site: string,
-): unknown {
-  return {
-    "@type": "BreadcrumbList",
-    itemListElement: trail.map((t, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      name: t.name,
-      item: absUrl(t.path, site),
-    })),
-  };
-}
-
-/** Wrap nodes in a single @graph envelope so one <script> holds page schemas. */
-export function graphLd(nodes: unknown[]): unknown {
-  return { "@context": "https://schema.org", "@graph": nodes };
-}

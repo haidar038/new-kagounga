@@ -43,7 +43,9 @@ export function LanguageSwitcher({ dark = false }: { dark?: boolean }): React.JS
             </span>
           ) : (
             <Link
-              to={`${localeLink(pathname, l)}${search}${hash}`}
+              // Client-only search/hash stay in the click handler so the SSR
+              // href matches hydration.
+              to={localeLink(pathname, l)}
               onClick={(e) => {
                 e.preventDefault();
                 switchTo(l);

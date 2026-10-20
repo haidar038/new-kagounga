@@ -13,15 +13,9 @@ export interface MilestonesYear {
  */
 export function useMilestonesYear(year: CalYear): MilestonesYear {
   const [prevYear, setPrevYear] = useState<CalYear>(year);
-  const [buckets, setBuckets] = useState<YearBuckets | undefined>(() => {
-    const { buckets: cached } = hydrateYear(year);
-    return cached ?? undefined;
-  });
-  const [state, setState] = useState<YearFetchState>(() => {
-    const hydrated = hydrateYear(year);
-    if (!hydrated.buckets) return "idle";
-    return hydrated.fresh ? "cached-fresh" : "cached-stale";
-  });
+  // Deterministic first render for hydration; cache is applied after mount.
+  const [buckets, setBuckets] = useState<YearBuckets | undefined>(undefined);
+  const [state, setState] = useState<YearFetchState>("idle");
 
   // Render-phase sync on year change: keeps initializer logic correct
   // without synchronous setState inside an effect.
@@ -40,6 +34,15 @@ export function useMilestonesYear(year: CalYear): MilestonesYear {
 
   useEffect(() => {
     const hydrated = hydrateYear(year);
+    const cached = hydrated.buckets;
+    if (cached) {
+      // Async sync avoids synchronous setState-in-effect; hydration already
+      // rendered the static fallback, so this only replaces it after mount.
+      void Promise.resolve().then(() => {
+        setBuckets(cached);
+        setState(hydrated.fresh ? "cached-fresh" : "cached-stale");
+      });
+    }
     if (hydrated.fresh) return;
 
     const controller = new AbortController();

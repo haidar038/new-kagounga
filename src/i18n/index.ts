@@ -52,19 +52,26 @@ const resources = {
   },
 } as const;
 
-let started = false;
+let initPromise: Promise<void> | null = null;
 
-/** Call once in main.tsx before render. Static resources: no extra dep, tiny bundle. */
-export function initI18n(): void {
-  if (started) return;
-  started = true;
-  void i18n.use(initReactI18next).init({
-    resources,
-    lng: getStoredLocale() ?? DEFAULT_LOCALE,
-    fallbackLng: DEFAULT_LOCALE,
-    defaultNS: "common",
-    interpolation: { escapeValue: false },
-  });
+/** Call once before render. Static resources: no extra dep, tiny bundle. */
+export async function initI18n(locale?: Locale): Promise<void> {
+  if (!initPromise) {
+    initPromise = i18n
+      .use(initReactI18next)
+      .init({
+        resources,
+        lng: locale ?? getStoredLocale() ?? DEFAULT_LOCALE,
+        fallbackLng: DEFAULT_LOCALE,
+        defaultNS: "common",
+        interpolation: { escapeValue: false },
+      })
+      .then(() => undefined);
+  }
+  await initPromise;
+  if (locale && i18n.language !== locale) {
+    await i18n.changeLanguage(locale);
+  }
 }
 
 export function getStoredLocale(): Locale | null {
