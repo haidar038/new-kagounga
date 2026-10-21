@@ -3,6 +3,8 @@
 Format: `YYYY-MM-DD — ringkas — file/area`.
 
 ## [Unreleased]
+- 2026-10-21 — Docs: runbook manual SEO `../../docs/RUNBOOK-MANUAL-SEO.md` + pointer di `TASKLIST.md` T-P6-07, `README.md`, dan `SEO-ACTION-PLAN.md`; tanpa perubahan kode.
+- 2026-10-21 — SEO P1-6/P1-7/P1-8: 16 halaman produk + 10 halaman stockist, schema Product/Offer/Store/ItemList, copy ID unik, `srcSet` hero/produk, ikon sosial lokal, MapLibre lazy + peta dark + marker cluster, cache `/assets`, kontras/heading/skip-link/label a11y. Build 48 URL + 404, sitemap 48, image sitemap 7, Lighthouse 100 a11y/SEO/best-practices, axe kontak dengan peta termuat 0. Font self-host, GSC/GBP/backlink/native review tetap manual.
 - 2026-10-20 — P1-4 body prerender: route tree bersama + `entry-server.tsx` (`renderToString` setelah preload chunk), 22 URL punya teks + satu `<h1>` di HTML mentah, hydration menunggu i18n/chunk dengan UI tanggal/media/storage deterministik, `noscript` reveal; `404.html` tetap kosong/noindex. `tsc` 0, `oxlint` 0, build OK.
 - 2026-10-20 — SEO hardening: soft 404 nyata (`dist/404.html` + hapus catch-all rewrite), image sitemap double-prefix fix + robots, JSON-LD satu sumber (Product/Offer, LocalBusiness, MusicGroup, NewsArticle, breadcrumb locale), `StatusPage`/`ErrorPage`/`AppErrorBoundary`, footer flex, guide `SEO-ACTION-PLAN.md`. `tsc` 0, `oxlint` 0, build OK 22 halaman + 404.
 - 2026-10-10 — i18n P4 selesai: EN default + ID `/id/*` (22 prerender, sitemap 22 URL, `hreflang` x3, JSON-LD `inLanguage`), 9 ns locale + overlay data + 3 artikel ID penuh + parity OK. `tsc` 0, `oxlint` 0, build OK.

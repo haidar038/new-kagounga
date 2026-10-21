@@ -1,8 +1,11 @@
-import { MessageSquare, Package } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Eye, MessageSquare, Package } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { ProductDetail, ProductId } from "../types/content";
 import { orderHref } from "../data/products";
-import { useLocale } from "../i18n";
+import { hasProductPage } from "../data/productContent";
+import { localeLink, useLocale } from "../i18n";
+import { cldSrcSet } from "../lib/cloudinary";
 import { Reveal } from "./Reveal";
 
 export function ProductCard({
@@ -14,18 +17,41 @@ export function ProductCard({
 }): React.JSX.Element {
   const { t } = useTranslation("catalog");
   const locale = useLocale();
+  const hasPage = hasProductPage(product.id);
+  const productHref = localeLink(`/catalog/${product.id}`, locale);
+  const image = (
+    <img
+      src={product.image}
+      srcSet={cldSrcSet(product.image, [400, 800])}
+      sizes="(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 100vw"
+      alt={product.alt}
+      width={800}
+      height={800}
+      className="aspect-square w-full object-cover"
+      loading="lazy"
+      decoding="async"
+    />
+  );
   return (
     <Reveal className="h-full">
       <article className="card-hover flex h-full flex-col overflow-hidden rounded-3xl border border-ink/10 bg-white">
-        <img
-          src={product.image}
-          alt={product.alt}
-          className="aspect-square w-full object-cover"
-          loading="lazy"
-          decoding="async"
-        />
+        {hasPage ? (
+          <Link to={productHref} className="block">
+            {image}
+          </Link>
+        ) : (
+          image
+        )}
         <div className="flex flex-1 flex-col p-6">
-          <h3 className="text-xl font-bold">{product.name}</h3>
+          <h3 className="text-xl font-bold">
+            {hasPage ? (
+              <Link to={productHref} className="hover:underline">
+                {product.name}
+              </Link>
+            ) : (
+              product.name
+            )}
+          </h3>
           <p className="mt-2 text-[14px] leading-relaxed text-ink/70">
             {product.blurb}
           </p>
@@ -52,15 +78,24 @@ export function ProductCard({
               <MessageSquare className="size-4" aria-hidden="true" />
               {t("card.order")}
             </a>
+            {hasPage && (
+              <Link
+                to={productHref}
+                className="flex items-center justify-center gap-2 rounded-full border border-ink/15 px-6 py-3 text-sm font-bold hover:border-ink/40"
+              >
+                <Package className="size-4" aria-hidden="true" />
+                {t("card.details")}
+              </Link>
+            )}
             <button
               type="button"
               onClick={() => {
                 onDetails(product.id);
               }}
-              className="flex items-center justify-center gap-2 rounded-full border border-ink/15 px-6 py-3 text-sm font-bold hover:border-ink/40"
+              className="flex items-center justify-center gap-2 rounded-full px-6 py-2 text-[13px] font-bold text-ink/70 hover:text-ink"
             >
-              <Package className="size-4" aria-hidden="true" />
-              {t("card.details")}
+              <Eye className="size-4" aria-hidden="true" />
+              {t(hasPage ? "card.quickView" : "card.details")}
             </button>
           </div>
         </div>

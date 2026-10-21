@@ -25,7 +25,7 @@ export function NewsCard({ post }: { post: LocalizedPost }): React.JSX.Element {
           />
         </div>
         <div className="flex flex-1 flex-col p-7 md:p-8">
-          <p className="text-[12px] font-bold uppercase tracking-[0.14em] text-ink/50">
+          <p className="text-[12px] font-bold uppercase tracking-[0.14em] text-ink/70">
             <time dateTime={post.dateISO}>{formatDateLabel(post.dateISO, locale)}</time>
           </p>
           <h2 className="mt-4 line-clamp-2 text-[22px] font-bold leading-tight">

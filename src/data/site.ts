@@ -39,39 +39,33 @@ export const SOCIALS: SocialLink[] = [
   {
     label: "Instagram",
     href: "https://www.instagram.com/kagounga.id/",
-    iconSrc:
-      "https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/instagram/mono.svg",
+    iconSrc: "/icons/social/instagram.svg",
     iconClass: "size-5 invert",
   },
   {
     label: "TikTok",
     href: "https://www.tiktok.com/@kagounga.id/",
-    iconSrc:
-      "https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/tiktok/mono.svg",
+    iconSrc: "/icons/social/tiktok.svg",
     iconClass: "size-5 invert",
   },
   {
     label: "X",
     href: "https://x.com/kagounga/",
-    iconSrc:
-      "https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/x-formerly-twitter/dark.svg",
+    iconSrc: "/icons/social/x.svg",
     iconClass: "size-4",
   },
   {
     label: "Threads",
     href: "https://www.threads.com/@kagounga.id",
-    iconSrc:
-      "https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/threads/dark.svg",
+    iconSrc: "/icons/social/threads.svg",
     iconClass: "size-5",
   },
   {
     label: "YouTube",
     href: "https://www.youtube.com/@Kagounga",
-    iconSrc:
-      "https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/youtube/mono.svg",
+    iconSrc: "/icons/social/youtube.svg",
     iconClass: "size-5 invert",
   },
 ];
 
-export const WHATSAPP_ICON =
-  "https://thesvg.org/icons/whatsapp/mono.svg";
+export const WHATSAPP_ICON = "/icons/social/whatsapp.svg";

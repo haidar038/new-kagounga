@@ -42,7 +42,7 @@ export function TrackCard({ track }: { track: Track }): React.JSX.Element {
             {track.title}
           </h3>
           <p className="mt-1 text-ink/70">{track.artist}</p>
-          <p className="mt-1 text-sm text-ink/50">{track.meta}</p>
+          <p className="mt-1 text-sm text-ink/70">{track.meta}</p>
           <div className="mt-4 flex flex-wrap gap-2">
             {track.links.map((link) => (
               <a

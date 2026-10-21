@@ -100,8 +100,11 @@ export function ContactPage(): React.JSX.Element {
                         <img
                           src={s.iconSrc}
                           alt=""
+                          width={20}
+                          height={20}
                           className={s.iconClass}
                           loading="lazy"
+                          decoding="async"
                         />
                       </a>
                     ))}

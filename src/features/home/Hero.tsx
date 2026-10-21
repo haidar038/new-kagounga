@@ -12,7 +12,13 @@ export function Hero(): React.JSX.Element {
   return (
     <section className="relative flex min-h-[92vh] items-center overflow-hidden bg-ink text-cream">
       <img
-        src={cld("hero-bg-nature.webp", 1920)}
+        src={cld("hero-bg-nature.webp", 1280)}
+        srcSet={[640, 960, 1280, 1920]
+          .map((width) => `${cld("hero-bg-nature.webp", width)} ${width}w`)
+          .join(", ")}
+        sizes="100vw"
+        width={1920}
+        height={1080}
         alt=""
         className="absolute inset-0 h-full w-full object-cover"
         fetchPriority="high"
@@ -42,13 +48,22 @@ export function Hero(): React.JSX.Element {
       >
         <img
           src={cld("tisan-self.webp", 800)}
-          alt="Woman in white kebaya holding sago on banana leaves in a woven tray"
+          srcSet={[480, 800]
+            .map((width) => `${cld("tisan-self.webp", width)} ${width}w`)
+            .join(", ")}
+          sizes="(min-width: 768px) 40vw, 1px"
+          alt=""
+          aria-hidden="true"
           className="tisan-swap tisan-1 h-full w-auto object-contain"
           fetchPriority="high"
           decoding="async"
         />
         <img
           src={cld("tisan-self-2.webp", 800)}
+          srcSet={[480, 800]
+            .map((width) => `${cld("tisan-self-2.webp", width)} ${width}w`)
+            .join(", ")}
+          sizes="(min-width: 768px) 40vw, 1px"
           alt=""
           aria-hidden="true"
           className="tisan-swap tisan-2 absolute inset-0 h-full w-auto object-contain opacity-0"

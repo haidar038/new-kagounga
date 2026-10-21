@@ -64,9 +64,9 @@ function MonthCard({
     <article className={card}>
       <div className="flex items-start justify-between gap-3">
         <div>
-          <h5 className="text-[20px] font-bold tracking-tight md:text-[24px]">
+          <h3 className="text-[20px] font-bold tracking-tight md:text-[24px]">
             {monthName(month, locale)}
-          </h5>
+          </h3>
           <p className="mt-0.5 text-xs">{year}</p>
         </div>
         {badge}
@@ -241,7 +241,7 @@ export function Milestones(): React.JSX.Element {
                   }}
                 />
               </div>
-              <p className="mt-2 text-center text-[12px] font-bold text-ink/50">
+              <p className="mt-2 text-center text-[12px] font-bold text-ink/70">
                 {monthName(Math.min(11, calPage * size), locale)} {calYear}
               </p>
             </div>

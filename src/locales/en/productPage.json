@@ -1,0 +1,15 @@
+{
+  "about": "About {{name}}",
+  "howToUse": "How to use",
+  "sourcing": "Sourcing & packaging",
+  "details": "Product details",
+  "wholesale": "Wholesale & shipping",
+  "moq": "Minimum order",
+  "wholesalePrice": "Wholesale price",
+  "shipping": "Shipping",
+  "order": "Order on WhatsApp",
+  "related": "More from the pantry",
+  "back": "Back to catalog",
+  "stockists": "Find a stockist",
+  "stockistText": "Check the stockist page for the nearest retail point, or contact us for direct orders."
+}

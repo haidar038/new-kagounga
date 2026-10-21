@@ -140,10 +140,20 @@ async function createSsrServer() {
 /** Load typed site data through Vite so schema matches the app, without duplicating it. */
 async function loadSchemaData(server) {
   try {
-    const [productsMod, siteMod, tracksMod] = await Promise.all([
+    const [
+      productsMod,
+      siteMod,
+      tracksMod,
+      locationsMod,
+      stockistMod,
+      productContentMod,
+    ] = await Promise.all([
       server.ssrLoadModule("/src/data/products.ts"),
       server.ssrLoadModule("/src/data/site.ts"),
       server.ssrLoadModule("/src/data/tracks.ts"),
+      server.ssrLoadModule("/src/data/locations.ts"),
+      server.ssrLoadModule("/src/data/stockistContent.ts"),
+      server.ssrLoadModule("/src/data/productContent.ts"),
     ]);
     return {
       products: {
@@ -153,10 +163,30 @@ async function loadSchemaData(server) {
       contact: siteMod.CONTACT,
       socials: siteMod.SOCIALS.map((s) => s.href),
       tracks: tracksMod.TRACKS,
+      locations: locationsMod.LOCATIONS,
+      cityRegions: locationsMod.CITY_REGIONS,
+      citySlugs: Object.fromEntries(
+        [...new Set(locationsMod.LOCATIONS.map((p) => p.city))].map((city) => [
+          locationsMod.citySlug(city),
+          city,
+        ]),
+      ),
+      stockistPages: stockistMod.STOCKIST_PAGES,
+      productSeo: productContentMod.PRODUCT_SEO_TITLES,
     };
   } catch (error) {
     console.warn(`seo-build: schema data unavailable (${error.message})`);
-    return { products: { en: [], id: [] }, contact: null, socials: [], tracks: [] };
+    return {
+      products: { en: [], id: [] },
+      contact: null,
+      socials: [],
+      tracks: [],
+      locations: [],
+      cityRegions: {},
+      citySlugs: {},
+      stockistPages: {},
+      productSeo: {},
+    };
   }
 }
 
@@ -168,7 +198,17 @@ try {
 }
 const schemaData = ssrServer
   ? await loadSchemaData(ssrServer)
-  : { products: { en: [], id: [] }, contact: null, socials: [], tracks: [] };
+  : {
+      products: { en: [], id: [] },
+      contact: null,
+      socials: [],
+      tracks: [],
+      locations: [],
+      cityRegions: {},
+      citySlugs: {},
+      stockistPages: {},
+      productSeo: {},
+    };
 let renderRouteBody = null;
 if (ssrServer) {
   try {
@@ -246,6 +286,57 @@ for (const locale of ["en", "id"]) {
       ],
       news: p,
       newsId: useId,
+    });
+  }
+  for (const p of schemaData.products[locale] ?? []) {
+    ROUTES.push({
+      path: `${prefix}/catalog/${p.id}`,
+      locale,
+      key: "product",
+      title:
+        schemaData.productSeo?.[p.id]?.[locale] ?? `${p.name} | Kagōunga`,
+      desc: p.blurb,
+      type: "website",
+      image: p.image,
+      imageAlt: p.alt,
+      imageWidth: "800",
+      imageHeight: "800",
+      changefreq: "monthly",
+      priority: "0.7",
+      lastmod: today,
+      crumbs: [
+        { name: crumbs[locale].home, path: locale === "id" ? "/id" : "/" },
+        { name: crumbs[locale].catalog, path: `${prefix}/catalog` },
+        { name: p.name, path: `${prefix}/catalog/${p.id}` },
+      ],
+      product: p,
+    });
+  }
+  for (const [slug, city] of Object.entries(schemaData.citySlugs ?? {})) {
+    const copy = schemaData.stockistPages?.[slug]?.[locale];
+    const points = (schemaData.locations ?? []).filter((p) => p.city === city);
+    if (!copy || points.length === 0) continue;
+    ROUTES.push({
+      path: `${prefix}/stockists/${slug}`,
+      locale,
+      key: "stockist",
+      title: copy.seoTitle,
+      desc: copy.description,
+      type: "website",
+      image: OG_DEFAULT,
+      imageAlt: copy.title,
+      changefreq: "monthly",
+      priority: "0.6",
+      lastmod: today,
+      crumbs: [
+        { name: crumbs[locale].home, path: locale === "id" ? "/id" : "/" },
+        { name: crumbs[locale].contact, path: `${prefix}/contact` },
+        { name: city, path: `${prefix}/stockists/${slug}` },
+      ],
+      city,
+      citySlug: slug,
+      points,
+      region: schemaData.cityRegions?.[city] ?? "",
     });
   }
 }
@@ -415,6 +506,68 @@ function productListNode(route, url, data) {
   };
 }
 
+function productNode(route, url) {
+  const p = route.product;
+  const price = priceOf(p.price);
+  return {
+    "@type": "Product",
+    "@id": `${url}#product`,
+    name: p.name,
+    url,
+    image: [p.image],
+    description: p.blurb,
+    sku: p.id,
+    brand: { "@type": "Brand", name: "Kagōunga" },
+    ...(price == null
+      ? {}
+      : {
+          offers: {
+            "@type": "Offer",
+            price,
+            priceCurrency: "USD",
+            availability: "https://schema.org/InStock",
+            url,
+            seller: { "@id": `${SITE}/#organization` },
+          },
+        }),
+  };
+}
+
+function stockistListNode(route, url) {
+  const name =
+    route.locale === "id"
+      ? `Stockist Kagōunga di ${route.city}`
+      : `Kagōunga stockists in ${route.city}`;
+  return {
+    "@type": "ItemList",
+    "@id": `${url}#stockists`,
+    name,
+    numberOfItems: route.points.length,
+    itemListElement: route.points.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: {
+        "@type": "Store",
+        "@id": `${url}#${p.id}`,
+        name: p.name,
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: p.area,
+          addressLocality: p.city,
+          addressRegion: route.region,
+          addressCountry: "ID",
+        },
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: p.lat,
+          longitude: p.lng,
+        },
+        branchOf: { "@id": `${SITE}/#organization` },
+      },
+    })),
+  };
+}
+
 function newsListNode(route, url) {
   const prefix = route.locale === "id" ? "/id" : "";
   return {
@@ -497,6 +650,8 @@ function pageJsonLd(route, url, data) {
     webPageNode(route, url),
   ];
   if (route.key === "catalog") nodes.push(productListNode(route, url, data));
+  if (route.key === "product" && route.product) nodes.push(productNode(route, url));
+  if (route.key === "stockist" && route.points) nodes.push(stockistListNode(route, url));
   if (route.key === "contact") nodes.push(localBusinessNode(url, data));
   if (route.key === "music") nodes.push(musicGroupNode(url, data.tracks));
   if (route.key === "news" && !route.news) nodes.push(newsListNode(route, url));
@@ -528,8 +683,8 @@ function renderRoute(template, route, body = "") {
   html = setMeta(html, "property", "og:description", route.desc);
   html = setMeta(html, "property", "og:url", url);
   html = setMeta(html, "property", "og:image", img);
-  html = setMeta(html, "property", "og:image:width", "1200");
-  html = setMeta(html, "property", "og:image:height", "630");
+  html = setMeta(html, "property", "og:image:width", route.imageWidth || "1200");
+  html = setMeta(html, "property", "og:image:height", route.imageHeight || "630");
   html = setMeta(html, "property", "og:image:alt", route.imageAlt || route.title);
   html = setMeta(html, "name", "twitter:card", "summary_large_image");
   html = setMeta(html, "name", "twitter:title", route.title);

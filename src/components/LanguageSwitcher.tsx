@@ -50,12 +50,12 @@ export function LanguageSwitcher({ dark = false }: { dark?: boolean }): React.JS
                 e.preventDefault();
                 switchTo(l);
               }}
-              aria-label={l === "id" ? "Bahasa Indonesia" : "English"}
+              aria-label={l === "id" ? "Bahasa Indonesia (ID)" : "English (EN)"}
               className={cn(
                 "rounded-md px-2 py-1",
                 dark
                   ? "text-cream/60 hover:text-cream"
-                  : "text-ink/60 hover:text-ink",
+                  : "text-ink/70 hover:text-ink",
               )}
             >
               {l.toUpperCase()}

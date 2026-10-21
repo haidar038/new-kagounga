@@ -22,7 +22,7 @@ export function NewsArticle({ post }: { post: LocalizedPost }): React.JSX.Elemen
       <div className="mx-auto max-w-3xl px-5 md:px-8">
         <Reveal>
           <nav aria-label="Breadcrumb">
-            <ol className="flex flex-wrap items-center gap-2 text-sm text-ink/60">
+            <ol className="flex flex-wrap items-center gap-2 text-sm text-ink/70">
               <li>
                 <Link to={localeLink("/", locale)} className="hover:text-ink">
                   {t("crumbs.home")}
@@ -42,7 +42,7 @@ export function NewsArticle({ post }: { post: LocalizedPost }): React.JSX.Elemen
           </nav>
           <Link
             to={localeLink("/news", locale)}
-            className="mt-4 inline-flex items-center gap-2 text-sm text-ink/60 hover:text-ink"
+            className="mt-4 inline-flex items-center gap-2 text-sm text-ink/70 hover:text-ink"
           >
             <ArrowLeft className="size-4" aria-hidden="true" />
             {t("article.backToNews")}
@@ -59,7 +59,7 @@ export function NewsArticle({ post }: { post: LocalizedPost }): React.JSX.Elemen
                 {t("article.fallbackBadge")}
               </p>
             )}
-            <div className="mt-6 flex items-center gap-4 text-ink/60">
+            <div className="mt-6 flex items-center gap-4 text-ink/70">
               <p className="flex items-center gap-2 text-sm">
                 <Calendar className="size-4" aria-hidden="true" />
                 <time dateTime={post.dateISO}>{formatDateLabel(post.dateISO, locale)}</time>
@@ -107,7 +107,7 @@ export function NewsArticle({ post }: { post: LocalizedPost }): React.JSX.Elemen
           <footer className="mt-12 border-t border-ink/10 pt-8">
             {related.length > 0 && (
               <div className="mb-8">
-                <h2 className="text-[12px] font-bold uppercase tracking-[0.18em] text-ink/50">
+                <h2 className="text-[12px] font-bold uppercase tracking-[0.18em] text-ink/70">
                   {t("article.related")}
                 </h2>
                 <ul className="mt-4 grid gap-3">
@@ -118,7 +118,7 @@ export function NewsArticle({ post }: { post: LocalizedPost }): React.JSX.Elemen
                         className="group block rounded-2xl border border-ink/10 p-4 hover:border-ink/40"
                       >
                         <p className="font-bold group-hover:underline">{r.title}</p>
-                        <p className="mt-1 text-[13px] text-ink/60">
+                        <p className="mt-1 text-[13px] text-ink/70">
                           <time dateTime={r.dateISO}>{formatDateLabel(r.dateISO, locale)}</time>
                         </p>
                       </Link>

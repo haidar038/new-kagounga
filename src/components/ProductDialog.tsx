@@ -74,7 +74,7 @@ export function ProductDialog({
         <div className="p-6 md:p-8">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-[12px] font-bold uppercase tracking-[0.18em] text-ink/50">
+              <p className="text-[12px] font-bold uppercase tracking-[0.18em] text-ink/70">
                 {product.eyebrow}
               </p>
               <h3 className="mt-1 text-2xl font-bold">{product.name}</h3>
@@ -99,7 +99,7 @@ export function ProductDialog({
               </span>
             ))}
           </div>
-          <h4 className="mt-6 text-[12px] font-bold uppercase tracking-[0.18em] text-ink/50">
+          <h4 className="mt-6 text-[12px] font-bold uppercase tracking-[0.18em] text-ink/70">
             {t("dialog.specs")}
           </h4>
           <dl className="mt-3 grid gap-2 text-[13px]">
@@ -115,7 +115,7 @@ export function ProductDialog({
                   key={spec.label}
                   className={`flex justify-between gap-4${i < arr.length - 1 ? " border-b border-ink/10 pb-2" : ""}`}
                 >
-                  <dt className="text-ink/60">{spec.label}</dt>
+                  <dt className="text-ink/70">{spec.label}</dt>
                   <dd className="text-right font-bold">{spec.value}</dd>
                 </div>
               ))}
@@ -128,7 +128,7 @@ export function ProductDialog({
             product.shelfLife ??
             product.certification) != null && (
             <>
-              <h4 className="mt-6 text-[12px] font-bold uppercase tracking-[0.18em] text-ink/50">
+              <h4 className="mt-6 text-[12px] font-bold uppercase tracking-[0.18em] text-ink/70">
                 {t("dialog.details")}
               </h4>
               <dl className="mt-3 grid gap-2 text-[13px]">
@@ -149,7 +149,7 @@ export function ProductDialog({
                       key={k}
                       className={`flex justify-between gap-4${i < arr.length - 1 ? " border-b border-ink/10 pb-2" : ""}`}
                     >
-                      <dt className="text-ink/60">{t(`dialog.${k}`)}</dt>
+                      <dt className="text-ink/70">{t(`dialog.${k}`)}</dt>
                       <dd className="text-right font-bold">{v}</dd>
                     </div>
                   ))}
@@ -158,7 +158,7 @@ export function ProductDialog({
           )}
           {(product.moq ?? product.wholesalePrice ?? product.shipping) != null && (
             <>
-              <h4 className="mt-6 text-[12px] font-bold uppercase tracking-[0.18em] text-ink/50">
+              <h4 className="mt-6 text-[12px] font-bold uppercase tracking-[0.18em] text-ink/70">
                 {t("dialog.wholesaleTitle")}
               </h4>
               <dl className="mt-3 grid gap-2 text-[13px]">
@@ -185,7 +185,7 @@ export function ProductDialog({
                       key={k}
                       className={`flex justify-between gap-4${i < arr.length - 1 ? " border-b border-ink/10 pb-2" : ""}`}
                     >
-                      <dt className="text-ink/60">{t(`dialog.${k}`)}</dt>
+                      <dt className="text-ink/70">{t(`dialog.${k}`)}</dt>
                       <dd className="text-right font-bold">{v}</dd>
                     </div>
                   ))}
@@ -194,7 +194,7 @@ export function ProductDialog({
           )}
           {product.inside && (
             <>
-              <h4 className="mt-6 text-[12px] font-bold uppercase tracking-[0.18em] text-ink/50">
+              <h4 className="mt-6 text-[12px] font-bold uppercase tracking-[0.18em] text-ink/70">
                 {product.insideTitle ?? t("dialog.contents")}
               </h4>
               <ul className="mt-3 grid gap-1.5 text-[13px] font-medium">
@@ -213,7 +213,7 @@ export function ProductDialog({
           <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-ink/10 pt-5">
             <p className="text-lg font-black">
               {product.price}{" "}
-              <span className="text-[13px] font-medium text-ink/60">
+              <span className="text-[13px] font-medium text-ink/70">
                 {product.per ? `/ ${bareUnit(product.per)}` : ""}
               </span>
             </p>

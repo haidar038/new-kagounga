@@ -33,7 +33,8 @@
         "cityTitle": "Lokasi di {{city}}",
         "list": "Daftar lokasi",
         "points": "titik",
-        "viewList": "titik · Lihat daftar"
+        "viewList": "Lihat daftar",
+        "viewPage": "Lihat halaman kota"
     },
     "phone": "Telepon / WhatsApp",
     "subjects": [

@@ -81,7 +81,7 @@ export function MusicPage(): React.JSX.Element {
       <section className="pb-16 md:pb-24">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <Reveal>
-            <p className="text-center text-[12px] font-bold uppercase tracking-[0.18em] text-ink/50">
+            <p className="text-center text-[12px] font-bold uppercase tracking-[0.18em] text-ink/70">
               {t("distributors.available")}
             </p>
           </Reveal>

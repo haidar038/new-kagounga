@@ -41,7 +41,10 @@ export function SiteHeader(): React.JSX.Element {
             decoding="async"
           />
         </Link>
-        <nav className="hidden items-center gap-8 text-[14px] font-medium lg:flex">
+        <nav
+          aria-label={t("primaryNav")}
+          className="hidden items-center gap-8 text-[14px] font-medium lg:flex"
+        >
           {NAV_LINKS.map((link) => (
             <NavLink
               key={link.to}
@@ -81,7 +84,10 @@ export function SiteHeader(): React.JSX.Element {
       </div>
       {open && (
         <div className="border-t border-ink/10 bg-cream px-5 py-3 lg:hidden">
-          <nav className="grid gap-1 text-[15px] font-medium">
+          <nav
+            aria-label={t("mobileNav")}
+            className="grid gap-1 text-[15px] font-medium"
+          >
             {NAV_LINKS.map((link) => (
               <NavLink
                 key={link.to}

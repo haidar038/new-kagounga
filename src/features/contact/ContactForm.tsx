@@ -27,7 +27,7 @@ function subjectList(locale: string): string[] {
 }
 
 const inputCls =
-  "w-full rounded-2xl border border-ink/15 bg-white px-5 py-3.5 text-[15px] outline-none transition placeholder:text-ink/40 focus:border-ink/50";
+  "w-full rounded-2xl border border-ink/15 bg-white px-5 py-3.5 text-[15px] outline-none transition placeholder:text-ink/70 focus:border-ink/50";
 const labelCls = "mb-2 block text-[13px] font-bold";
 
 export function ContactForm(): React.JSX.Element {
@@ -189,7 +189,7 @@ export function ContactForm(): React.JSX.Element {
           {t("form.send")}
         </button>
         {sent && (
-          <p aria-live="polite" className="text-center text-[13px] font-medium text-ink/60">
+          <p aria-live="polite" className="text-center text-[13px] font-medium text-ink/70">
             {t("form.opening")}{" "}
             {sentUrl && (
               <a

@@ -12,6 +12,8 @@ import {
   NewsPage,
   NotFoundPage,
   PrivacyPage,
+  ProductPage,
+  StockistPage,
   TermsPage,
 } from "./pages";
 
@@ -30,6 +32,8 @@ export const routes: RouteObject[] = [
       { path: "/news", element: susp(<NewsPage />) },
       { path: "/news/:slug", element: susp(<NewsDetailPage />) },
       { path: "/catalog", element: susp(<CatalogPage />) },
+      { path: "/catalog/:slug", element: susp(<ProductPage />) },
+      { path: "/stockists/:city", element: susp(<StockistPage />) },
       { path: "/contact", element: susp(<ContactPage />) },
       { path: "/music", element: susp(<MusicPage />) },
       { path: "/privacy", element: susp(<PrivacyPage />) },
@@ -48,6 +52,8 @@ export const routes: RouteObject[] = [
       { path: "news", element: susp(<NewsPage />) },
       { path: "news/:slug", element: susp(<NewsDetailPage />) },
       { path: "catalog", element: susp(<CatalogPage />) },
+      { path: "catalog/:slug", element: susp(<ProductPage />) },
+      { path: "stockists/:city", element: susp(<StockistPage />) },
       { path: "contact", element: susp(<ContactPage />) },
       { path: "music", element: susp(<MusicPage />) },
       { path: "privacy", element: susp(<PrivacyPage />) },

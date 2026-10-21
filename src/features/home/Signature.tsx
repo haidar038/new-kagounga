@@ -107,8 +107,11 @@ export function Signature(): React.JSX.Element {
                   <img
                     src={WHATSAPP_ICON}
                     alt=""
+                    width={16}
+                    height={16}
                     className="size-4"
                     loading="lazy"
+                    decoding="async"
                   />
                   {t("signature.inquiry")}
                 </a>
@@ -148,7 +151,6 @@ export function Signature(): React.JSX.Element {
             <button
               key={p.id}
               type="button"
-              aria-label={t("signature.show", { title: p.title })}
               onClick={() => {
                 selectSignature(p.id);
                 setExpanded(false);
@@ -164,7 +166,7 @@ export function Signature(): React.JSX.Element {
                   decoding="async"
                 />
                 <div className="min-w-0 lg:p-5">
-                  <p className="text-[12px] font-bold text-ink/50">
+                  <p className="text-[12px] font-bold text-ink/70">
                     {p.category}
                   </p>
                   <p className="mt-1 text-lg font-bold">

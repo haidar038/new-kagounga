@@ -212,3 +212,27 @@ export function groupByCity(points: DistributionPoint[]): CityGroup[] {
   }
   return groups;
 }
+
+/** Administrative region for schema.org addresses. */
+export const CITY_REGIONS: Record<string, string> = {
+  Ternate: "North Maluku",
+  Tidore: "North Maluku",
+  Denpasar: "Bali",
+  Bandung: "West Java",
+  Jakarta: "Jakarta",
+};
+
+/** URL slug for a city, e.g. "Denpasar" -> "denpasar". */
+export function citySlug(city: string): string {
+  return city
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+const CITIES = [...new Set(LOCATIONS.map((p) => p.city))];
+
+export function cityFromSlug(slug: string): string | null {
+  return CITIES.find((city) => citySlug(city) === slug) ?? null;
+}

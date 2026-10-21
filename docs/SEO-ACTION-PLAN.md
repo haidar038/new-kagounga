@@ -1,7 +1,13 @@
 # SEO Action Plan — 2026-10-20
 
 Panduan eksekusi lanjutan setelah audit `kagounga.com`. Fokus: P1-6, P1-7, P1-8, dan P2.
-P0-2, P0-3, P1-4, dan P1-5 sudah diimplementasikan di kode (lihat bagian "Sudah diimplementasikan").
+P0-2, P0-3, P1-4, P1-5, P1-6, P1-7 (kecuali font), dan P1-8 sudah diimplementasikan di kode.
+
+Status 2026-10-21: 48 URL prerender + `404.html`, sitemap 48 `<loc>`, image sitemap 7, title/description 48 unik.
+Lighthouse lokal home/catalog/product/contact/stockist: Accessibility, SEO, Best Practices = 100. Axe kontak dengan peta termuat: 0 pelanggaran.
+Sisa manual: GSC, domain `kagounga.id`, GBP/Apple/Bing, backlink, review copy ID native,
+kredensial GA4/GSC, dan self-host font setelah file WOFF2 + lisensi jelas.
+Langkah eksekusi + gate + bukti: `../../docs/RUNBOOK-MANUAL-SEO.md`.
 
 ---
 
@@ -60,7 +66,7 @@ Catatan: `Offer.priceCurrency` saat ini `USD` mengikuti harga `$` di UI. Kalau h
 
 - Route tree tunggal di `src/app/routes.tsx`, dipakai browser router dan SSR.
 - `src/entry-server.tsx`: set locale, preload chunk route, buat memory router, lalu `renderToString`.
-- `scripts/seo-build.mjs`: satu Vite SSR server, render 22 URL valid, inject body ke `<div id="root">`. Home dan halaman lazy sama-sama punya teks + satu `<h1>` di HTML mentah.
+- `scripts/seo-build.mjs`: satu Vite SSR server, render 48 URL valid, inject body ke `<div id="root">`. Home dan halaman lazy sama-sama punya teks + satu `<h1>` di HTML mentah.
 - Hydration menunggu `initI18n()` + `preloadPage()` supaya chunk route sudah sinkron saat render pertama, bukan fallback Suspense kosong.
 - UI yang bergantung tanggal/media/storage memakai nilai deterministik saat render awal; state asli diterapkan setelah mount (`useHydrated`, `useMediaQuery`, `useMilestones`, `Signature`, banner).
 - `noscript` membuat `.reveal` tetap terlihat tanpa JS.
@@ -75,11 +81,13 @@ Verifikasi lokal:
 curl.exe -s https://kagounga.com/contact | Select-String "<h1"
 ```
 
-Target: 22 halaman punya body + 1 `<h1>`, 0 marker Suspense tersembunyi, 404 tanpa canonical/JSON-LD, dan tidak ada error hydration di console.
+Target: 48 halaman punya body + 1 `<h1>`, 404 tanpa canonical/JSON-LD, dan tidak ada error hydration di console. Marker `<!--$-->` React 19 bukan indikasi Suspense kosong.
 
 ---
 
 ## P1-6 — Halaman produk & stockist
+
+Status: **selesai di kode**. 26 URL baru (16 produk + 10 kota), schema, sitemap, body prerender, dan internal link sudah ada.
 
 Tujuan: menangkap long-tail commercial query dan memberi mesin pencari halaman yang layak diperingkat, bukan hanya katalog satu halaman.
 
@@ -144,6 +152,8 @@ Jumlah URL baru: 8 produk × 2 locale + 5 kota × 2 locale = **26 URL**.
 
 ## P1-7 — Performance
 
+Status: **selesai di kode kecuali font**. Hero/tisan/produk sudah `srcSet`, MapLibre + CSS jadi chunk lazy `MapView`, peta dark, ikon sosial lokal, `/assets` immutable. Font masih CDN karena file WOFF2 + lisensi belum tersedia.
+
 Baseline terukur (desktop, build saat audit):
 
 - FCP ~2,36 s; home transfer ~997 KB; hero 277 KB pada 1920 px.
@@ -156,9 +166,9 @@ Baseline terukur (desktop, build saat audit):
 
 Sasaran: hilangkan render-blocking pihak ketiga.
 
-- Self-host Open Sauce One WOFF2 (400, 600, 700) di `public/fonts/`.
+- Self-host Open Sauce One WOFF2 sesuai bobot terpakai (300/400/500/700/800/900; variable font jika tersedia) di `public/fonts/`.
 - `@font-face` di `src/index.css` dengan `font-display: swap`.
-- Preload hanya 2 file terpenting (400 + 700) di `index.html`.
+- Preload hanya 1–2 file yang dipakai above-the-fold (cek bobot body + heading dulu).
 - Hapus `<link rel="stylesheet" href="https://fonts.cdnfonts.com/css/open-sauce-one">` dan preconnect `fonts.cdnfonts.com`.
 - Cek lisensi font sebelum redistribusi.
 
@@ -237,6 +247,8 @@ Target: contact initial JS turun dari ~1,08 MB ke < 250 KB gzip; peta baru dimua
 
 ## P1-8 — Accessibility
 
+Status: **selesai di kode**. Kontras teks kecil, heading order, label switcher, skip link, dan label-content-name mismatch sudah diperbaiki. Lighthouse lokal 100 untuk home/catalog/product/contact/stockist.
+
 Baseline Lighthouse: Accessibility 96. Tiga kegagalan: color contrast, heading order, label-content-name mismatch.
 
 ### 1. Color contrast
@@ -296,6 +308,8 @@ Atau hapus `aria-label` dan sediakan visually-hidden full name.
 
 ### P2-2. Kualitas copy ID
 
+Status: **sebagian selesai**. Title/description produk + stockist ID sudah unik dan hreflang reciprocal; review native speaker tetap manual.
+
 - Review native speaker; jangan terjemahan mesin.
 - Glosarium konsisten: popeda, sagu, kenari, pala, fuli, cengkeh, cakalang.
 - Jangan terjemahkan nama brand/produk yang sudah mapan.
@@ -306,7 +320,7 @@ Atau hapus `aria-label` dan sediakan visually-hidden full name.
 
 Dari screenshot GSC:
 
-- `https://kagounga.com/sitemap.xml` — Success, 22 URL. Pertahankan.
+- `https://kagounga.com/sitemap.xml` — Success, 22 URL live. Build baru berisi 48 URL; submit ulang setelah deploy.
 - `https://kagounga.com/sitemap-images.xml` — Success, 7 URL. Pertahankan.
 - `https://www.kagounga.com/sitemap.xml` — Success, 22 URL. **Hapus** dari daftar; `www` sudah 308 ke apex.
 - `https://kagounga.com/sitemap-image.xml` — 1 error. **Hapus**; nama yang benar `sitemap-images.xml`.
@@ -320,6 +334,8 @@ Langkah:
 5. Hubungkan GA4 → GSC; pantau query brand vs non-brand.
 
 ### P2-4. Local & NAP
+
+Status: **sisi kode selesai**. NAP footer/kontak konsisten, halaman stockist + `Store` schema per kota sudah ada. GBP/Apple/Bing tetap manual.
 
 - Google Business Profile: kategori (food brand / distributor), alamat Jl. Raya Pertamina No.800 Jambula, Ternate; telepon +62 811-1538-111; jam; foto; post.
 - Apple Business Connect, Bing Places.

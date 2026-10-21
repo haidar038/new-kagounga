@@ -33,7 +33,8 @@
         "cityTitle": "Locations in {{city}}",
         "list": "Location list",
         "points": "points",
-        "viewList": "points · View list"
+        "viewList": "View list",
+        "viewPage": "View city page"
     },
     "phone": "Phone / WhatsApp",
     "subjects": [

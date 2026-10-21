@@ -9,6 +9,7 @@ Sumber tunggal arah kerja. Baca urut ini sebelum ubah kode.
 5. `CHANGELOG.md` — catat tiap selesai fase / rilis.
 6. `I18N-PLAN.md` — rencana i18n P4 (baca penuh sebelum eksekusi T-P4-xx).
 7. `SEO-ACTION-PLAN.md` — hardening SEO 2026-10-20: status P0/P1-4/P1-5, panduan P1-6/P1-7/P1-8/P2.
+8. `../../docs/RUNBOOK-MANUAL-SEO.md` — runbook manual SEO (GBP, outreach, review ID, GA4/GSC, font).
 
 Aturan pakai:
 - Mulai sesi baru: baca `GUARDRAILS.md` + fase aktif di `PHASES.md` + tugas terbuka di `TASKLIST.md`.

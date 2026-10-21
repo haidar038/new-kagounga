@@ -49,6 +49,15 @@
 - [x] T-P5-05 Guide `SEO-ACTION-PLAN.md` (P1-6/P1-7/P1-8/P2).
 - [x] T-P5-06 Body prerender P1-4: route tree bersama, `entry-server.tsx` (`renderToString` setelah preload chunk), `seo-build.mjs` inject body 22 URL, hydration deterministik + `noscript` reveal; `404.html` tetap kosong/noindex. `tsc` 0, `oxlint` 0, build OK.
 
+## P6 — SEO P1-6/P1-7/P1-8 + P2 (selesai 2026-10-21, tsc 0, oxlint 0, build OK 48 halaman + 404)
+- [x] T-P6-01 P1-6 produk: 8 halaman EN + 8 ID, copy unik, `Product` + `Offer` + breadcrumb, internal link katalog/stockist; CMS product tanpa copy tidak ditautkan ke halaman.
+- [x] T-P6-02 P1-6 stockist: 5 halaman EN + 5 ID, data `LOCATIONS`, `Store` + `ItemList` + breadcrumb, kartu kota jadi link halaman + quick view.
+- [x] T-P6-03 P1-7: `srcSet` hero/tisan/produk, ikon sosial lokal + dimensi, MapLibre + CSS jadi chunk lazy `MapView`, peta dark CARTO, cache `/assets` immutable.
+- [x] T-P6-04 P1-8: kontras teks kecil `text-ink/70`, Milestones H5→H3, H2 katalog, label switcher, skip link, label-content mismatch Signature diperbaiki; marker peta 24px + cluster; Lighthouse home/catalog/product/contact/stockist 100 a11y/SEO/best-practices.
+- [x] T-P6-05 P2-2/P2-4 kode: metadata produk/stockist ID unik, hreflang reciprocal, NAP + `Store` schema kota; GSC/GBP/direktori tetap manual.
+- [x] T-P6-06 Build/verifikasi: 48 URL + `404.html`, sitemap 48 `<loc>`, image sitemap 7, body prerender + satu H1, 404 noindex tanpa canonical.
+- [ ] T-P6-07 Manual: jalankan `../../docs/RUNBOOK-MANUAL-SEO.md` — GSC submit ulang, GBP/Apple/Bing, review native ID, backlink/outreach, self-host font setelah lisensi/WOFF2, ukur CWV setelah deploy.
+
 ## P4 — i18n (selesai 2026-10-10, tsc 0, oxlint 0, build OK 22 halaman)
 - [x] T-P4-01 Fondasi: `i18next` + `react-i18next`, `src/i18n/index.ts` (resources statis, fallback EN, `kga-lang`), `useLocale`, `src/lib/format.ts` (`Intl` tanggal/bulan), `tsc` 0.
 - [x] T-P4-02 Routing + switcher: cabang `/id/*` di `src/app/router.tsx`, mirror path, `LanguageSwitcher` header/mobile/footer, `LocaleBanner` 1x tanpa auto-redirect, `LocaleSync` (`document.lang` + simpan pref).

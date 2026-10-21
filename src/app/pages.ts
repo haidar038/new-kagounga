@@ -40,6 +40,12 @@ const NewsDetail = lazyPage(() =>
 const Catalog = lazyPage(() =>
   import("../pages/CatalogPage").then((m) => ({ default: m.CatalogPage })),
 );
+const Product = lazyPage(() =>
+  import("../pages/ProductPage").then((m) => ({ default: m.ProductPage })),
+);
+const Stockist = lazyPage(() =>
+  import("../pages/StockistPage").then((m) => ({ default: m.StockistPage })),
+);
 const Music = lazyPage(() =>
   import("../pages/MusicPage").then((m) => ({ default: m.MusicPage })),
 );
@@ -60,6 +66,8 @@ export const AboutPage = About.Component;
 export const NewsPage = News.Component;
 export const NewsDetailPage = NewsDetail.Component;
 export const CatalogPage = Catalog.Component;
+export const ProductPage = Product.Component;
+export const StockistPage = Stockist.Component;
 export const MusicPage = Music.Component;
 export const ContactPage = Contact.Component;
 export const NotFoundPage = NotFound.Component;
@@ -74,6 +82,8 @@ export async function preloadPage(pathname: string): Promise<void> {
   if (path === "/news") return News.preload();
   if (path.startsWith("/news/")) return NewsDetail.preload();
   if (path === "/catalog") return Catalog.preload();
+  if (path.startsWith("/catalog/")) return Product.preload();
+  if (path.startsWith("/stockists/")) return Stockist.preload();
   if (path === "/music") return Music.preload();
   if (path === "/contact") return Contact.preload();
   if (path === "/privacy") return Privacy.preload();

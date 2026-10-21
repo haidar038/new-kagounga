@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "maplibre-gl/dist/maplibre-gl.css";
 
 @theme {
   --font-sans: "Open Sauce One", ui-sans-serif, system-ui, sans-serif;
@@ -188,12 +187,24 @@ footer[id] {
 .kga-marker {
   display: block;
   padding: 0;
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   border-radius: 9999px;
   border: 3px solid #F3F1E9;
   box-shadow: 0 4px 12px -4px rgba(31, 44, 34, 0.5);
   cursor: pointer;
+}
+
+.kga-marker-cluster {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  background: #a8bd3a;
+  color: #1F2C22;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .kga-marker-retail {
@@ -216,6 +227,8 @@ footer[id] {
 }
 
 .maplibregl-popup-content {
+  max-height: min(360px, 70vh);
+  overflow-y: auto;
   border-radius: 16px;
   padding: 14px 16px;
   font-family: "Open Sauce One", ui-sans-serif, system-ui, sans-serif;
@@ -235,6 +248,7 @@ footer[id] {
 }
 
 .kga-popup-area {
+  margin-top: 6px;
   font-size: 13px;
   color: rgba(31, 44, 34, 0.7);
 }

@@ -116,14 +116,21 @@ function LocaleSync(): null {
 }
 
 export function SiteLayout(): React.JSX.Element {
+  const { t } = useTranslation("common");
   return (
     <div className="flex min-h-dvh flex-col">
+      <a
+        href="#main-content"
+        className="sr-only z-[70] rounded-full bg-lime px-5 py-3 text-sm font-bold text-ink focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+      >
+        {t("skipToContent")}
+      </a>
       <ScrollManager />
       <PageViewTracker />
       <LocaleSync />
       <SiteHeader />
       <LocaleBanner />
-      <div className="flex-1">
+      <div id="main-content" tabIndex={-1} className="flex-1 outline-none">
         <Outlet />
       </div>
       <SiteFooter />

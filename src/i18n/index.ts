@@ -9,7 +9,9 @@ import enHome from "../locales/en/home.json";
 import enLegal from "../locales/en/legal.json";
 import enMusic from "../locales/en/music.json";
 import enNews from "../locales/en/news.json";
+import enProductPage from "../locales/en/productPage.json";
 import enSeo from "../locales/en/seo.json";
+import enStockists from "../locales/en/stockists.json";
 import idAbout from "../locales/id/about.json";
 import idCatalog from "../locales/id/catalog.json";
 import idCommon from "../locales/id/common.json";
@@ -18,7 +20,9 @@ import idHome from "../locales/id/home.json";
 import idLegal from "../locales/id/legal.json";
 import idMusic from "../locales/id/music.json";
 import idNews from "../locales/id/news.json";
+import idProductPage from "../locales/id/productPage.json";
 import idSeo from "../locales/id/seo.json";
+import idStockists from "../locales/id/stockists.json";
 
 export type Locale = "en" | "id";
 
@@ -37,7 +41,9 @@ const resources = {
     legal: enLegal,
     music: enMusic,
     news: enNews,
+    productPage: enProductPage,
     seo: enSeo,
+    stockists: enStockists,
   },
   id: {
     about: idAbout,
@@ -48,7 +54,9 @@ const resources = {
     legal: idLegal,
     music: idMusic,
     news: idNews,
+    productPage: idProductPage,
     seo: idSeo,
+    stockists: idStockists,
   },
 } as const;
 

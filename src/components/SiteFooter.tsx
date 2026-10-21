@@ -44,18 +44,20 @@ export function SiteFooter(): React.JSX.Element {
                   <img
                     src={s.iconSrc}
                     alt=""
+                    width={20}
+                    height={20}
                     className={s.iconClass}
                     loading="lazy"
-                    referrerPolicy="no-referrer"
-                    onError={(e) => {
-                      e.currentTarget.style.display = "none";
-                    }}
+                    decoding="async"
                   />
                 </a>
               ))}
             </div>
           </div>
-          <nav className="grid content-start gap-3 text-[14px] lg:col-span-2">
+          <nav
+            aria-label={t("footer.navigate")}
+            className="grid content-start gap-3 text-[14px] lg:col-span-2"
+          >
             <p className="text-[12px] font-bold tracking-[0.18em] text-lime">
               {t("footer.navigate")}
             </p>
@@ -69,7 +71,10 @@ export function SiteFooter(): React.JSX.Element {
               </Link>
             ))}
           </nav>
-          <nav className="grid content-start gap-3 text-[14px] lg:col-span-2">
+          <nav
+            aria-label={t("footer.signatures")}
+            className="grid content-start gap-3 text-[14px] lg:col-span-2"
+          >
             <p className="text-[12px] font-bold tracking-[0.18em] text-lime">
               {t("footer.signatures")}
             </p>

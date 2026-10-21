@@ -48,7 +48,7 @@ export function CityDialog({
         <div className="p-6 md:p-8">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-[12px] font-bold uppercase tracking-[0.18em] text-ink/50">
+              <p className="text-[12px] font-bold uppercase tracking-[0.18em] text-ink/70">
                 {group.points.length} {t("legend.points")}
               </p>
               <h3 className="mt-1 text-2xl font-bold">{group.city}</h3>
@@ -75,7 +75,7 @@ export function CityDialog({
                   className="w-full rounded-2xl border border-ink/10 bg-white p-4 text-left transition hover:border-ink/40"
                 >
                   <p className="font-bold">{p.name}</p>
-                  <p className="mt-0.5 text-[13px] text-ink/60">{p.area}</p>
+                  <p className="mt-0.5 text-[13px] text-ink/70">{p.area}</p>
                 </button>
               </li>
             ))}
