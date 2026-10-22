@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import type {
+  CalEventItem,
   CalYear,
   MonthIndex,
   YearBuckets,
@@ -21,6 +22,54 @@ import { Reveal } from "../../components/Reveal";
 import { cn } from "../../lib/cn";
 
 const FIXED_NOW = new Date(2026, 0, 1);
+
+/** Jumlah agenda yang tampil per halaman kartu bulan sebelum daftar bisa digulir. */
+const EVENTS_PER_PAGE = 4;
+
+/**
+ * Kolom tanggal (lebar tetap) + deskripsi rata seperti tabel:
+ *   12-13  Indonesia Sharia Economic Festival, Jakarta
+ *   14     Trade Expo Indonesia, Tangerang
+ *
+ * > EVENTS_PER_PAGE: kotak dapat digulir vertikal tanpa scrollbar, snap per
+ *   item (setiap awal halaman — item ke-1 — memakai snap-always agar geseran
+ *   tidak melompati batas halaman), gaya scroll mengikuti container utama.
+ */
+function EventRows({
+  events,
+  label,
+}: {
+  events: CalEventItem[];
+  label: string;
+}): React.JSX.Element {
+  const scrollable = events.length > EVENTS_PER_PAGE;
+  return (
+    <div
+      className={cn(
+        "flex flex-col gap-2.5 text-xs",
+        scrollable &&
+          "no-scrollbar max-h-[6.875rem] snap-y snap-mandatory overflow-y-auto",
+      )}
+      role="list"
+      aria-label={label}
+      tabIndex={scrollable ? 0 : undefined}
+    >
+      {events.map((e, i) => (
+        <div
+          key={`${e.date}-${e.text}-${i}`}
+          role="listitem"
+          className={cn(
+            "flex snap-start items-start gap-2",
+            scrollable && i % EVENTS_PER_PAGE === 0 && "snap-always",
+          )}
+        >
+          <span className="w-11 shrink-0 font-bold leading-5">{e.date}</span>
+          <span className="min-w-0 flex-1 leading-5">{e.text}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function MonthCard({
   year,
@@ -73,14 +122,7 @@ function MonthCard({
       </div>
       <div className={cn("my-4 border-t", divider)} />
       {ev && data ? (
-        <ul className="grid gap-2.5 text-xs">
-          {data.events.map((e, i) => (
-            <li key={`${e.date}-${e.text}-${i}`} className="flex gap-2">
-              <span className="shrink-0 font-bold">{e.date}</span>
-              <span>{e.text}</span>
-            </li>
-          ))}
-        </ul>
+        <EventRows events={data.events} label={t("milestones.events")} />
       ) : kind === "idle" ? (
         <p className="mt-auto pt-8 text-[12px] font-medium tracking-wide">
           {t("milestones.status.noAgenda")}

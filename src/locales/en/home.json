@@ -11,6 +11,7 @@
         "tisan": "Tisan holding sago. Hover to see her face"
     },
     "milestones": {
+        "events": "Month events",
         "lede": "An overview of Kagōunga's annual journey across exhibitions, music, pop-ups, and collaborative ventures. Upcoming schedules are updated dynamically.",
         "next": "Next page",
         "pageOf": "Go to page {{current}} of {{total}}",

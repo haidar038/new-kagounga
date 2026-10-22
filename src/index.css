@@ -247,6 +247,14 @@ footer[id] {
   opacity: 0;
 }
 
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 .page-dot {
   display: block;
   height: 0.6rem;

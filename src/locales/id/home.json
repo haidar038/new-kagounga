@@ -11,6 +11,7 @@
         "tisan": "Tisan memegang sagu. Arahkan untuk melihat wajahnya"
     },
     "milestones": {
+        "events": "Agenda bulan",
         "lede": "Gambaran perjalanan tahunan Kagōunga lintas pameran, musik, pop-up, dan kolaborasi. Jadwal mendatang diperbarui secara dinamis.",
         "next": "Halaman berikutnya",
         "pageOf": "Ke halaman {{current}} dari {{total}}",
