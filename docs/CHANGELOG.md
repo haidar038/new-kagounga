@@ -3,6 +3,7 @@
 Format: `YYYY-MM-DD — ringkas — file/area`.
 
 ## [Unreleased]
+- 2026-10-23 — Product page copy CMS: adapter `productContent.ts` + `products.ts` (CMS-first, fallback statis), `ProductPage`/`ProductCard` membaca `intro`/`usage`/`sourcing`/`seoTitle`, snapshot build-time `CMS_URL`, SEO prerender/sitemap/JSON-LD tetap 48 URL; commit `23f1cd6`..`76b58e6`; prod 16 URL produk terverifikasi (title unik, canonical/hreflang, Product schema, 404). Stockist tidak disentuh.
 - 2026-10-21 — Docs: runbook manual SEO `../../docs/RUNBOOK-MANUAL-SEO.md` + pointer di `TASKLIST.md` T-P6-07, `README.md`, dan `SEO-ACTION-PLAN.md`; tanpa perubahan kode.
 - 2026-10-21 — SEO P1-6/P1-7/P1-8: 16 halaman produk + 10 halaman stockist, schema Product/Offer/Store/ItemList, copy ID unik, `srcSet` hero/produk, ikon sosial lokal, MapLibre lazy + peta dark + marker cluster, cache `/assets`, kontras/heading/skip-link/label a11y. Build 48 URL + 404, sitemap 48, image sitemap 7, Lighthouse 100 a11y/SEO/best-practices, axe kontak dengan peta termuat 0. Font self-host, GSC/GBP/backlink/native review tetap manual.
 - 2026-10-20 — P1-4 body prerender: route tree bersama + `entry-server.tsx` (`renderToString` setelah preload chunk), 22 URL punya teks + satu `<h1>` di HTML mentah, hydration menunggu i18n/chunk dengan UI tanggal/media/storage deterministik, `noscript` reveal; `404.html` tetap kosong/noindex. `tsc` 0, `oxlint` 0, build OK.

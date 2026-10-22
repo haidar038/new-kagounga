@@ -58,6 +58,14 @@
 - [x] T-P6-06 Build/verifikasi: 48 URL + `404.html`, sitemap 48 `<loc>`, image sitemap 7, body prerender + satu H1, 404 noindex tanpa canonical.
 - [ ] T-P6-07 Manual: jalankan `../../docs/RUNBOOK-MANUAL-SEO.md` — GSC submit ulang, GBP/Apple/Bing, review native ID, backlink/outreach, self-host font setelah lisensi/WOFF2, ukur CWV setelah deploy.
 
+## P7 — Product Page Copy CMS (kode selesai 2026-10-23, tsc 0, oxlint 0, build 48+404; konten manual terbuka)
+- [x] T-P7-01 Adapter `src/data/productContent.ts` + `products.ts`: baca `intro`/`usage`/`sourcing`/`seoTitle` dari CMS, fallback statis `productPageCopy.json`.
+- [x] T-P7-02 `ProductPage` static-first + upgrade runtime CMS; `ProductCard` tetap kompatibel.
+- [x] T-P7-03 `scripts/cms-snapshot.mjs` + `build`/`seo`/`sync:cms`: snapshot `CMS_URL` build-time, fallback `[]`.
+- [x] T-P7-04 Verifikasi build: 48 halaman + 404, sitemap 48, 16 URL produk, JSON-LD `Product`/`Offer`, title unik.
+- [x] T-P7-05 Verifikasi prod: 16 URL 200, title/meta/canonical/hreflang, Usage tampil, 404 benar; fallback statis tetap ada.
+- [ ] T-P7-06 Manual (pemilik): lengkapi gap konten B2B di `../../docs/CONTENT-CHECKLIST-B2B.md` (7F/G5, Popeda EN specs, insideTitle, categories).
+
 ## P4 — i18n (selesai 2026-10-10, tsc 0, oxlint 0, build OK 22 halaman)
 - [x] T-P4-01 Fondasi: `i18next` + `react-i18next`, `src/i18n/index.ts` (resources statis, fallback EN, `kga-lang`), `useLocale`, `src/lib/format.ts` (`Intl` tanggal/bulan), `tsc` 0.
 - [x] T-P4-02 Routing + switcher: cabang `/id/*` di `src/app/router.tsx`, mirror path, `LanguageSwitcher` header/mobile/footer, `LocaleBanner` 1x tanpa auto-redirect, `LocaleSync` (`document.lang` + simpan pref).
