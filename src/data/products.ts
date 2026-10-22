@@ -2,17 +2,29 @@ import type { ProductDetail } from "../types/content";
 import type { Locale } from "../i18n";
 import { cld } from "../lib/cloudinary";
 import { orderMessage, waLink } from "../lib/whatsapp";
-import type { CmsProduct, CmsResult } from "../lib/cms";
+import type { CmsProduct, CmsResult, CmsSource } from "../lib/cms";
 import {
   CMS_URL,
   fetchCmsResult,
   formatPrice,
   isCmsProduct,
   pickLocale,
+  productBySlugUrl,
   productsUrl,
   resolveCmsImage,
 } from "../lib/cms";
+import type { ProductPageCopy } from "./productContent";
+import {
+  hasProductPage,
+  toProductPageCopy,
+  toProductSeoTitle,
+} from "./productContent";
 import idCatalog from "../locales/id/catalog.json";
+import cmsSnapshot from "./cms-products.generated.json";
+
+const CMS_PRODUCTS = (Array.isArray(cmsSnapshot) ? cmsSnapshot : []).filter(
+  isCmsProduct,
+) as CmsProduct[];
 
 function order(productName: string, locale: Locale = "en"): string {
   return waLink(orderMessage(productName, locale));
@@ -234,8 +246,11 @@ type ProductOverlay = {
 const ID_OVERLAYS = (idCatalog as { products?: Record<string, ProductOverlay> })
   .products ?? {};
 
-/** EN base from TS + ID overlay from locales. Unknown keys fall back to EN. */
+/** Build-time CMS snapshot, or the TS/JSON static fallback when empty. */
 export function getProducts(locale: Locale): ProductDetail[] {
+  if (CMS_PRODUCTS.length > 0) {
+    return CMS_PRODUCTS.map((doc) => toProductDetail(doc, locale, CMS_URL));
+  }
   if (locale !== "id") return PRODUCTS;
   return PRODUCTS.map(withIdOverlay);
 }
@@ -276,6 +291,7 @@ export function toProductDetail(doc: CmsProduct, locale: Locale, baseUrl: string
     inside: inside.value ?? null,
     note: note.value ?? "",
     per: per.value ?? "",
+    hasPage: Boolean(toProductPageCopy(doc, locale)) || hasProductPage(doc.slug),
     packaging: packaging.value ?? null,
     dimensions: doc.dimensions ?? null,
     netWeight: doc.netWeight ?? null,
@@ -308,4 +324,40 @@ export async function loadProducts(
   const valid = docs.filter(isCmsProduct);
   if (valid.length === 0) return { items: fallback, source: "static", error };
   return { items: valid.map((d) => toProductDetail(d, locale, baseUrl)), source: "cms", error: false };
+}
+
+export interface ProductPageData {
+  product: ProductDetail;
+  copy: ProductPageCopy;
+  seoTitle: string | null;
+}
+
+export interface ProductPageResult {
+  data: ProductPageData | null;
+  source: CmsSource;
+  error: boolean;
+}
+
+/** Detail page loader: one product + page copy, with static fallback. */
+export async function loadProductPage(
+  slug: string,
+  locale: Locale,
+  fallback: ProductPageData | null,
+  baseUrl: string = CMS_URL,
+): Promise<ProductPageResult> {
+  if (!baseUrl) return { data: fallback, source: "static", error: false };
+  const { docs, error } = await fetchCmsResult(productBySlugUrl(baseUrl, slug));
+  const doc = docs.find(isCmsProduct);
+  if (!doc) return { data: fallback, source: "static", error };
+  const copy = toProductPageCopy(doc, locale);
+  if (!copy) return { data: fallback, source: "static", error };
+  return {
+    data: {
+      product: toProductDetail(doc, locale, baseUrl),
+      copy,
+      seoTitle: toProductSeoTitle(doc, locale),
+    },
+    source: "cms",
+    error: false,
+  };
 }

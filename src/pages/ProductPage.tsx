@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
@@ -10,13 +11,14 @@ import {
   Truck,
 } from "lucide-react";
 import type { ProductDetail } from "../types/content";
-import { getProducts, orderHref } from "../data/products";
+import type { ProductPageData } from "../data/products";
+import { getProducts, loadProductPage, orderHref } from "../data/products";
 import {
   getProductPageCopy,
   getProductSeoTitle,
 } from "../data/productContent";
 import { useDocumentMeta } from "../hooks/useDocumentMeta";
-import { localeLink, useLocale } from "../i18n";
+import { localeLink, useLocale, type Locale } from "../i18n";
 import { cldSrcSet } from "../lib/cloudinary";
 import { NotFoundPage } from "./NotFoundPage";
 import { Reveal } from "../components/Reveal";
@@ -57,6 +59,17 @@ function details(product: ProductDetail): Array<{ key: string; value: string }> 
   });
 }
 
+function staticPageData(
+  slug: string | undefined,
+  locale: Locale,
+): ProductPageData | null {
+  if (!slug) return null;
+  const product = getProducts(locale).find((item) => item.id === slug);
+  const copy = getProductPageCopy(slug, locale);
+  if (!product || !copy) return null;
+  return { product, copy, seoTitle: getProductSeoTitle(slug, locale) };
+}
+
 function ProductGallery({
   product,
 }: {
@@ -81,15 +94,39 @@ export function ProductPage(): React.JSX.Element {
   const { slug } = useParams<{ slug: string }>();
   const { t } = useTranslation(["productPage", "catalog", "common"]);
   const locale = useLocale();
+  const cacheKey = `${locale}|${slug ?? ""}`;
+  // Statis/snapshot dulu (SEO + hydration), lalu upgrade ke CMS bila reachable.
+  const [cached, setCached] = useState(() => ({
+    key: cacheKey,
+    data: staticPageData(slug, locale),
+  }));
+  const data =
+    cached.key === cacheKey ? cached.data : staticPageData(slug, locale);
+
+  useEffect(() => {
+    if (!slug) return;
+    let on = true;
+    loadProductPage(slug, locale, staticPageData(slug, locale)).then((r) => {
+      if (on && (r.source === "cms" || r.data === null)) {
+        setCached({ key: cacheKey, data: r.data });
+      }
+    });
+    return () => {
+      on = false;
+    };
+  }, [slug, locale, cacheKey]);
+
   const products = getProducts(locale);
-  const product = products.find((p) => p.id === slug) ?? null;
-  const copy = slug ? getProductPageCopy(slug, locale) : null;
-  const seoTitle = slug ? getProductSeoTitle(slug, locale) : null;
+  const product = data?.product ?? null;
+  const copy = data?.copy ?? null;
+  const seoTitle = data?.seoTitle ?? (slug ? getProductSeoTitle(slug, locale) : null);
   const canonical = `/catalog/${slug ?? ""}`;
   const valid = Boolean(product && copy);
 
   useDocumentMeta({
-    title: seoTitle ?? t("notFound.title", { ns: "seo" }),
+    title:
+      seoTitle ??
+      (product ? `${product.name} | Kagōunga` : t("notFound.title", { ns: "seo" })),
     description: product ? product.blurb : t("notFound.description", { ns: "seo" }),
     canonical: locale === "id" ? `/id${canonical}` : canonical,
     image: product?.image,

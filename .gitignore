@@ -24,3 +24,12 @@ dist-ssr
 *.sw?
 
 .env
+.env.*
+!.env.example
+.next/
+dist/
+.codegraph/
+*.log
+playwright-report/
+test-results/
+scripts/*.mjs

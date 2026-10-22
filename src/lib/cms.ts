@@ -27,6 +27,10 @@ export interface CmsProduct {
   title: string;
   excerpt?: CmsLocaleValue<string>;
   note?: CmsLocaleValue<string>;
+  intro?: CmsLocaleValue<string[]>;
+  usage?: CmsLocaleValue<string>;
+  sourcing?: CmsLocaleValue<string>;
+  seoTitle?: CmsLocaleValue<string>;
   priceNumber: number;
   currency?: string | null;
   badges?: CmsLocaleValue<string[]> | null;
@@ -153,6 +157,10 @@ function docsOf(body: unknown): unknown[] {
 
 export function productsUrl(baseUrl: string): string {
   return `${baseUrl}/api/products?where[status][equals]=published&sort=sortOrder&limit=100&depth=1&locale=all`;
+}
+
+export function productBySlugUrl(baseUrl: string, slug: string): string {
+  return `${baseUrl}/api/products?where[slug][equals]=${encodeURIComponent(slug)}&where[status][equals]=published&limit=1&depth=1&locale=all`;
 }
 
 export function postsUrl(baseUrl: string): string {

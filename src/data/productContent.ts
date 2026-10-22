@@ -1,4 +1,8 @@
 import type { Locale } from "../i18n";
+import type { CmsProduct } from "../lib/cms";
+import { isCmsProduct, pickLocale } from "../lib/cms";
+import raw from "./productPageCopy.json";
+import cmsSnapshot from "./cms-products.generated.json";
 
 export interface ProductPageCopy {
   intro: string[];
@@ -6,241 +10,95 @@ export interface ProductPageCopy {
   sourcing: string;
 }
 
-/** Unique search-facing titles; product names alone are too thin for ID SERP. */
-export const PRODUCT_SEO_TITLES: Record<string, Record<Locale, string>> = {
-  popeda: {
-    en: "Popeda Soup — Instant Sago from Ternate | Kagōunga",
-    id: "Popeda Soup — Sup Sagu Instan Khas Ternate | Kagōunga",
-  },
-  sago: {
-    en: "Sago Starch from North Maluku | Kagōunga",
-    id: "Pati Sagu Maluku Utara | Kagōunga",
-  },
-  tuna: {
-    en: "Dried Tuna from North Maluku | Kagōunga",
-    id: "Tuna Kering Maluku Utara | Kagōunga",
-  },
-  seasoning: {
-    en: "Turmeric Fish Seasoning from the Spice Islands | Kagōunga",
-    id: "Bumbu Kunyit Ikan Khas Maluku | Kagōunga",
-  },
-  kenari: {
-    en: "Roasted Kenari Nuts from Ternate | Kagōunga",
-    id: "Kacang Kenari Panggang dari Ternate | Kagōunga",
-  },
-  telang: {
-    en: "Dried Butterfly Pea Flowers for Blue Tea | Kagōunga",
-    id: "Bunga Telang Kering untuk Teh Biru | Kagōunga",
-  },
-  pala: {
-    en: "Nutmeg & Mace from North Maluku | Kagōunga",
-    id: "Pala & Fuli Maluku Utara | Kagōunga",
-  },
-  cengkeh: {
-    en: "Dried Cloves from North Maluku | Kagōunga",
-    id: "Cengkeh Kering Maluku Utara | Kagōunga",
-  },
-};
+/**
+ * Long-form copy stays in JSON so the CMS seed and the static fallback read the
+ * same source. The shape mirrors the old `ProductPageCopy` and SEO title maps.
+ */
+const STATIC_COPY = raw.pages as Record<string, Record<Locale, ProductPageCopy>>;
+const STATIC_SEO_TITLES = raw.seoTitles as Record<string, Record<Locale, string>>;
+const CMS_PRODUCTS = (Array.isArray(cmsSnapshot) ? cmsSnapshot : []).filter(
+  isCmsProduct,
+) as CmsProduct[];
 
-export function getProductSeoTitle(
-  id: string,
-  locale: Locale,
-): string | null {
-  return PRODUCT_SEO_TITLES[id]?.[locale] ?? null;
+/** Unique search-facing titles; product names alone are too thin for ID SERP. */
+export const PRODUCT_SEO_TITLES = STATIC_SEO_TITLES;
+export const PRODUCT_PAGE_COPY = STATIC_COPY;
+
+function findCmsProduct(id: string): CmsProduct | undefined {
+  return CMS_PRODUCTS.find((doc) => doc.slug === id);
 }
 
-/**
- * Long-form product page copy. Kept beside the product data so the page and
- * the SEO build use the same source. Only facts already present in
- * `products.ts` are repeated here; new claims need explicit verification.
- */
-export const PRODUCT_PAGE_COPY: Record<string, Record<Locale, ProductPageCopy>> = {
-  popeda: {
-    en: {
-      intro: [
-        "Popeda is Kagōunga's instant sago soup from North Maluku: a silky sago base paired with a savoury turmeric fish broth. It brings the warmth of a home-cooked Moluccan meal into a format that is ready in about five minutes.",
-        "Each box contains sago starch, turmeric fish soup seasoning, dried tuna, vegetables, and one collectible artwork. The result is a complete pantry staple for a quick lunch, a travel meal, or a first introduction to the flavours of the Spice Islands.",
-      ],
-      usage:
-        "Bring water to a boil, stir in the sago and seasoning, then simmer until the texture turns silky. Add the dried tuna and vegetables, taste, and adjust the seasoning. Serve hot as a soup or spoon it over rice.",
-      sourcing:
-        "Popeda is made in Ternate, North Maluku, with a 50 g net weight per box and a shelf life of up to 12 months. The product is halal certified and carries P-IRT, nutrition fact, and IPR documentation. The box uses 350 gsm ivory board with a matte laminated tuck-end finish.",
-    },
-    id: {
-      intro: [
-        "Popeda adalah sup sagu instan Kagōunga dari Maluku Utara: dasar sagu yang lembut dipadukan kuah kunyit ikan yang gurih. Rasanya membawa kehangatan masakan rumahan Maluku ke dalam format yang siap disajikan dalam sekitar lima menit.",
-        "Setiap kotak berisi pati sagu, bumbu kuah kunyit ikan, tuna kering, sayuran, dan satu karya seni kolektibel. Ini menjadikannya bahan praktis untuk makan siang cepat, bekal perjalanan, atau perkenalan pertama dengan cita rasa Kepulauan Rempah.",
-      ],
-      usage:
-        "Didihkan air, masukkan sagu dan bumbu, lalu masak sampai teksturnya lembut. Tambahkan tuna kering dan sayuran, cicipi, dan sesuaikan rasa. Sajikan panas sebagai sup atau tuang di atas nasi.",
-      sourcing:
-        "Popeda dibuat di Ternate, Maluku Utara, dengan berat bersih 50 g per kotak dan masa simpan hingga 12 bulan. Produk ini bersertifikat halal serta memiliki P-IRT, informasi nilai gizi, dan dokumen HKI. Kemasannya memakai ivory board 350 gsm dengan laminasi matte dan bentuk tuck-end.",
-    },
-  },
-  sago: {
-    en: {
-      intro: [
-        "Sago starch is the quiet foundation of many North Moluccan dishes. Kagōunga sources it from local palms and supplies a fine, neutral starch that thickens soups, porridge, and desserts without masking the other ingredients.",
-        "This one-kilogram pouch is designed for home cooks and small kitchens that use sago regularly. It is also the same base used in Popeda, so it is a practical way to keep the texture of Moluccan cooking in your pantry.",
-      ],
-      usage:
-        "Mix the starch with a little cold water before adding it to hot liquid to avoid lumps. Stir continuously and simmer until the mixture thickens. Use it for papeda-style porridge, soups, desserts, or as a binder in savoury dishes.",
-      sourcing:
-        "The starch comes from North Moluccan palms and is packed in a food-grade PE pouch. Each pouch has a net weight of 1 kg, a gross weight of about 1.010 kg, and a shelf life of up to 24 months. The product carries Halal Indonesia certification.",
-    },
-    id: {
-      intro: [
-        "Pati sagu adalah fondasi yang tidak banyak dibicarakan dalam masakan Maluku Utara. Kagōunga mengambilnya dari pohon sagu lokal dan menyediakan pati halus yang netral, cocok untuk mengentalkan sup, bubur, dan hidangan penutup tanpa menutupi rasa bahan lain.",
-        "Pouch satu kilogram ini ditujukan untuk rumah tangga dan dapur kecil yang memakai sagu secara rutin. Pati yang sama juga menjadi dasar Popeda, sehingga praktis untuk menjaga tekstur masakan Maluku di dapurmu.",
-      ],
-      usage:
-        "Larutkan pati dengan sedikit air dingin sebelum dimasukkan ke cairan panas agar tidak menggumpal. Aduk terus dan masak sampai mengental. Gunakan untuk bubur gaya papeda, sup, hidangan penutup, atau pengikat pada masakan gurih.",
-      sourcing:
-        "Pati berasal dari pohon sagu Maluku Utara dan dikemas dalam pouch PE food grade. Setiap pouch memiliki berat bersih 1 kg, berat kotor sekitar 1.010 kg, dan masa simpan hingga 24 bulan. Produk ini memiliki sertifikasi Halal Indonesia.",
-    },
-  },
-  tuna: {
-    en: {
-      intro: [
-        "Dried tuna is a concentrated source of savoury flavour. Kagōunga's tuna is cleaned, sun-dried, and packed without preservatives, so a small amount adds depth to soups, sambal, fried rice, and vegetable dishes.",
-        "The texture is firm and the flavour is intense. It is not a ready-to-eat snack; it is an ingredient that rewards a little soaking or simmering before it goes into the final dish.",
-      ],
-      usage:
-        "Rinse the tuna, then soak it in warm water for a few minutes if you prefer a milder flavour. Flake it into soups, sambal, or fried rice, or simmer it with aromatics until tender. Season carefully because the dried fish is already savoury.",
-      sourcing:
-        "The tuna is wild-caught and sun-dried in Ternate, North Maluku. Each resealable food-grade pouch has a net weight of 100 g and a gross weight of about 110 g. Store it in a cool, dry place and keep the pouch sealed after opening.",
-    },
-    id: {
-      intro: [
-        "Tuna kering adalah sumber rasa gurih yang pekat. Tuna Kagōunga dibersihkan, dijemur, dan dikemas tanpa pengawet, sehingga sedikit saja sudah cukup untuk memberi kedalaman rasa pada sup, sambal, nasi goreng, dan tumisan sayur.",
-        "Teksturnya padat dan rasanya kuat. Ini bukan camilan siap makan, melainkan bahan masakan yang perlu direndam atau dimasak sebentar sebelum masuk ke hidangan akhir.",
-      ],
-      usage:
-        "Bilas tuna, lalu rendam dalam air hangat beberapa menit jika ingin rasa lebih ringan. Suwirkan ke dalam sup, sambal, atau nasi goreng, atau masak dengan bumbu aromatik sampai lunak. Bumbui dengan hati-hati karena ikan kering sudah gurih.",
-      sourcing:
-        "Tuna ditangkap liar dan dijemur di Ternate, Maluku Utara. Setiap pouch food grade yang dapat ditutup ulang berisi berat bersih 100 g dan berat kotor sekitar 110 g. Simpan di tempat sejuk dan kering, serta rapatkan pouch setelah dibuka.",
-    },
-  },
-  seasoning: {
-    en: {
-      intro: [
-        "Turmeric fish seasoning is a small-batch blend built around turmeric, dried fish powder, sea salt, and mixed spices. It is the shortcut to the golden, savoury broth that defines a bowl of popeda.",
-        "The 50 g pack is also useful beyond soup. Use it to season fish before grilling, to lift a vegetable stir-fry, or to build a quick broth when you want the flavours of North Maluku without a long shopping list.",
-      ],
-      usage:
-        "Stir a spoonful into hot water or broth for an instant turmeric fish soup base. For fish, rub a little onto the surface before grilling or pan-frying. Start with a small amount and adjust, because the blend already contains salt.",
-      sourcing:
-        "The seasoning is blended in Ternate, North Maluku, and packed in a sealed food-grade pack. Each pack has a net weight of 50 g and a gross weight of about 60 g. Keep it dry and reseal the pack after use.",
-    },
-    id: {
-      intro: [
-        "Bumbu kunyit ikan adalah campuran produksi kecil yang berbasis kunyit, bubuk ikan kering, garam laut, dan rempah campuran. Ini jalan pintas menuju kuah keemasan yang gurih, ciri khas semangkuk popeda.",
-        "Kemasan 50 g ini juga berguna di luar sup. Pakai untuk membumbui ikan sebelum dibakar, mengangkat tumisan sayur, atau membuat kuah cepat saat ingin rasa Maluku Utara tanpa daftar belanja panjang.",
-      ],
-      usage:
-        "Aduk satu sendok ke air panas atau kaldu untuk dasar sup kunyit ikan instan. Untuk ikan, oleskan sedikit ke permukaan sebelum dibakar atau digoreng. Mulai dari jumlah kecil karena campuran ini sudah mengandung garam.",
-      sourcing:
-        "Bumbu dicampur di Ternate, Maluku Utara, dan dikemas dalam pack food grade yang tertutup rapat. Setiap pack berisi berat bersih 50 g dan berat kotor sekitar 60 g. Simpan di tempat kering dan tutup kembali setelah dipakai.",
-    },
-  },
-  kenari: {
-    en: {
-      intro: [
-        "Kenari is a native nut with a buttery texture and a flavour that sits somewhere between almond and macadamia. Kagōunga roasts and lightly salts the nuts so they are ready to eat straight from the pouch.",
-        "The 200 g resealable pouch is sized for snacking, cheese plates, and pantry use. The nuts also work as a topping for salads, desserts, and rice dishes when you want a little richness and crunch.",
-      ],
-      usage:
-        "Eat them as a snack, or roughly chop them over salads, grilled vegetables, and desserts. For a deeper flavour, toast them briefly in a dry pan before using. Store the pouch sealed to keep the nuts crisp.",
-      sourcing:
-        "The kenari nuts are harvested locally and roasted in Ternate, North Maluku. Each resealable food-grade pouch has a net weight of 200 g and a gross weight of about 210 g. The ingredient list is roasted kenari nuts and sea salt.",
-    },
-    id: {
-      intro: [
-        "Kenari adalah kacang asli dengan tekstur gurih seperti mentega dan rasa yang berada di antara almond dan macadamia. Kagōunga memanggang dan memberi sedikit garam agar kacang siap dimakan langsung dari pouch.",
-        "Pouch 200 g yang dapat ditutup ulang cocok untuk camilan, piring keju, dan stok dapur. Kacangnya juga enak sebagai topping salad, hidangan penutup, dan nasi saat ingin tambahan rasa gurih dan renyah.",
-      ],
-      usage:
-        "Makan sebagai camilan, atau cincang kasar untuk salad, sayuran panggang, dan hidangan penutup. Untuk rasa lebih dalam, sangrai sebentar di wajan kering sebelum dipakai. Simpan pouch tertutup agar kacang tetap renyah.",
-      sourcing:
-        "Kacang kenari dipanen lokal dan dipanggang di Ternate, Maluku Utara. Setiap pouch food grade yang dapat ditutup ulang berisi berat bersih 200 g dan berat kotor sekitar 210 g. Daftar bahannya adalah kacang kenari panggang dan garam laut.",
-    },
-  },
-  telang: {
-    en: {
-      intro: [
-        "Butterfly pea flower gives tea a deep blue colour without artificial dye. Kagōunga packs the dried flowers, so the infusion stays clean and the colour is easy to control.",
-        "A small handful is enough for a pot of tea. The flowers also work as a natural colouring for desserts, rice, and drinks, and the colour shifts toward purple when something acidic is added.",
-      ],
-      usage:
-        "Steep the flowers in hot water for a few minutes, then strain. Add calamansi or lime juice to watch the colour turn purple. Use the cooled infusion in desserts, or dry the flowers and use them as a garnish.",
-      sourcing:
-        "The flowers are sun-dried and packed in a resealable food-grade pouch. Each pouch has a net weight of 50 g and a gross weight of about 60 g. The ingredient list contains only dried butterfly pea flowers.",
-    },
-    id: {
-      intro: [
-        "Bunga telang memberi warna biru pekat pada teh tanpa pewarna buatan. Kagōunga mengemas bunga keringnya, sehingga seduhannya bersih dan intensitas warna mudah diatur.",
-        "Segenggam kecil sudah cukup untuk satu teko. Bunga ini juga bisa menjadi pewarna alami untuk hidangan penutup, nasi, dan minuman, serta berubah ke arah ungu saat ditambah bahan asam.",
-      ],
-      usage:
-        "Seduh bunga dalam air panas beberapa menit, lalu saring. Tambahkan air calamansi atau jeruk nipis untuk melihat warnanya berubah ungu. Gunakan seduhan dingin untuk hidangan penutup, atau taburkan bunga kering sebagai hiasan.",
-      sourcing:
-        "Bunga dijemur di bawah matahari dan dikemas dalam pouch food grade yang dapat ditutup ulang. Setiap pouch berisi berat bersih 50 g dan berat kotor sekitar 60 g. Daftar bahannya hanya bunga telang kering.",
-    },
-  },
-  pala: {
-    en: {
-      intro: [
-        "Nutmeg and mace are two parts of the same fruit, and together they carry the warm, resinous aroma that made the Moluccas famous. Kagōunga packs whole nutmeg and mace so the spice keeps its fragrance until you are ready to use it.",
-        "The 100 g pouch is a pantry staple for soups, stews, sauces, and sweet dishes. Grate or crack the nutmeg just before cooking; the difference between freshly opened spice and pre-ground powder is significant.",
-      ],
-      usage:
-        "Grate a little nutmeg over béchamel, soup, or dessert. Add mace to broths and rice dishes, or infuse it in milk for a warm drink. Use sparingly, because both spices are potent and can overwhelm a dish.",
-      sourcing:
-        "The nutmeg and mace are sun-dried whole spices from Moluccan groves. Each resealable food-grade pouch has a net weight of 100 g and a gross weight of about 110 g. Store it away from heat and light to protect the aroma.",
-    },
-    id: {
-      intro: [
-        "Pala dan fuli adalah dua bagian dari buah yang sama, dan bersama-sama membawa aroma hangat yang membuat Kepulauan Maluku terkenal. Kagōunga mengemas pala dan fuli utuh agar rempah tetap wangi sampai siap dipakai.",
-        "Pouch 100 g ini cocok menjadi stok dapur untuk sup, semur, saus, dan hidangan manis. Parut atau pecahkan pala menjelang memasak; perbedaan antara rempah yang baru dibuka dan bubuk jadi sangat terasa.",
-      ],
-      usage:
-        "Parut sedikit pala di atas béchamel, sup, atau hidangan penutup. Tambahkan fuli ke kaldu dan nasi, atau seduh dalam susu untuk minuman hangat. Pakai secukupnya karena kedua rempah ini kuat dan bisa mendominasi hidangan.",
-      sourcing:
-        "Pala dan fuli adalah rempah utuh yang dijemur dari kebun Maluku. Setiap pouch food grade yang dapat ditutup ulang berisi berat bersih 100 g dan berat kotor sekitar 110 g. Simpan jauh dari panas dan cahaya agar aromanya terjaga.",
-    },
-  },
-  cengkeh: {
-    en: {
-      intro: [
-        "Clove is one of the defining spices of the Spice Islands. Kagōunga selects whole dried buds with a strong, sweet aroma and packs them without grinding, so you can use them whole or grind only what you need.",
-        "The 100 g pouch covers everyday cooking and special projects alike: broths, rice, braises, pickles, mulled drinks, and sweet spice blends. A little goes a long way.",
-      ],
-      usage:
-        "Add whole cloves to rice, broths, and braises, then remove them before serving. For baked goods and spice blends, grind the cloves fresh. Use a light hand; the flavour is warm, sweet, and slightly numbing.",
-      sourcing:
-        "The buds are selected, sun-dried, and packed in a resealable food-grade pouch. Each pouch has a net weight of 100 g and a gross weight of about 110 g. Keep it sealed and store in a cool, dry place.",
-    },
-    id: {
-      intro: [
-        "Cengkeh adalah salah satu rempah ikonik Kepulauan Rempah. Kagōunga memilih kuncup kering utuh dengan aroma manis yang kuat dan mengemasnya tanpa digiling, sehingga bisa dipakai utuh atau digiling sesuai kebutuhan.",
-        "Pouch 100 g ini cukup untuk masakan sehari-hari maupun proyek khusus: kaldu, nasi, semur, acar, minuman rempah, dan campuran bumbu manis. Sedikit saja sudah terasa.",
-      ],
-      usage:
-        "Tambahkan cengkeh utuh ke nasi, kaldu, dan semur, lalu keluarkan sebelum disajikan. Untuk kue dan campuran bumbu, giling cengkeh segar. Pakai secukupnya karena rasanya hangat, manis, dan sedikit menusuk.",
-      sourcing:
-        "Kuncup dipilih, dijemur, dan dikemas dalam pouch food grade yang dapat ditutup ulang. Setiap pouch berisi berat bersih 100 g dan berat kotor sekitar 110 g. Simpan tertutup di tempat sejuk dan kering.",
-    },
-  },
-};
+/** CMS product page fields -> the exact shape consumed by ProductPage. */
+export function toProductPageCopy(
+  doc: CmsProduct,
+  locale: Locale,
+): ProductPageCopy | null {
+  const intro = pickLocale(doc.intro, locale).value;
+  const usage = pickLocale(doc.usage, locale).value;
+  const sourcing = pickLocale(doc.sourcing, locale).value;
+  if (!Array.isArray(intro) || intro.length === 0) return null;
+  if (typeof usage !== "string" || !usage.trim()) return null;
+  if (typeof sourcing !== "string" || !sourcing.trim()) return null;
+  const paragraphs = intro.filter(
+    (paragraph): paragraph is string =>
+      typeof paragraph === "string" && paragraph.trim().length > 0,
+  );
+  if (paragraphs.length === 0) return null;
+  return { intro: paragraphs, usage, sourcing };
+}
+
+export function toProductSeoTitle(
+  doc: CmsProduct,
+  locale: Locale,
+): string | null {
+  const title = pickLocale(doc.seoTitle, locale).value;
+  return typeof title === "string" && title.trim() ? title : null;
+}
 
 export function getProductPageCopy(
   id: string,
   locale: Locale,
 ): ProductPageCopy | null {
-  return PRODUCT_PAGE_COPY[id]?.[locale] ?? null;
+  const doc = findCmsProduct(id);
+  if (doc) {
+    const copy = toProductPageCopy(doc, locale);
+    if (copy) return copy;
+  }
+  return STATIC_COPY[id]?.[locale] ?? null;
 }
 
-/** True when the static build has a detail page for this product id. */
+export function getProductSeoTitle(
+  id: string,
+  locale: Locale,
+): string | null {
+  const doc = findCmsProduct(id);
+  if (doc) {
+    const title = toProductSeoTitle(doc, locale);
+    if (title) return title;
+  }
+  return STATIC_SEO_TITLES[id]?.[locale] ?? null;
+}
+
+/** Map export for the SEO build; includes CMS products, falls back to static. */
+export function getProductSeoTitles(): Record<string, Record<Locale, string>> {
+  const ids = new Set([
+    ...Object.keys(STATIC_SEO_TITLES),
+    ...CMS_PRODUCTS.map((doc) => doc.slug),
+  ]);
+  const titles: Record<string, Record<Locale, string>> = {};
+  for (const id of ids) {
+    const en = getProductSeoTitle(id, "en");
+    const localized = getProductSeoTitle(id, "id");
+    if (en && localized) titles[id] = { en, id: localized };
+  }
+  return titles;
+}
+
+/** True when a detail page can render for this product id. */
 export function hasProductPage(id: string): boolean {
-  return Boolean(PRODUCT_PAGE_COPY[id]);
+  const doc = findCmsProduct(id);
+  if (doc && (toProductPageCopy(doc, "en") || toProductPageCopy(doc, "id"))) {
+    return true;
+  }
+  return Boolean(STATIC_COPY[id]);
 }

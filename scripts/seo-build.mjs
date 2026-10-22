@@ -172,7 +172,7 @@ async function loadSchemaData(server) {
         ]),
       ),
       stockistPages: stockistMod.STOCKIST_PAGES,
-      productSeo: productContentMod.PRODUCT_SEO_TITLES,
+      productSeo: productContentMod.getProductSeoTitles(),
     };
   } catch (error) {
     console.warn(`seo-build: schema data unavailable (${error.message})`);

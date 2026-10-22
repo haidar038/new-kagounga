@@ -5,12 +5,14 @@ Company profile + catalog + music + news + distribution map. React 19 + TS + Vit
 ## Run
 - `bun install` (atau `npm install`)
 - `bun run dev` → http://localhost:5173
-- `bun run build` → `tsc -b && vite build`
+- `bun run build` → snapshot CMS + `tsc -b` + `vite build` + SEO prerender
+- `bun run sync:cms` → refresh `src/data/cms-products.generated.json`
 - `bun run lint` → `oxlint`
 
 ## Env
 - Salin `.env.example` ke `.env`, isi `VITE_CAL_API_URL` (Apps Script `?action=getEvents&year=YYYY`).
 - Tanpa env, halaman Milestones pakai fallback statis + cache lokal.
+- `VITE_CMS_URL` = CMS runtime; `CMS_URL` = snapshot build-time. Kosong = fallback statis.
 
 ## Struktur
 - `src/app/` router + layout (header/footer, consent, page-view tanpa query).

@@ -68,7 +68,7 @@ function ConsentBanner(): React.JSX.Element | null {
     <div
       role="region"
       aria-label={t("consent.region")}
-      className="fixed inset-x-4 bottom-4 z-[60] mx-auto max-w-xl rounded-2xl border border-ink/10 bg-white p-4 shadow-2xl"
+      className="fixed inset-x-4 bottom-4 z-60 mx-auto max-w-xl rounded-2xl border border-ink/10 bg-white p-4 shadow-2xl"
     >
       <p className="text-[13px] leading-relaxed text-ink/80">
         {t("consent.pre")}
@@ -121,7 +121,7 @@ export function SiteLayout(): React.JSX.Element {
     <div className="flex min-h-dvh flex-col">
       <a
         href="#main-content"
-        className="sr-only z-[70] rounded-full bg-lime px-5 py-3 text-sm font-bold text-ink focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+        className="sr-only z-70 rounded-full bg-lime px-5 py-3 text-sm font-bold text-ink focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
       >
         {t("skipToContent")}
       </a>

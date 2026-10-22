@@ -17,7 +17,7 @@ export function ProductCard({
 }): React.JSX.Element {
   const { t } = useTranslation("catalog");
   const locale = useLocale();
-  const hasPage = hasProductPage(product.id);
+  const hasPage = product.hasPage ?? hasProductPage(product.id);
   const productHref = localeLink(`/catalog/${product.id}`, locale);
   const image = (
     <img

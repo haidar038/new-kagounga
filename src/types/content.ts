@@ -45,6 +45,8 @@ export interface ProductDetail {
   inside: string[] | null;
   note: string;
   per: string;
+  /** CMS copy flag. Absent = fall back to the static `hasProductPage` check. */
+  hasPage?: boolean;
   /** Separate detail fields (all products, all optional). */
   packaging?: string | null;
   dimensions?: string | null;
