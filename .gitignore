@@ -32,5 +32,3 @@ dist/
 *.log
 playwright-report/
 test-results/
-# scripts/*.mjs
-# !scripts/cms-snapshot.mjs
