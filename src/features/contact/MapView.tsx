@@ -142,11 +142,15 @@ export default function MapView({
     const fitMap = (): void => {
       if (fitted) return;
       fitted = true;
+      map.resize();
+      if (points.length === 0) {
+        renderMarkers();
+        return;
+      }
       const bounds = new maplibregl.LngLatBounds();
       points.forEach((p) => {
         bounds.extend([p.lng, p.lat]);
       });
-      map.resize();
       map.fitBounds(bounds, { padding: 60, maxZoom: 11 });
       renderMarkers();
     };

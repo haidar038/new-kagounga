@@ -144,15 +144,13 @@ async function loadSchemaData(server) {
       productsMod,
       siteMod,
       tracksMod,
-      locationsMod,
       stockistMod,
       productContentMod,
     ] = await Promise.all([
       server.ssrLoadModule("/src/data/products.ts"),
       server.ssrLoadModule("/src/data/site.ts"),
       server.ssrLoadModule("/src/data/tracks.ts"),
-      server.ssrLoadModule("/src/data/locations.ts"),
-      server.ssrLoadModule("/src/data/stockistContent.ts"),
+      server.ssrLoadModule("/src/data/stockists.ts"),
       server.ssrLoadModule("/src/data/productContent.ts"),
     ]);
     return {
@@ -163,15 +161,10 @@ async function loadSchemaData(server) {
       contact: siteMod.CONTACT,
       socials: siteMod.SOCIALS.map((s) => s.href),
       tracks: tracksMod.TRACKS,
-      locations: locationsMod.LOCATIONS,
-      cityRegions: locationsMod.CITY_REGIONS,
-      citySlugs: Object.fromEntries(
-        [...new Set(locationsMod.LOCATIONS.map((p) => p.city))].map((city) => [
-          locationsMod.citySlug(city),
-          city,
-        ]),
-      ),
-      stockistPages: stockistMod.STOCKIST_PAGES,
+      stockistCities: {
+        en: stockistMod.getStockistCities("en"),
+        id: stockistMod.getStockistCities("id"),
+      },
       productSeo: productContentMod.getProductSeoTitles(),
     };
   } catch (error) {
@@ -181,10 +174,7 @@ async function loadSchemaData(server) {
       contact: null,
       socials: [],
       tracks: [],
-      locations: [],
-      cityRegions: {},
-      citySlugs: {},
-      stockistPages: {},
+      stockistCities: { en: [], id: [] },
       productSeo: {},
     };
   }
@@ -203,10 +193,7 @@ const schemaData = ssrServer
       contact: null,
       socials: [],
       tracks: [],
-      locations: [],
-      cityRegions: {},
-      citySlugs: {},
-      stockistPages: {},
+      stockistCities: { en: [], id: [] },
       productSeo: {},
     };
 let renderRouteBody = null;
@@ -312,31 +299,29 @@ for (const locale of ["en", "id"]) {
       product: p,
     });
   }
-  for (const [slug, city] of Object.entries(schemaData.citySlugs ?? {})) {
-    const copy = schemaData.stockistPages?.[slug]?.[locale];
-    const points = (schemaData.locations ?? []).filter((p) => p.city === city);
-    if (!copy || points.length === 0) continue;
+  for (const city of schemaData.stockistCities[locale] ?? []) {
+    if (!city.copy || city.points.length === 0) continue;
     ROUTES.push({
-      path: `${prefix}/stockists/${slug}`,
+      path: `${prefix}/stockists/${city.slug}`,
       locale,
       key: "stockist",
-      title: copy.seoTitle,
-      desc: copy.description,
+      title: city.copy.seoTitle,
+      desc: city.copy.description,
       type: "website",
       image: OG_DEFAULT,
-      imageAlt: copy.title,
+      imageAlt: city.copy.title,
       changefreq: "monthly",
       priority: "0.6",
       lastmod: today,
       crumbs: [
         { name: crumbs[locale].home, path: locale === "id" ? "/id" : "/" },
         { name: crumbs[locale].contact, path: `${prefix}/contact` },
-        { name: city, path: `${prefix}/stockists/${slug}` },
+        { name: city.city, path: `${prefix}/stockists/${city.slug}` },
       ],
-      city,
-      citySlug: slug,
-      points,
-      region: schemaData.cityRegions?.[city] ?? "",
+      city: city.city,
+      citySlug: city.slug,
+      points: city.points,
+      region: city.region,
     });
   }
 }

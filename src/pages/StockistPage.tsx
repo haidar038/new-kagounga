@@ -1,8 +1,8 @@
+import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ArrowRight, MapPin } from "lucide-react";
-import { LOCATIONS, cityFromSlug } from "../data/locations";
-import { getStockistPageCopy } from "../data/stockistContent";
+import { getStockistCity, loadStockistCity } from "../data/stockists";
 import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import { localeLink, useLocale } from "../i18n";
 import { NotFoundPage } from "./NotFoundPage";
@@ -12,11 +12,32 @@ export function StockistPage(): React.JSX.Element {
   const { city: slug } = useParams<{ city: string }>();
   const { t } = useTranslation(["stockists", "contact", "common"]);
   const locale = useLocale();
-  const city = slug ? cityFromSlug(slug) : null;
-  const copy = slug ? getStockistPageCopy(slug, locale) : null;
-  const points = city ? LOCATIONS.filter((p) => p.city === city) : [];
+  const cacheKey = `${locale}|${slug ?? ""}`;
+  // Statis/snapshot dulu (SEO + hydration), lalu upgrade ke CMS bila reachable.
+  // CMS reachable tapi kota tidak ada/draft -> 404; transport gagal -> fallback.
+  const fallbackCity = useMemo(
+    () => (slug ? getStockistCity(slug, locale) : null),
+    [slug, locale],
+  );
+  const [cached, setCached] = useState(() => ({ key: cacheKey, city: fallbackCity }));
+  const city = cached.key === cacheKey ? cached.city : fallbackCity;
+  const copy = city?.copy ?? null;
+  const points = city?.points ?? [];
   const valid = Boolean(city && copy);
   const canonical = `/stockists/${slug ?? ""}`;
+
+  useEffect(() => {
+    if (!slug) return;
+    let on = true;
+    loadStockistCity(slug, locale, fallbackCity).then((result) => {
+      if (on && result.source === "cms") {
+        setCached({ key: cacheKey, city: result.city });
+      }
+    });
+    return () => {
+      on = false;
+    };
+  }, [slug, locale, cacheKey, fallbackCity]);
 
   useDocumentMeta({
     title: copy?.seoTitle ?? t("notFound.title", { ns: "seo" }),
@@ -46,7 +67,7 @@ export function StockistPage(): React.JSX.Element {
             </Link>
             <span aria-hidden="true">/</span>
             <span aria-current="page" className="text-cream">
-              {city}
+              {city.city}
             </span>
           </nav>
 
@@ -101,7 +122,7 @@ export function StockistPage(): React.JSX.Element {
                       </p>
                       <h3 className="mt-1 text-lg font-bold">{point.name}</h3>
                       <p className="mt-1 text-[14px] text-ink/70">{point.area}</p>
-                      <p className="mt-2 text-[13px] text-ink/70">{city}</p>
+                      <p className="mt-2 text-[13px] text-ink/70">{city.city}</p>
                       <a
                         href={mapsHref}
                         target="_blank"

@@ -11,12 +11,8 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ArrowRight } from "lucide-react";
 import type { LocationKind } from "../../types/content";
-import {
-  LOCATIONS,
-  citySlug,
-  groupByCity,
-  type CityGroup,
-} from "../../data/locations";
+import type { StockistCityGroup } from "../../data/stockists";
+import { getStockistCities, loadStockistCities } from "../../data/stockists";
 import { localeLink, useLocale } from "../../i18n";
 import { Reveal } from "../../components/Reveal";
 import { CityDialog } from "./CityDialog";
@@ -32,8 +28,25 @@ export function FindUs(): React.JSX.Element {
   const mapWrapRef = useRef<HTMLDivElement>(null);
   const mapApi = useRef<MapHandle | null>(null);
   const [mapReady, setMapReady] = useState(false);
-  const [activeCity, setActiveCity] = useState<CityGroup | null>(null);
-  const groups = useMemo(() => groupByCity(LOCATIONS), []);
+  const [activeCity, setActiveCity] = useState<StockistCityGroup | null>(null);
+  const fallbackCities = useMemo(() => getStockistCities(locale), [locale]);
+  const [cached, setCached] = useState(() => ({ locale, cities: fallbackCities }));
+  const cities = cached.locale === locale ? cached.cities : fallbackCities;
+  const points = useMemo(() => cities.flatMap((city) => city.points), [cities]);
+  const groups = useMemo<StockistCityGroup[]>(
+    () => cities.map(({ city, slug, points: cityPoints }) => ({ city, slug, points: cityPoints })),
+    [cities],
+  );
+
+  useEffect(() => {
+    let on = true;
+    loadStockistCities(locale, fallbackCities).then((result) => {
+      if (on && result.source === "cms") setCached({ locale, cities: result.items });
+    });
+    return () => {
+      on = false;
+    };
+  }, [locale, fallbackCities]);
 
   useEffect(() => {
     const el = mapWrapRef.current;
@@ -72,7 +85,7 @@ export function FindUs(): React.JSX.Element {
         </Reveal>
         <Reveal>
           <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-cream/70">
-            {t("findUs.lede", { count: LOCATIONS.length })}
+            {t("findUs.lede", { count: points.length })}
           </p>
         </Reveal>
         <div className="mt-8 border-t border-cream/20" />
@@ -91,7 +104,7 @@ export function FindUs(): React.JSX.Element {
                 }
               >
                 <LazyMap
-                  points={LOCATIONS}
+                  points={points}
                   ariaLabel={t("findUs.map")}
                   onReady={onMapReady}
                 />
@@ -119,7 +132,7 @@ export function FindUs(): React.JSX.Element {
             <Reveal key={group.city} className="h-full">
               <article className="flex h-full flex-col rounded-3xl border border-cream/10 bg-white/6 p-6">
                 <Link
-                  to={localeLink(`/stockists/${citySlug(group.city)}`, locale)}
+                  to={localeLink(`/stockists/${group.slug}`, locale)}
                   className="group flex-1"
                 >
                   <p className="display text-5xl font-black text-lime">

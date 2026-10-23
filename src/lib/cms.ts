@@ -73,6 +73,30 @@ export interface CmsPost {
   updatedAt?: string | null;
 }
 
+export interface CmsStockistPoint {
+  pointId: string;
+  name: string;
+  area: string;
+  kind: string;
+  lng: number;
+  lat: number;
+  active?: boolean | null;
+}
+
+export interface CmsStockistCity {
+  slug: string;
+  city: string;
+  region?: string | null;
+  sortOrder?: number | null;
+  status?: string | null;
+  seoTitle?: CmsLocaleValue<string>;
+  metaDescription?: CmsLocaleValue<string>;
+  title?: CmsLocaleValue<string>;
+  lede?: CmsLocaleValue<string>;
+  paragraphs?: CmsLocaleValue<string[]> | null;
+  points?: CmsStockistPoint[] | null;
+}
+
 export function isCmsProduct(value: unknown): value is CmsProduct {
   if (typeof value !== "object" || value === null) return false;
   const d = value as Record<string, unknown>;
@@ -83,6 +107,18 @@ export function isCmsPost(value: unknown): value is CmsPost {
   if (typeof value !== "object" || value === null) return false;
   const d = value as Record<string, unknown>;
   return typeof d.slug === "string" && d.title !== undefined;
+}
+
+export function isCmsStockistCity(value: unknown): value is CmsStockistCity {
+  if (typeof value !== "object" || value === null) return false;
+  const d = value as Record<string, unknown>;
+  return typeof d.slug === "string" && typeof d.city === "string";
+}
+
+export function isCmsStockistPoint(value: unknown): value is CmsStockistPoint {
+  if (typeof value !== "object" || value === null) return false;
+  const d = value as Record<string, unknown>;
+  return typeof d.pointId === "string" && typeof d.name === "string";
 }
 
 /** Pilih nilai locale dari `locale=all`. `fallback=true` bila ID jatuh ke EN. */
@@ -169,6 +205,14 @@ export function postsUrl(baseUrl: string): string {
 
 export function postBySlugUrl(baseUrl: string, slug: string): string {
   return `${baseUrl}/api/posts?where[slug][equals]=${encodeURIComponent(slug)}&limit=1&depth=1&locale=all`;
+}
+
+export function stockistsUrl(baseUrl: string): string {
+  return `${baseUrl}/api/stockist-cities?where[status][equals]=published&sort=sortOrder&limit=100&depth=0&locale=all`;
+}
+
+export function stockistBySlugUrl(baseUrl: string, slug: string): string {
+  return `${baseUrl}/api/stockist-cities?where[slug][equals]=${encodeURIComponent(slug)}&where[status][equals]=published&limit=1&depth=0&locale=all`;
 }
 
 export async function fetchCmsDocs(url: string): Promise<unknown[]> {
