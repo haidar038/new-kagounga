@@ -6,6 +6,7 @@ import { orderHref } from "../data/products";
 import { hasProductPage } from "../data/productContent";
 import { localeLink, useLocale } from "../i18n";
 import { cldSrcSet } from "../lib/cloudinary";
+import { BlurImage } from "./BlurImage";
 import { Reveal } from "./Reveal";
 
 export function ProductCard({
@@ -20,16 +21,14 @@ export function ProductCard({
   const hasPage = product.hasPage ?? hasProductPage(product.id);
   const productHref = localeLink(`/catalog/${product.id}`, locale);
   const image = (
-    <img
+    <BlurImage
       src={product.image}
       srcSet={cldSrcSet(product.image, [400, 800])}
       sizes="(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 100vw"
       alt={product.alt}
       width={800}
       height={800}
-      className="aspect-square w-full object-cover"
-      loading="lazy"
-      decoding="async"
+      className="aspect-square w-full"
     />
   );
   return (

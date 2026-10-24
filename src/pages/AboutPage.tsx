@@ -3,6 +3,7 @@ import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import { getCollaborators } from "../data/collaborators";
 import { useLocale } from "../i18n";
 import { PageHero } from "../components/PageHero";
+import { BlurImage } from "../components/BlurImage";
 import { Reveal } from "../components/Reveal";
 
 export function AboutPage(): React.JSX.Element {
@@ -61,12 +62,11 @@ export function AboutPage(): React.JSX.Element {
             {items.map((c) => (
               <Reveal key={c.name}>
                 <article className="card-hover relative overflow-hidden rounded-3xl border border-ink/10 bg-white">
-                  <img
+                  <BlurImage
                     src={c.image}
                     alt={c.alt}
-                    className="aspect-3/4 w-full object-cover object-top md:aspect-square"
-                    loading="lazy"
-                    decoding="async"
+                    className="aspect-3/4 w-full md:aspect-square"
+                    imgClassName="object-top"
                   />
                   <div className="absolute inset-0 flex flex-col justify-end bg-linear-to-t from-ink via-ink/35 to-transparent p-4 md:p-5">
                     <h3 className="font-bold text-cream">{c.name}</h3>

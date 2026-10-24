@@ -49,6 +49,36 @@
       ],
       "permanent": true,
       "source": "/(.*)"
+    },
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/about.html",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/catalog.html",
+      "destination": "/catalog",
+      "permanent": true
+    },
+    {
+      "source": "/news.html",
+      "destination": "/news",
+      "permanent": true
+    },
+    {
+      "source": "/news-details-1.html",
+      "destination": "/news",
+      "permanent": true
+    },
+    {
+      "source": "/music.html",
+      "destination": "/music",
+      "permanent": true
     }
   ]
 }

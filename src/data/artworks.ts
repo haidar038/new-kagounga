@@ -585,6 +585,58 @@ export const artworks: Artwork[] = [
     },
   },
   {
+    slug: "kalamata",
+    title: "Kalamata",
+    publicId: "Kalamata_1.webp",
+    alt: {
+      en: "Illustration of the dark Kalamata fort mound against a pale blue sky",
+      id: "Ilustrasi gundukan Benteng Kalamata yang gelap di langit biru muda",
+    },
+    caption: {
+      id: [
+        [
+          { text: "Nama benteng ini diambil dari nama Pangeran Kalamata, adik dari Sultan Mandarsyah. Benteng Kalamata dibangun pada tahun 1540 oleh Portugis dengan nama asli Fort Santa Lucia. Kalamata berbentuk kura-kura, memiliki 4 bastion pada empat penjuru mata angin. Struktur bangunannya terbuat dari susunan batu andesit dan batu karang, direkatkan dengan kelero atau sejenis batu kapur yang dihasilkan dari pembakaran karang, campuran pasir, dan air rendaman kulit pohon lubiri." },
+        ],
+      ],
+      en: [
+        [
+          { text: "The name of this fort is derived", italic: true },
+          { text: " from " },
+          { text: "Prince Kalamata", italic: true },
+          { text: ", " },
+          { text: "the younger brother of Sultan Mandarsyah.", italic: true },
+        ],
+
+        [
+          { text: "Fort Kalamata", italic: true },
+          { text: " was built " },
+          { text: "in", italic: true },
+          { text: " 1540 " },
+          { text: "by the", italic: true },
+          { text: " Portuguese " },
+          { text: "under its original name,", italic: true },
+          { text: " Fort Santa Lucia." },
+        ],
+
+        [
+          { text: "Kalamata", italic: true },
+          { text: " is shaped " },
+          { text: "like a", italic: true },
+          { text: " turtle " },
+          { text: "and", italic: true },
+          { text: " has 4 " },
+          { text: "bastions at the four", italic: true },
+          { text: " cardinal " },
+          { text: "points.", italic: true },
+        ],
+
+        [
+          { text: "The structure is made of andesite stones and coral rocks, bonded with kelero, a type of limestone produced from burning coral, mixed with sand and the soaking water of lubiri tree bark.", italic: true },
+        ],
+      ],
+    },
+  },
+  {
     slug: "gunung-gamalama",
     title: "Gunung Gamalama",
     publicId: "Gunung_Gamalama.webp",
@@ -766,58 +818,6 @@ export const artworks: Artwork[] = [
           { text: "The trail offers a ", italic: true },
           { text: "dramatic ", bold: true, italic: true },
           { text: "landscape and sweeping views.", italic: true },
-        ],
-      ],
-    },
-  },
-  {
-    slug: "kalamata",
-    title: "Kalamata",
-    publicId: "Kalamata_1.webp",
-    alt: {
-      en: "Illustration of the dark Kalamata fort mound against a pale blue sky",
-      id: "Ilustrasi gundukan Benteng Kalamata yang gelap di langit biru muda",
-    },
-    caption: {
-      id: [
-        [
-          { text: "Nama benteng ini diambil dari nama Pangeran Kalamata, adik dari Sultan Mandarsyah. Benteng Kalamata dibangun pada tahun 1540 oleh Portugis dengan nama asli Fort Santa Lucia. Kalamata berbentuk kura-kura, memiliki 4 bastion pada empat penjuru mata angin. Struktur bangunannya terbuat dari susunan batu andesit dan batu karang, direkatkan dengan kelero atau sejenis batu kapur yang dihasilkan dari pembakaran karang, campuran pasir, dan air rendaman kulit pohon lubiri." },
-        ],
-      ],
-      en: [
-        [
-          { text: "The name of this fort is derived", italic: true },
-          { text: " from " },
-          { text: "Prince Kalamata", italic: true },
-          { text: ", " },
-          { text: "the younger brother of Sultan Mandarsyah.", italic: true },
-        ],
-
-        [
-          { text: "Fort Kalamata", italic: true },
-          { text: " was built " },
-          { text: "in", italic: true },
-          { text: " 1540 " },
-          { text: "by the", italic: true },
-          { text: " Portuguese " },
-          { text: "under its original name,", italic: true },
-          { text: " Fort Santa Lucia." },
-        ],
-
-        [
-          { text: "Kalamata", italic: true },
-          { text: " is shaped " },
-          { text: "like a", italic: true },
-          { text: " turtle " },
-          { text: "and", italic: true },
-          { text: " has 4 " },
-          { text: "bastions at the four", italic: true },
-          { text: " cardinal " },
-          { text: "points.", italic: true },
-        ],
-
-        [
-          { text: "The structure is made of andesite stones and coral rocks, bonded with kelero, a type of limestone produced from burning coral, mixed with sand and the soaking water of lubiri tree bark.", italic: true },
         ],
       ],
     },

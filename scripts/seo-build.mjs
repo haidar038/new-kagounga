@@ -750,7 +750,7 @@ for (const route of ROUTES) {
       console.warn(`seo-build: body prerender failed ${route.path} (${error.message})`);
     }
   }
-  const html = renderRoute(template, route, body);
+  const html = inlineStylesheets(renderRoute(template, route, body));
   const out = route.path === "/" ? join(DIST, "index.html") : join(DIST, route.path, "index.html");
   mkdirSync(dirname(out), { recursive: true });
   writeFileSync(out, html);
@@ -770,7 +770,25 @@ function render404(templateHtml) {
   return html;
 }
 
-writeFileSync(join(DIST, "404.html"), render404(template));
+// The main CSS bundle is render-blocking (~600ms est on slow 4G). Inlining it
+// into the 48 prerendered pages removes that request from the critical path;
+// the file stays in dist/assets for SPA navigations and repeat full loads.
+function inlineStylesheets(html) {
+  return html.replace(
+    /<link\s+rel="stylesheet"[^>]*href="([^"]+\.css)"[^>]*>\n?/g,
+    (match, href) => {
+      const file = join(DIST, href.replace(/^\//, "").split("?")[0]);
+      if (!existsSync(file)) {
+        console.warn(`seo-build: css not inlined (missing): ${href}`);
+        return match;
+      }
+      const css = readFileSync(file, "utf8").replace(/<\/style/gi, "<\\/style");
+      return `<style>${css}</style>\n`;
+    },
+  );
+}
+
+writeFileSync(join(DIST, "404.html"), inlineStylesheets(render404(template)));
 buildSitemaps();
 console.log(
   `seo-build: ${ROUTES.length} pages + 404.html, sitemap + sitemap-images written (SITE=${SITE}, news=${newsSource})`,

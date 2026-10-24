@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { MarkdownText } from "../../components/MarkdownText";
 import { Reveal } from "../../components/Reveal";
 
 interface FaqItem {
@@ -37,7 +38,7 @@ export function Faq(): React.JSX.Element {
                   </span>
                 </summary>
                 <p className="mt-3 text-[15px] leading-relaxed text-ink/70">
-                  {item.a}
+                  <MarkdownText text={item.a} />
                 </p>
               </details>
             ))}

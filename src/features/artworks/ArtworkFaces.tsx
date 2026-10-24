@@ -11,6 +11,7 @@ import {
 import { useLocale } from "../../i18n";
 import { cld, cldSrcSet } from "../../lib/cloudinary";
 import { cn } from "../../lib/cn";
+import { BlurImage } from "../../components/BlurImage";
 import { CaptionText } from "./CaptionText";
 import { artworkSrc } from "./artworkSrc";
 
@@ -51,17 +52,16 @@ export function ArtworkFront({
         className,
       )}
     >
-      <img
+      <BlurImage
         src={src}
         srcSet={cldSrcSet(src, [400, 650, 900])}
         sizes="(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw"
         alt={artwork.alt[locale]}
         width={650}
         height={1063}
-        loading="lazy"
-        decoding="async"
         draggable={false}
-        className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        className="h-full w-full"
+        imgClassName="transition-transform duration-500 group-hover:scale-105"
       />
       <span
         aria-hidden="true"

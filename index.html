@@ -44,18 +44,34 @@
   <meta name="twitter:image" content="https://res.cloudinary.com/fal5otmd/image/upload/v1791556121/OpenGraph.webp" />
   <meta name="twitter:image:alt" content="Kagōunga | Move, Moreover. - Heritage & Innovation" />
   <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
-  <!-- Self-hosted Open Sauce One; preload 2 bobot above-the-fold (body 400, hero 600) -->
-  <link rel="preload" href="/fonts/open-sauce-one-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <!-- Self-hosted Open Sauce One; preload 2 bobot above-the-fold (hero h1: 300 + 600).
+       Bobot lain (400/500/700/900) ditemukan via CSS, bukan bagian teks LCP utama. -->
+  <link rel="preload" href="/fonts/open-sauce-one-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/open-sauce-one-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin />
   <title>Kagōunga | Move, Moreover. - Heritage & Innovation</title>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8JC93J3FD7"></script>
+  <!-- Google tag (gtag.js): stub + config stay inline (commands queue in dataLayer),
+       the 194 KiB gtag.js bundle is injected after first paint to keep it off the critical path -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-8JC93J3FD7', { send_page_view: false });
+
+    (function () {
+      var inject = function () {
+        (window.requestIdleCallback || function (cb) { setTimeout(cb, 1); })(
+          function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.src = 'https://www.googletagmanager.com/gtag/js?id=G-8JC93J3FD7';
+            document.head.appendChild(s);
+          },
+          { timeout: 3000 }
+        );
+      };
+      if (document.readyState === 'complete') inject();
+      else window.addEventListener('load', inject);
+    })();
   </script>
 </head>
 

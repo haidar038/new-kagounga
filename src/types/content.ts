@@ -103,6 +103,9 @@ export interface Movement {
 export interface Partner {
   name: string;
   logo: string;
+  /** Rendered image dimensions at the delivered w_320 URL, for aspect-ratio hints. */
+  logoWidth: number;
+  logoHeight: number;
 }
 
 export type TrackBrand = "spotify" | "apple" | "youtube" | "amazon" | "deezer";

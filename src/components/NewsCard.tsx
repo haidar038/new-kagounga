@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import type { LocalizedPost } from "../data/news";
 import { formatDateLabel } from "../lib/format";
 import { localeLink, useLocale } from "../i18n";
+import { BlurImage } from "./BlurImage";
 import { Reveal } from "./Reveal";
 
 export function NewsCard({ post }: { post: LocalizedPost }): React.JSX.Element {
@@ -16,12 +17,11 @@ export function NewsCard({ post }: { post: LocalizedPost }): React.JSX.Element {
         className="card-hover group flex h-full flex-col overflow-hidden rounded-3xl border border-ink/10 bg-white"
       >
         <div className="aspect-video overflow-hidden bg-ink/5">
-          <img
+          <BlurImage
             src={post.cover}
             alt={post.coverAlt}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            loading="lazy"
-            decoding="async"
+            className="h-full w-full"
+            imgClassName="transition-transform duration-500 group-hover:scale-105"
           />
         </div>
         <div className="flex flex-1 flex-col p-7 md:p-8">

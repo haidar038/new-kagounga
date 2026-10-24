@@ -277,9 +277,9 @@ export function Milestones(): React.JSX.Element {
             <div className="w-full max-w-xs">
               <div className="h-1.5 w-full overflow-hidden rounded-full bg-ink/10">
                 <div
-                  className="h-full rounded-full bg-lime transition-all"
+                  className="h-full w-full origin-left rounded-full bg-lime transition-transform duration-300"
                   style={{
-                    width: `${Math.round((((Math.min(11, calPage * size)) + 1) / 12) * 100)}%`,
+                    transform: `scaleX(${(Math.min(11, calPage * size) + 1) / 12})`,
                   }}
                 />
               </div>

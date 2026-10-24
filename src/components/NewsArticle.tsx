@@ -6,6 +6,7 @@ import { formatDateLabel } from "../lib/format";
 import { localeLink, useLocale } from "../i18n";
 import { useShareLink } from "../hooks/useShare";
 import { renderMarkdownBody } from "../lib/markdown";
+import { BlurImage } from "./BlurImage";
 import { Reveal } from "./Reveal";
 
 /** Reusable article UI for every news detail page (`/news/:slug`). */
@@ -84,12 +85,13 @@ export function NewsArticle({ post }: { post: LocalizedPost }): React.JSX.Elemen
 
         <Reveal>
           <div className="mt-8 overflow-hidden rounded-3xl border border-ink/10">
-            <img
+            <BlurImage
               src={post.cover}
               alt={post.coverAlt}
-              className="aspect-video w-full object-cover"
+              className="aspect-video w-full"
+              fade={false}
+              loading="eager"
               fetchPriority="high"
-              decoding="async"
             />
           </div>
         </Reveal>

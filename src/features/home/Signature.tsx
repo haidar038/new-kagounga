@@ -5,8 +5,10 @@ import type { SignatureId } from "../../types/content";
 import { SIGNATURES, getSignatures } from "../../data/signatures";
 import { WHATSAPP_ICON } from "../../data/site";
 import { inquiryMessage, waLink } from "../../lib/whatsapp";
+import { cldSrcSet } from "../../lib/cloudinary";
 import { useLocale } from "../../i18n";
 import { useHydrated } from "../../hooks/useHydrated";
+import { BlurImage } from "../../components/BlurImage";
 import { Reveal } from "../../components/Reveal";
 import { cn } from "../../lib/cn";
 
@@ -70,12 +72,14 @@ export function Signature(): React.JSX.Element {
             aria-live="polite"
             className="mt-8 grid animate-enter overflow-hidden rounded-3xl bg-ink text-cream lg:grid-cols-2"
           >
-            <img
+            <BlurImage
               src={main.image}
+              srcSet={cldSrcSet(main.image, [640, 960, 1280])}
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              width={1200}
+              height={1200}
               alt={main.alt}
-              className="aspect-square w-full self-start object-cover"
-              loading="lazy"
-              decoding="async"
+              className="aspect-square w-full self-start"
             />
             <div className="p-7 md:p-10">
               <p className="text-[13px] font-bold text-lime">
@@ -158,12 +162,14 @@ export function Signature(): React.JSX.Element {
               className="card-hover overflow-hidden rounded-3xl border border-ink/10 bg-white text-left"
             >
               <div className="flex items-center gap-4 p-4 lg:block lg:p-0">
-                <img
+                <BlurImage
                   src={p.image}
+                  srcSet={cldSrcSet(p.image, [240, 480, 960])}
+                  sizes="(min-width: 1024px) 25vw, 96px"
+                  width={1200}
+                  height={1200}
                   alt={p.alt}
-                  className="aspect-square w-24 shrink-0 rounded-2xl object-cover lg:w-full lg:rounded-none"
-                  loading="lazy"
-                  decoding="async"
+                  className="aspect-square w-24 shrink-0 rounded-2xl lg:w-full lg:rounded-none"
                 />
                 <div className="min-w-0 lg:p-5">
                   <p className="text-[12px] font-bold text-ink/70">

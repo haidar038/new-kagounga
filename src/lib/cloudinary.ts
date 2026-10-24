@@ -28,3 +28,20 @@ export function cldSrcSet(
     .map((width) => `${url.replace(/w_\d+/, `w_${width}`)} ${width}w`)
     .join(", ");
 }
+
+/**
+ * Tiny blurred placeholder URL (~300 bytes) for blur-up loading: keep
+ * geometry/rotation/crop transforms (a_90, c_, g_, dpr_), drop delivery
+ * hints (w_/q_/f_) and inject the blur chain. Non-Cloudinary or versioned
+ * URLs (…/upload/v123/…) return undefined so callers can fall back.
+ */
+export function cldBlurSrc(url: string): string | undefined {
+  const m = url.match(
+    /res\.cloudinary\.com\/([^/]+)\/image\/upload\/([^/]+)\/(.+)$/,
+  );
+  if (!m) return undefined;
+  const [, cloud, transforms, publicId] = m;
+  if (/^v\d+/.test(transforms)) return undefined;
+  const kept = transforms.split(",").filter((t) => /^(a_|c_|g_|dpr_)/.test(t));
+  return `https://res.cloudinary.com/${cloud}/image/upload/${[...kept, "w_32", "q_auto:low", "e_blur:1000", "f_auto"].join(",")}/${publicId}`;
+}

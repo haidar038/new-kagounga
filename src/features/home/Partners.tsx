@@ -30,6 +30,8 @@ export function Partners(): React.JSX.Element {
                   key={p.name}
                   src={p.logo}
                   alt={p.name}
+                  width={p.logoWidth}
+                  height={p.logoHeight}
                   className="partner-logo"
                   loading="lazy"
                 />
@@ -40,6 +42,8 @@ export function Partners(): React.JSX.Element {
                   src={p.logo}
                   alt=""
                   aria-hidden="true"
+                  width={p.logoWidth}
+                  height={p.logoHeight}
                   className="partner-logo"
                   loading="lazy"
                 />
