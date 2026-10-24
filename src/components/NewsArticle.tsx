@@ -117,7 +117,7 @@ export function NewsArticle({ post }: { post: LocalizedPost }): React.JSX.Elemen
                         to={localeLink(`/news/${r.slug}`, locale)}
                         className="group block rounded-2xl border border-ink/10 p-4 hover:border-ink/40"
                       >
-                        <p className="font-bold group-hover:underline">{r.title}</p>
+                        <h3 className="font-bold group-hover:underline">{r.title}</h3>
                         <p className="mt-1 text-[13px] text-ink/70">
                           <time dateTime={r.dateISO}>{formatDateLabel(r.dateISO, locale)}</time>
                         </p>

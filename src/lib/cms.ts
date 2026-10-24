@@ -31,6 +31,7 @@ export interface CmsProduct {
   usage?: CmsLocaleValue<string>;
   sourcing?: CmsLocaleValue<string>;
   seoTitle?: CmsLocaleValue<string>;
+  seoDescription?: CmsLocaleValue<string>;
   priceNumber: number;
   currency?: string | null;
   badges?: CmsLocaleValue<string[]> | null;

@@ -10,6 +10,32 @@
         ],
         "tisan": "Tisan holding sago. Hover to see her face"
     },
+    "faq": {
+        "items": [
+            {
+                "a": "Kagōunga is a creative brand rooted in Ternate, North Maluku. Five distinct forms of expression bound by one identity: gastronomy, personal care, home fragrance, sonic identity, and fine art.",
+                "q": "What is Kagōunga?"
+            },
+            {
+                "a": "Pantry staples from the North Moluccas: instant Popeda soup, sago starch, sun-dried tuna, turmeric fish seasoning, roasted kenari nuts, butterfly pea flowers, whole nutmeg and mace, and whole cloves — alongside collectible art cards and original brand music.",
+                "q": "What products does Kagōunga offer?"
+            },
+            {
+                "a": "Our products are made in Ternate, North Maluku, Indonesia, using locally sourced sago, spices, and catch. Food products carry halal certification and P-IRT documentation.",
+                "q": "Where are Kagōunga products made?"
+            },
+            {
+                "a": "Order via WhatsApp directly from any product page, or find a distribution point near you on the contact page — our stockists span cities from Ternate to Jakarta.",
+                "q": "How do I order Kagōunga products?"
+            },
+            {
+                "a": "Yes. We partner with retail, cafe, corporate, hotel, distributor, and manufacturing businesses. Wholesale pricing and minimum order quantities appear on each product page where applicable, or contact us to discuss a partnership.",
+                "q": "Does Kagōunga work with businesses?"
+            }
+        ],
+        "titleBold": "Common",
+        "titleLight": " Questions."
+    },
     "milestones": {
         "events": "Month events",
         "lede": "An overview of Kagōunga's annual journey across exhibitions, music, pop-ups, and collaborative ventures. Upcoming schedules are updated dynamically.",

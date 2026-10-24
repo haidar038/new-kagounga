@@ -151,32 +151,66 @@
       "id": "Popeda Soup — Sup Sagu Instan Khas Ternate | Kagōunga"
     },
     "sago": {
-      "en": "Sago Starch from North Maluku | Kagōunga",
-      "id": "Pati Sagu Maluku Utara | Kagōunga"
+      "en": "Sago Starch — Pure 1 kg Pouch from North Maluku | Kagōunga",
+      "id": "Pati Sagu Murni 1 kg Asli dari Maluku Utara | Kagōunga"
     },
     "tuna": {
-      "en": "Dried Tuna from North Maluku | Kagōunga",
-      "id": "Tuna Kering Maluku Utara | Kagōunga"
+      "en": "Sun-Dried Tuna from Ternate, North Maluku | Kagōunga",
+      "id": "Tuna Kering Jemur Matahari dari Maluku Utara | Kagōunga"
     },
     "seasoning": {
       "en": "Turmeric Fish Seasoning from the Spice Islands | Kagōunga",
-      "id": "Bumbu Kunyit Ikan Khas Maluku | Kagōunga"
+      "id": "Bumbu Kunyit Ikan Khas Ternate, Maluku Utara | Kagōunga"
     },
     "kenari": {
-      "en": "Roasted Kenari Nuts from Ternate | Kagōunga",
-      "id": "Kacang Kenari Panggang dari Ternate | Kagōunga"
+      "en": "Roasted Kenari Nuts from Ternate, North Maluku | Kagōunga",
+      "id": "Kacang Kenari Panggang dari Ternate, Maluku Utara | Kagōunga"
     },
     "telang": {
       "en": "Dried Butterfly Pea Flowers for Blue Tea | Kagōunga",
-      "id": "Bunga Telang Kering untuk Teh Biru | Kagōunga"
+      "id": "Bunga Telang Kering untuk Teh Biru Alami | Kagōunga"
     },
     "pala": {
-      "en": "Nutmeg & Mace from North Maluku | Kagōunga",
-      "id": "Pala & Fuli Maluku Utara | Kagōunga"
+      "en": "Whole Nutmeg and Mace from North Maluku | Kagōunga",
+      "id": "Pala & Fuli Utuh Asli dari Kepulauan Maluku | Kagōunga"
     },
     "cengkeh": {
-      "en": "Dried Cloves from North Maluku | Kagōunga",
-      "id": "Cengkeh Kering Maluku Utara | Kagōunga"
+      "en": "Whole Sun-Dried Cloves from North Maluku | Kagōunga",
+      "id": "Cengkeh Kering Utuh Asli dari Maluku Utara | Kagōunga"
+    }
+  },
+  "seoDescriptions": {
+    "popeda": {
+      "en": "Instant sago soup from Ternate: silky sago base with savoury turmeric fish broth, dried tuna, and vegetables. Ready in 5 minutes, halal certified.",
+      "id": "Sup sagu instan dari Ternate: dasar sagu lembut dengan kuah kunyit ikan gurih, tuna kering, dan sayuran. Siap dalam 5 menit, bersertifikat halal."
+    },
+    "sago": {
+      "en": "Pure sago starch from North Moluccan palms, packed in a 1 kg food-grade pouch. Thickens papeda-style porridge, soups, and desserts. Halal certified.",
+      "id": "Pati sagu murni dari pohon sagu Maluku Utara dalam pouch food grade 1 kg. Untuk bubur papeda, sup, dan hidangan penutup. Bersertifikat halal."
+    },
+    "tuna": {
+      "en": "Wild-caught tuna, cleaned and sun-dried in Ternate with no preservatives. A 100 g resealable pouch that adds savoury depth to soups and sambal.",
+      "id": "Tuna tangkapan liar yang dibersihkan dan dijemur di Ternate tanpa pengawet. Pouch 100 g yang dapat ditutup ulang untuk sup, sambal, dan nasi goreng."
+    },
+    "seasoning": {
+      "en": "Small-batch turmeric fish seasoning blended in Ternate: turmeric, dried fish powder, and sea salt for an instant golden broth or grilling rub.",
+      "id": "Bumbu kunyit ikan produksi kecil dari Ternate: kunyit, bubuk ikan kering, dan garam laut untuk kuah keemasan instan atau olesan bakaran ikan."
+    },
+    "kenari": {
+      "en": "Buttery native kenari nuts, roasted and lightly salted in Ternate, North Maluku. A 200 g resealable pouch, ready to snack or top salads and desserts.",
+      "id": "Kacang kenari asli yang gurih seperti mentega, dipanggang dan diberi sedikit garam di Ternate. Pouch 200 g, siap jadi camilan atau topping salad."
+    },
+    "telang": {
+      "en": "Sun-dried butterfly pea flowers from North Maluku for vibrant blue tea and natural food colouring. 50 g resealable pouch, only one ingredient.",
+      "id": "Bunga telang kering dari Maluku Utara untuk teh biru pekat dan pewarna alami makanan. Pouch 50 g yang dapat ditutup ulang, hanya satu bahan."
+    },
+    "pala": {
+      "en": "Whole sun-dried nutmeg and mace from Moluccan groves in a 100 g resealable pouch. Warm, resinous aroma for soups, sauces, and sweet dishes.",
+      "id": "Pala dan fuli utuh yang dijemur dari kebun Maluku dalam pouch 100 g. Aroma hangat khas Kepulauan Rempah untuk sup, saus, dan hidangan manis."
+    },
+    "cengkeh": {
+      "en": "Whole sun-dried cloves with a strong sweet aroma, packed unground in a 100 g resealable pouch. For broths, rice, braises, and mulled drinks.",
+      "id": "Cengkeh utuh yang dijemur dengan aroma manis kuat, dikemas tanpa digiling dalam pouch 100 g. Untuk kaldu, nasi, semur, dan minuman rempah."
     }
   }
 }

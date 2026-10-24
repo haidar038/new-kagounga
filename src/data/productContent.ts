@@ -22,6 +22,12 @@ const CMS_PRODUCTS = (Array.isArray(cmsSnapshot) ? cmsSnapshot : []).filter(
 
 /** Unique search-facing titles; product names alone are too thin for ID SERP. */
 export const PRODUCT_SEO_TITLES = STATIC_SEO_TITLES;
+/** Search-facing meta descriptions; one-line blurbs alone are too thin (120-160 chars). */
+const STATIC_SEO_DESCRIPTIONS = raw.seoDescriptions as Record<
+  string,
+  Record<Locale, string>
+>;
+export const PRODUCT_SEO_DESCRIPTIONS = STATIC_SEO_DESCRIPTIONS;
 export const PRODUCT_PAGE_COPY = STATIC_COPY;
 
 function findCmsProduct(id: string): CmsProduct | undefined {
@@ -77,6 +83,45 @@ export function getProductSeoTitle(
     if (title) return title;
   }
   return STATIC_SEO_TITLES[id]?.[locale] ?? null;
+}
+
+/** CMS `seoDescription` -> string, or null when absent. */
+export function toProductSeoDescription(
+  doc: CmsProduct,
+  locale: Locale,
+): string | null {
+  const desc = pickLocale(doc.seoDescription, locale).value;
+  return typeof desc === "string" && desc.trim() ? desc : null;
+}
+
+export function getProductSeoDescription(
+  id: string,
+  locale: Locale,
+): string | null {
+  const doc = findCmsProduct(id);
+  if (doc) {
+    const desc = toProductSeoDescription(doc, locale);
+    if (desc) return desc;
+  }
+  return STATIC_SEO_DESCRIPTIONS[id]?.[locale] ?? null;
+}
+
+/** Map export for the SEO build; includes CMS products, falls back to static. */
+export function getProductSeoDescriptions(): Record<
+  string,
+  Record<Locale, string>
+> {
+  const ids = new Set([
+    ...Object.keys(STATIC_SEO_DESCRIPTIONS),
+    ...CMS_PRODUCTS.map((doc) => doc.slug),
+  ]);
+  const descriptions: Record<string, Record<Locale, string>> = {};
+  for (const id of ids) {
+    const en = getProductSeoDescription(id, "en");
+    const localized = getProductSeoDescription(id, "id");
+    if (en && localized) descriptions[id] = { en, id: localized };
+  }
+  return descriptions;
 }
 
 /** Map export for the SEO build; includes CMS products, falls back to static. */

@@ -12,6 +12,20 @@ maplibregl.setWorkerUrl(mapWorkerUrl);
 const STYLE_URL =
   "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
 
+/**
+ * Crawler render environments and locked-down devices have no WebGL context;
+ * MapLibre's constructor throws there. That error must never bubble up to
+ * AppErrorBoundary — it renders ErrorPage, which noindexes the whole route.
+ */
+function webglAvailable(): boolean {
+  try {
+    const canvas = document.createElement("canvas");
+    return Boolean(canvas.getContext("webgl2") ?? canvas.getContext("webgl"));
+  } catch {
+    return false;
+  }
+}
+
 export interface MapHandle {
   focusPoint: (point: DistributionPoint) => void;
 }
@@ -57,23 +71,46 @@ export default function MapView({
   points,
   ariaLabel,
   onReady,
+  onFatal,
 }: {
   points: DistributionPoint[];
   ariaLabel: string;
   onReady: (api: MapHandle | null) => void;
+  /** Report an unrenderable environment so the owner can swap in a fallback. */
+  onFatal: () => void;
 }): React.JSX.Element {
   const { t } = useTranslation("contact");
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Crawler render environments and locked-down devices have no WebGL
+    // context; MapLibre's constructor throws there. That error must never
+    // bubble up to AppErrorBoundary — it renders ErrorPage, which noindexes
+    // the whole route.
+    if (!webglAvailable()) {
+      onFatal();
+      onReady(null);
+      return;
+    }
     const container = containerRef.current;
     if (!container) return;
-    const map = new maplibregl.Map({
-      container,
-      style: STYLE_URL,
-      attributionControl: { compact: true },
-    });
-    map.addControl(new maplibregl.NavigationControl(), "top-right");
+    let map: maplibregl.Map;
+    try {
+      map = new maplibregl.Map({
+        container,
+        style: STYLE_URL,
+        attributionControl: { compact: true },
+      });
+      map.addControl(new maplibregl.NavigationControl(), "top-right");
+    } catch (error) {
+      console.warn("Kagōunga map unavailable:", error);
+      onFatal();
+      onReady(null);
+      return;
+    }
+    // Tile/style fetch failures fire "error" events; they are non-fatal and
+    // must not look like a crash to error reporting.
+    map.on("error", () => {});
 
     let rendered: maplibregl.Marker[] = [];
     let renderedGroups: Array<{
@@ -184,7 +221,7 @@ export default function MapView({
       });
       map.remove();
     };
-  }, [points, onReady, t]);
+  }, [points, onReady, onFatal, t]);
 
   return (
     <div

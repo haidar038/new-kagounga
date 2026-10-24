@@ -10,6 +10,32 @@
         ],
         "tisan": "Tisan memegang sagu. Arahkan untuk melihat wajahnya"
     },
+    "faq": {
+        "items": [
+            {
+                "a": "Kagōunga adalah merek kreatif yang berakar di Ternate, Maluku Utara. Lima wujud ekspresi berbeda dalam satu identitas: gastronomi, perawatan diri, wewangian rumah, identitas sonik, dan seni rupa.",
+                "q": "Apa itu Kagōunga?"
+            },
+            {
+                "a": "Bahan dapur dari Maluku Utara: sup Popeda instan, pati sagu, tuna kering, bumbu kunyit ikan, kacang kenari panggang, bunga telang, pala dan fuli utuh, serta cengkeh utuh — bersama kartu seni kolektibel dan musik brand orisinal.",
+                "q": "Produk apa saja yang ditawarkan Kagōunga?"
+            },
+            {
+                "a": "Produk kami dibuat di Ternate, Maluku Utara, Indonesia, dari sagu, rempah, dan hasil laut lokal. Produk makanan memiliki sertifikasi halal dan dokumen P-IRT.",
+                "q": "Di mana produk Kagōunga dibuat?"
+            },
+            {
+                "a": "Pesan via WhatsApp langsung dari halaman produk, atau temukan titik distribusi terdekat di halaman kontak — stokis kami tersebar dari Ternate hingga Jakarta.",
+                "q": "Bagaimana cara memesan produk Kagōunga?"
+            },
+            {
+                "a": "Ya. Kami bermitra dengan ritel, kafe, korporat, hotel, distributor, dan manufaktur. Harga grosir dan minimum order tampil di halaman produk yang tersedia, atau hubungi kami untuk membahas kemitraan.",
+                "q": "Apakah Kagōunga menerima kemitraan bisnis?"
+            }
+        ],
+        "titleBold": "Pertanyaan",
+        "titleLight": " Umum."
+    },
     "milestones": {
         "events": "Agenda bulan",
         "lede": "Gambaran perjalanan tahunan Kagōunga lintas pameran, musik, pop-up, dan kolaborasi. Jadwal mendatang diperbarui secara dinamis.",

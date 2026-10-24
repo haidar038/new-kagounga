@@ -28,6 +28,9 @@ export function FindUs(): React.JSX.Element {
   const mapWrapRef = useRef<HTMLDivElement>(null);
   const mapApi = useRef<MapHandle | null>(null);
   const [mapReady, setMapReady] = useState(false);
+  // MapLibre throws without WebGL (crawlers, locked-down devices). The map
+  // reports it via onFatal so the route never crashes into ErrorPage/noindex.
+  const [mapFailed, setMapFailed] = useState(false);
   const [activeCity, setActiveCity] = useState<StockistCityGroup | null>(null);
   const fallbackCities = useMemo(() => getStockistCities(locale), [locale]);
   const [cached, setCached] = useState(() => ({ locale, cities: fallbackCities }));
@@ -70,6 +73,10 @@ export function FindUs(): React.JSX.Element {
     mapApi.current = api;
   }, []);
 
+  const onMapFatal = useCallback((): void => {
+    setMapFailed(true);
+  }, []);
+
   const focusPoint = useCallback((point: Parameters<MapHandle["focusPoint"]>[0]): void => {
     mapApi.current?.focusPoint(point);
   }, []);
@@ -95,7 +102,7 @@ export function FindUs(): React.JSX.Element {
             ref={mapWrapRef}
             className="mt-8 h-[40vh] min-h-80 w-full overflow-hidden rounded-3xl border border-cream/10 bg-cream/5 md:h-[55vh] md:min-h-105"
           >
-            {mapReady ? (
+            {mapReady && !mapFailed ? (
               <Suspense
                 fallback={
                   <div className="grid h-full place-items-center text-[13px] text-cream/70">
@@ -107,8 +114,17 @@ export function FindUs(): React.JSX.Element {
                   points={points}
                   ariaLabel={t("findUs.map")}
                   onReady={onMapReady}
+                  onFatal={onMapFatal}
                 />
               </Suspense>
+            ) : mapFailed ? (
+              <div
+                role="img"
+                aria-label={t("findUs.map")}
+                className="grid h-full place-items-center p-8 text-center text-[13px] text-cream/70"
+              >
+                {t("findUs.mapFallback")}
+              </div>
             ) : (
               <div
                 aria-hidden="true"

@@ -15,6 +15,7 @@ import type { ProductPageData } from "../data/products";
 import { getProducts, loadProductPage, orderHref } from "../data/products";
 import {
   getProductPageCopy,
+  getProductSeoDescription,
   getProductSeoTitle,
 } from "../data/productContent";
 import { useDocumentMeta } from "../hooks/useDocumentMeta";
@@ -127,7 +128,9 @@ export function ProductPage(): React.JSX.Element {
     title:
       seoTitle ??
       (product ? `${product.name} | Kagōunga` : t("notFound.title", { ns: "seo" })),
-    description: product ? product.blurb : t("notFound.description", { ns: "seo" }),
+    description: product
+      ? (getProductSeoDescription(product.id, locale) ?? product.blurb)
+      : t("notFound.description", { ns: "seo" }),
     canonical: locale === "id" ? `/id${canonical}` : canonical,
     image: product?.image,
     imageAlt: product?.alt,

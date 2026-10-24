@@ -6,6 +6,7 @@ import { Milestones } from "../features/home/Milestones";
 import { Signature } from "../features/home/Signature";
 import { Movement } from "../features/home/Movement";
 import { Partners } from "../features/home/Partners";
+import { Faq } from "../features/home/Faq";
 
 export function HomePage(): React.JSX.Element {
   const { t } = useTranslation("seo");
@@ -23,6 +24,7 @@ export function HomePage(): React.JSX.Element {
       <Signature />
       <Movement />
       <Partners />
+      <Faq />
     </main>
   );
 }

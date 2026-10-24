@@ -1,15 +1,15 @@
 {
     "about": {
-        "description": "Kagōunga: Cerita Kami dan Kolaborasi. Perjalanan dari Maluku Utara dan orang-orang di baliknya.",
-        "title": "Cerita Kami | Kagōunga"
+        "description": "Kenali orang-orang di balik Kagōunga: cerita kami dari Maluku Utara, kolaborator yang bekerja bersama kami, dan identitas yang menyatukan lima wujud ekspresi.",
+        "title": "Cerita Kami — Perjalanan dari Maluku Utara | Kagōunga"
     },
     "catalog": {
-        "description": "Belanja produk Kagōunga: popeda instan, pati sagu, dan rempah single-origin Maluku Utara. Kemitraan B2B untuk ritel, kafe, korporat, hotel, distributor, dan manufaktur.",
-        "title": "Katalog Kami | Kagōunga"
+        "description": "Belanja produk Kagōunga: popeda instan, pati sagu, dan rempah single-origin Maluku Utara. Kemitraan B2B untuk ritel, kafe, hotel, dan distributor.",
+        "title": "Katalog Kami — Sagu, Rempah & Stok Dapur | Kagōunga"
     },
     "contact": {
-        "description": "Temukan titik distribusi Kagōunga di seluruh Indonesia dan hubungi kami untuk inquiry bisnis, kemitraan, atau media.",
-        "title": "Kontak | Kagōunga"
+        "description": "Temukan titik distribusi Kagōunga di seluruh Indonesia, dari Ternate hingga Jakarta. Hubungi kami untuk inquiry bisnis, kemitraan, atau permintaan media.",
+        "title": "Kontak & Stokis — Distribusi di Seluruh Indonesia | Kagōunga"
     },
     "error": {
         "description": "Halaman gagal dimuat. Silakan coba lagi.",
@@ -20,12 +20,12 @@
         "title": "Kagōunga | Move, Moreover!"
     },
     "music": {
-        "description": "Dengarkan musik orisinal Kagōunga. Temukan lagu brand kami di Spotify, Apple Music, YouTube Music, dan lainnya.",
-        "title": "Musik Kami | Kagōunga"
+        "description": "Dengarkan musik orisinal Kagōunga. Temukan lagu brand dan identitas sonik kami di Spotify, Apple Music, YouTube Music, dan platform lainnya.",
+        "title": "Musik Kami — Lagu Orisinal & Identitas Sonik | Kagōunga"
     },
     "news": {
-        "description": "Ikuti kabar terbaru, acara, dan cerita dari Kagōunga: popeda, kuliner Maluku Utara, dan budaya lokal.",
-        "title": "Berita & Cerita | Kagōunga"
+        "description": "Ikuti kabar terbaru, acara, dan cerita dari Kagōunga: popeda, kuliner Maluku Utara, budaya lokal, dan perjalanan merek di berbagai festival.",
+        "title": "Berita & Cerita — Acara, Budaya & Dapur | Kagōunga"
     },
     "maintenance": {
         "description": "Kagōunga sedang tidak tersedia untuk perawatan.",
@@ -36,11 +36,11 @@
         "title": "Tidak Ditemukan | Kagōunga"
     },
     "privacy": {
-        "description": "Bagaimana Kagōunga mengelola persetujuan analitik, pesan kontak, cache lokal, dan layanan pihak ketiga.",
-        "title": "Privasi | Kagōunga"
+        "description": "Bagaimana Kagōunga mengelola persetujuan analitik, pesan kontak yang kamu kirim via WhatsApp, cache lokal di perangkatmu, dan layanan pihak ketiga.",
+        "title": "Kebijakan Privasi — Analitik, Data & Cookie | Kagōunga"
     },
     "terms": {
-        "description": "Syarat menjelajah, memesan via WhatsApp, dan menggunakan ulang konten Kagōunga.",
-        "title": "Syarat | Kagōunga"
+        "description": "Syarat yang berlaku saat kamu menjelajah kagounga.com, memesan produk via WhatsApp, menghubungi tim kami, atau menggunakan ulang konten Kagōunga.",
+        "title": "Syarat Penggunaan — Pesan, Konten & WhatsApp | Kagōunga"
     }
 }

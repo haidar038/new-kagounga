@@ -121,7 +121,8 @@ export function toLocalizedPost(doc: CmsPost, locale: Locale, baseUrl: string): 
     dateISO,
     dateLabel: dateISO ? formatDateLabel(dateISO, locale) : "",
     cover: resolveCmsImage(doc.featuredImage, doc.coverUrl, baseUrl),
-    coverAlt: coverAlt.value ?? "",
+    // Empty CMS alt would render an <img> without an alt attribute at all.
+    coverAlt: coverAlt.value ?? title.value ?? "",
     excerpt: excerpt.value ?? "",
     lede: lede.value ?? "",
     bodyMarkdown: content.value ? lexicalToMarkdown(content.value) : "",

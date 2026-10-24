@@ -22,7 +22,7 @@ export function SiteFooter(): React.JSX.Element {
           <div className="lg:col-span-5">
             <img
               src={cld("logo-primary-white.svg", 320)}
-              alt="Kagounga"
+              alt="Kagōunga"
               className="h-16 w-auto"
               width={160}
               height={64}

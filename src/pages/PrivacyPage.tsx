@@ -5,9 +5,32 @@ import { Reveal } from "../components/Reveal";
 import { useLocale } from "../i18n";
 import { CONTACT } from "../data/site";
 
+interface LegalSubSection {
+  h: string;
+  p: string[];
+}
+
 interface LegalSection {
   h: string;
   p: string[];
+  sub?: LegalSubSection[];
+}
+
+function LegalParagraphs({ p }: { p: string[] }): React.JSX.Element {
+  return (
+    <>
+      {p.map((text) => (
+        <p
+          key={text.slice(0, 24)}
+          className="mt-3 text-[15px] leading-relaxed text-ink/80"
+        >
+          {text
+            .replace("{{email}}", CONTACT.email)
+            .replace("{{phone}}", CONTACT.phoneLabel)}
+        </p>
+      ))}
+    </>
+  );
 }
 
 export function PrivacyPage(): React.JSX.Element {
@@ -35,15 +58,12 @@ export function PrivacyPage(): React.JSX.Element {
               <h2 className="display text-3xl md:text-4xl">
                 <span className="font-bold">{s.h}</span>
               </h2>
-              {s.p.map((text) => (
-                <p
-                  key={text.slice(0, 24)}
-                  className="mt-3 text-[15px] leading-relaxed text-ink/80"
-                >
-                  {text
-                    .replace("{{email}}", CONTACT.email)
-                    .replace("{{phone}}", CONTACT.phoneLabel)}
-                </p>
+              {s.p.length > 0 && <LegalParagraphs p={s.p} />}
+              {s.sub?.map((sub) => (
+                <div key={sub.h} className="mt-6">
+                  <h3 className="text-xl font-bold">{sub.h}</h3>
+                  <LegalParagraphs p={sub.p} />
+                </div>
               ))}
             </Reveal>
           ))}

@@ -3,6 +3,7 @@
     "findUs": {
         "lede": "Peta sebaran {{count}} titik produk Kagōunga: dari Ternate hingga Jakarta. Klik penanda atau kartu wilayah untuk navigasi.",
         "map": "Peta sebaran produk Kagōunga",
+        "mapFallback": "Peta interaktif tidak tersedia di perangkat ini — telusuri daftar kota di bawah untuk menemukan Kagōunga terdekat.",
         "titleBold": "Jangkau",
         "titleLight": " Kami."
     },

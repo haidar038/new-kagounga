@@ -21,6 +21,11 @@ const SITE = (process.env.VITE_SITE_URL || "https://kagounga.com").replace(/\/+$
 const CMS = (process.env.CMS_URL || process.env.VITE_CMS_URL || "").replace(/\/+$/, "");
 const OG_DEFAULT =
   "https://res.cloudinary.com/fal5otmd/image/upload/v1791556121/OpenGraph.webp";
+// Hero LCP candidates — must match src/features/home/Hero.tsx srcSet exactly so
+// the preload is reused instead of triggering a second fetch.
+const HERO_SRCSET = [640, 960, 1280, 1920]
+  .map((w) => `https://res.cloudinary.com/fal5otmd/image/upload/f_auto,q_auto,w_${w}/hero-bg-nature.webp ${w}w`)
+  .join(", ");
 const LOGO =
   "https://res.cloudinary.com/fal5otmd/image/upload/f_auto,q_auto/logo-primary-emblem.svg";
 const today = new Date().toISOString().slice(0, 10);
@@ -166,6 +171,7 @@ async function loadSchemaData(server) {
         id: stockistMod.getStockistCities("id"),
       },
       productSeo: productContentMod.getProductSeoTitles(),
+      productSeoDesc: productContentMod.getProductSeoDescriptions(),
     };
   } catch (error) {
     console.warn(`seo-build: schema data unavailable (${error.message})`);
@@ -176,6 +182,7 @@ async function loadSchemaData(server) {
       tracks: [],
       stockistCities: { en: [], id: [] },
       productSeo: {},
+      productSeoDesc: {},
     };
   }
 }
@@ -195,6 +202,7 @@ const schemaData = ssrServer
       tracks: [],
       stockistCities: { en: [], id: [] },
       productSeo: {},
+      productSeoDesc: {},
     };
 let renderRouteBody = null;
 if (ssrServer) {
@@ -282,7 +290,7 @@ for (const locale of ["en", "id"]) {
       key: "product",
       title:
         schemaData.productSeo?.[p.id]?.[locale] ?? `${p.name} | Kagōunga`,
-      desc: p.blurb,
+      desc: schemaData.productSeoDesc?.[p.id]?.[locale] ?? p.blurb,
       type: "website",
       image: p.image,
       imageAlt: p.alt,
@@ -654,6 +662,14 @@ function renderRoute(template, route, body = "") {
   const localeTag = route.locale === "id" ? "id_ID" : "en_US";
   const altTag = route.locale === "id" ? "en_US" : "id_ID";
   let html = template.replace(/<html\s+lang="[^"]*"/, `<html lang="${route.locale}"`);
+  // Homepage-only: start the LCP hero download before the prerendered body is
+  // scanned. Other routes must not pay for an image they never show.
+  if (route.path === "/" || route.path === "/id") {
+    html = html.replace(
+      "</head>",
+      () => `<link rel="preload" as="image" imagesrcset="${HERO_SRCSET}" imagesizes="100vw" fetchpriority="high" />\n</head>`,
+    );
+  }
   html = setTitle(html, route.title);
   html = setMeta(html, "name", "description", route.desc);
   html = setLink(html, "canonical", url);

@@ -47,7 +47,7 @@ export function ContactPage(): React.JSX.Element {
                     aria-hidden="true"
                   />
                   <div>
-                    <p className="font-bold">{CONTACT.office}</p>
+                    <h3 className="font-bold">{CONTACT.office}</h3>
                     <p className="mt-1 text-[14px] leading-relaxed text-cream/70">
                       {CONTACT.address[0]}
                       <br />
@@ -61,7 +61,7 @@ export function ContactPage(): React.JSX.Element {
                     aria-hidden="true"
                   />
                   <div>
-                    <p className="font-bold">{t("email")}</p>
+                    <h3 className="font-bold">{t("email")}</h3>
                     <a
                       href={`mailto:${CONTACT.email}`}
                       className="mt-1 block text-[14px] text-cream/70 hover:text-cream"
@@ -76,7 +76,7 @@ export function ContactPage(): React.JSX.Element {
                     aria-hidden="true"
                   />
                   <div>
-                    <p className="font-bold">{t("phone")}</p>
+                    <h3 className="font-bold">{t("phone")}</h3>
                     <a
                       href={CONTACT.phoneHref}
                       className="mt-1 block text-[14px] text-cream/70 hover:text-cream"

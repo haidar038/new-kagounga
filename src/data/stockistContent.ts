@@ -18,9 +18,9 @@ export const STOCKIST_PAGES: Record<
 > = {
   ternate: {
     en: {
-      seoTitle: "Kagōunga Stockists in Ternate | Kagōunga",
+      seoTitle: "Kagōunga Stockists in Ternate, North Maluku | Kagōunga",
       description:
-        "Find Kagōunga popeda, sago, and North Moluccan spices at our Ternate hub, airport outlets, hotels, and local stores.",
+        "Find Kagōunga popeda, sago, and North Moluccan spices at our Ternate hubs, airport outlets, hotel partners, and local stores across North Maluku.",
       title: "Find Kagōunga in Ternate.",
       lede: "Our home base, with the widest choice of retail points and the fastest access to the Kagōunga team.",
       paragraphs: [
@@ -30,9 +30,9 @@ export const STOCKIST_PAGES: Record<
       ],
     },
     id: {
-      seoTitle: "Toko Kagōunga di Ternate | Kagōunga",
+      seoTitle: "Toko Kagōunga di Kota Ternate, Maluku Utara | Kagōunga",
       description:
-        "Temukan popeda, sagu, dan rempah Maluku Utara Kagōunga di hub Ternate, outlet bandara, hotel, dan toko lokal.",
+        "Temukan popeda, sagu, dan rempah Maluku Utara Kagōunga di hub Ternate, outlet bandara, hotel, dan toko lokal di seluruh Maluku Utara.",
       title: "Temukan Kagōunga di Ternate.",
       lede: "Basis kami, dengan pilihan titik ritel paling lengkap dan akses tercepat ke tim Kagōunga.",
       paragraphs: [
@@ -44,9 +44,9 @@ export const STOCKIST_PAGES: Record<
   },
   tidore: {
     en: {
-      seoTitle: "Kagōunga Stockists in Tidore | Kagōunga",
+      seoTitle: "Kagōunga Stockists in Tidore, North Maluku | Kagōunga",
       description:
-        "Find Kagōunga products in Tidore at our partner gallery, alongside local woven textiles and island crafts.",
+        "Find Kagōunga products in Tidore at our partner gallery in Soasio, alongside local woven textiles and island crafts from the Spice Islands.",
       title: "Find Kagōunga in Tidore.",
       lede: "A partner point in Soasio for visitors exploring Tidore and the wider North Maluku islands.",
       paragraphs: [
@@ -56,9 +56,9 @@ export const STOCKIST_PAGES: Record<
       ],
     },
     id: {
-      seoTitle: "Toko Kagōunga di Tidore | Kagōunga",
+      seoTitle: "Toko Kagōunga di Kota Tidore, Maluku Utara | Kagōunga",
       description:
-        "Temukan produk Kagōunga di Tidore melalui galeri partner kami, bersama tenun dan kerajinan lokal.",
+        "Temukan produk Kagōunga di Tidore melalui galeri partner kami di Soasio, bersama tenun lokal dan kerajinan kepulauan Maluku Utara.",
       title: "Temukan Kagōunga di Tidore.",
       lede: "Titik partner di Soasio untuk pengunjung yang menjelajahi Tidore dan kepulauan Maluku Utara.",
       paragraphs: [
@@ -70,9 +70,9 @@ export const STOCKIST_PAGES: Record<
   },
   denpasar: {
     en: {
-      seoTitle: "Kagōunga Stockists in Denpasar & Sanur | Kagōunga",
+      seoTitle: "Kagōunga Stockists in Denpasar & Sanur, Bali | Kagōunga",
       description:
-        "Shop Kagōunga in Bali at our Renon hub and JAVARA House Sanur.",
+        "Shop Kagōunga in Bali at our Renon hub in Denpasar and JAVARA House Sanur — popeda, sago, and North Moluccan spices for kitchens and gift retail.",
       title: "Find Kagōunga in Denpasar.",
       lede: "Our Bali hub in Renon and a partner point in Sanur connect North Moluccan pantry staples to the island.",
       paragraphs: [
@@ -82,9 +82,9 @@ export const STOCKIST_PAGES: Record<
       ],
     },
     id: {
-      seoTitle: "Toko Kagōunga di Denpasar & Sanur | Kagōunga",
+      seoTitle: "Toko & Stokis Kagōunga di Denpasar & Sanur | Kagōunga",
       description:
-        "Beli produk Kagōunga di Bali melalui hub Renon dan JAVARA House Sanur.",
+        "Beli produk Kagōunga di Bali melalui hub Renon di Denpasar dan JAVARA House Sanur — popeda, sagu, dan rempah Maluku Utara untuk dapur dan ritel hadiah.",
       title: "Temukan Kagōunga di Denpasar.",
       lede: "Hub Bali kami di Renon dan titik partner di Sanur menghubungkan bahan pokok Maluku Utara ke pulau ini.",
       paragraphs: [
@@ -96,9 +96,9 @@ export const STOCKIST_PAGES: Record<
   },
   bandung: {
     en: {
-      seoTitle: "Kagōunga Stockists in Bandung | Kagōunga",
+      seoTitle: "Kagōunga Stockists in Bandung, West Java | Kagōunga",
       description:
-        "Find Kagōunga products in Bandung at Rasta Timur Asli in Bandung Wetan.",
+        "Find Kagōunga products in Bandung at Rasta Timur Asli, Bandung Wetan: sago, turmeric fish seasoning, and Moluccan spices for local kitchens.",
       title: "Find Kagōunga in Bandung.",
       lede: "A partner point in Bandung Wetan for pantry staples and North Moluccan flavours.",
       paragraphs: [
@@ -108,9 +108,9 @@ export const STOCKIST_PAGES: Record<
       ],
     },
     id: {
-      seoTitle: "Toko Kagōunga di Bandung | Kagōunga",
+      seoTitle: "Toko & Stokis Kagōunga di Bandung, Jawa Barat | Kagōunga",
       description:
-        "Temukan produk Kagōunga di Bandung melalui Rasta Timur Asli di Bandung Wetan.",
+        "Temukan produk Kagōunga di Bandung melalui Rasta Timur Asli di Bandung Wetan: sagu, bumbu kunyit ikan, dan rempah Maluku untuk dapur lokal.",
       title: "Temukan Kagōunga di Bandung.",
       lede: "Titik partner di Bandung Wetan untuk bahan pokok dan cita rasa Maluku Utara.",
       paragraphs: [
@@ -122,9 +122,9 @@ export const STOCKIST_PAGES: Record<
   },
   jakarta: {
     en: {
-      seoTitle: "Kagōunga Stockists in Jakarta | Kagōunga",
+      seoTitle: "Kagōunga Stockists in Kemang, South Jakarta | Kagōunga",
       description:
-        "Find Kagōunga products in Jakarta at JAVARA Culture Kemang.",
+        "Find Kagōunga products in Jakarta at JAVARA Culture Kemang: a curated retail point for pantry staples, gifts, and Indonesian ingredients.",
       title: "Find Kagōunga in Jakarta.",
       lede: "A curated partner point in Kemang for Jakarta shoppers and gift buyers.",
       paragraphs: [
@@ -134,8 +134,9 @@ export const STOCKIST_PAGES: Record<
       ],
     },
     id: {
-      seoTitle: "Toko Kagōunga di Jakarta | Kagōunga",
-      description: "Temukan produk Kagōunga di Jakarta melalui JAVARA Culture Kemang.",
+      seoTitle: "Toko & Stokis Kagōunga di Kemang, Jakarta | Kagōunga",
+      description:
+        "Temukan produk Kagōunga di Jakarta melalui JAVARA Culture Kemang: titik ritel terkurasi untuk bahan pokok, hadiah, dan bahan Indonesia.",
       title: "Temukan Kagōunga di Jakarta.",
       lede: "Titik partner terkurasi di Kemang untuk pembeli dan pencari hadiah di Jakarta.",
       paragraphs: [
