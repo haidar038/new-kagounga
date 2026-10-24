@@ -259,7 +259,7 @@ export function ArtworkStack({
                   aria-label={artwork.title}
                   className="flex h-full w-full shrink-0 snap-center snap-always items-center justify-center py-1"
                 >
-                  <div className="group relative w-[min(84vw,41.5vh)] [perspective:1200px]">
+                  <div className="group relative w-[min(84vw,41.5vh)] perspective-distant">
                     {/* Resting deck planes peeking behind the card */}
                     <span
                       aria-hidden="true"
@@ -290,8 +290,8 @@ export function ArtworkStack({
                         }
                       }}
                       className={cn(
-                        "relative grid [transform-style:preserve-3d] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
-                        flipped && g === pos && "[transform:rotateY(180deg)]",
+                        "relative grid transform-3d transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+                        flipped && g === pos && "transform-[rotateY(180deg)]",
                       )}
                     >
                       <ArtworkFront

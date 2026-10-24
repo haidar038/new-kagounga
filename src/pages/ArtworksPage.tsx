@@ -39,7 +39,7 @@ export function ArtworksPage(): ReactNode {
   const isXl = useMediaQuery("(min-width: 1280px)");
 
   // Desktop pagination state.
-  const pageSize = isXl ? 4 : 2;
+  const pageSize = isXl ? 4 : 3;
   const pageCount = Math.ceil(artworks.length / pageSize);
   const [page, setPage] = useState(0);
   const current = Math.min(page, pageCount - 1);
@@ -120,13 +120,13 @@ export function ArtworksPage(): ReactNode {
               </Reveal>
 
               {/* Scroll anchor when switching pages (clears the sticky header). */}
-              <div ref={anchorRef} className="scroll-mt-24" aria-hidden="true" />
+              <div ref={anchorRef} className="scroll-mt-40" aria-hidden="true" />
 
               {/* key={current} replays the enter animation and resets flips. */}
               <div
                 key={current}
                 aria-live="polite"
-                className="mt-6 grid animate-enter grid-cols-2 gap-6 xl:grid-cols-4"
+                className="mt-6 grid animate-enter grid-cols-3 gap-6 xl:grid-cols-4"
               >
                 {items.map((artwork, i) => (
                   <ArtworkCard
