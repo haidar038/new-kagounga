@@ -52,7 +52,9 @@ export const ARTWORK_LOGO_ASSETS: Record<
 };
 
 /** Byline for caption cards bearing the sketch-ea mark (from the artwork signatures). */
-export const SKETCH_EA_CREDIT = "Fadrié (Sketch EA)";
+export const SKETCH_EA_CREDIT = "Copyright © Fadrié 2026";
+/** Byline for the remaining caption cards (mountains, fort, sago). */
+export const SHAHNAZ_CREDIT = "Copyright © Shahnaz 2026";
 
 /** logo_left / logo_right slots per artwork, from the source JSONs. */
 export const ARTWORK_LOGOS: Record<

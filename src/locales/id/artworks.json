@@ -10,7 +10,7 @@
     "flipAria": "Karya {{title}}. Mengaktifkan akan membalik kartu untuk menampilkan keterangannya.",
     "captionLabel": "Keterangan",
     "artworkLabel": "Karya",
-    "credit": "oleh {{name}}",
+    "credit": "{{name}}",
     "tapToExplore": "Ketuk untuk menjelajah",
     "openAria": "Karya {{title}}. Membuka tumpukan karya interaktif."
   },

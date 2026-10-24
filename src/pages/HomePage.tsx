@@ -22,9 +22,9 @@ export function HomePage(): React.JSX.Element {
       <Hero />
       <Milestones />
       <Signature />
+      <Faq />
       <Movement />
       <Partners />
-      <Faq />
     </main>
   );
 }

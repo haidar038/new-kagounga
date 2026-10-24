@@ -5,6 +5,7 @@ import type { Artwork, ArtworkLogoId } from "../../data/artworks";
 import {
   ARTWORK_LOGO_ASSETS,
   ARTWORK_LOGOS,
+  SHAHNAZ_CREDIT,
   SKETCH_EA_CREDIT,
 } from "../../data/artworks";
 import { useLocale } from "../../i18n";
@@ -101,6 +102,8 @@ export function ArtworkBack({
   const locale = useLocale();
   const indexLabel = String(index + 1).padStart(2, "0");
   const logos = ARTWORK_LOGOS[artwork.slug] ?? NO_LOGOS;
+  const hasEaSketch =
+    logos.left.includes("ea_sketch") || logos.right.includes("ea_sketch_kanan");
 
   const logoImg = (id: ArtworkLogoId): ReactNode => {
     const asset = ARTWORK_LOGO_ASSETS[id];
@@ -151,10 +154,10 @@ export function ArtworkBack({
         className="mt-3 text-[13px] leading-relaxed text-ink/75"
       />
       <span className="mt-auto pt-4 text-[11px] italic text-ink/50">
-        {/* Byline for artworks carrying the Fadrié × Sketch EA mark */}
-        {(logos.left.includes("ea_sketch") ||
-          logos.right.includes("ea_sketch_kanan")) &&
-          t("card.credit", { name: SKETCH_EA_CREDIT })}
+        {/* Byline: Fadrié × Sketch EA for the marked cards, Shahnaz for the rest */}
+        {t("card.credit", {
+          name: hasEaSketch ? SKETCH_EA_CREDIT : SHAHNAZ_CREDIT,
+        })}
       </span>
     </span>
   );

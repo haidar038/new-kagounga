@@ -24,7 +24,7 @@ export function Faq(): React.JSX.Element {
           </h2>
         </Reveal>
         <Reveal>
-          <div className="mx-auto mt-10 max-w-3xl divide-y divide-ink/10 border-y border-ink/10">
+          <div className="mx-auto mt-10 divide-y divide-ink/10 border-y border-ink/10">
             {items.map((item) => (
               <details key={item.q} className="group py-5">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[15px] font-bold [&::-webkit-details-marker]:hidden">
@@ -36,7 +36,7 @@ export function Faq(): React.JSX.Element {
                     +
                   </span>
                 </summary>
-                <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-ink/70">
+                <p className="mt-3 text-[15px] leading-relaxed text-ink/70">
                   {item.a}
                 </p>
               </details>

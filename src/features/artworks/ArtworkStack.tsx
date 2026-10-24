@@ -14,6 +14,10 @@ import { artworkSrc } from "./artworkSrc";
 
 const pad2 = (n: number): string => String(n).padStart(2, "0");
 const HASH_PREFIX = "#card=";
+const TOTAL = artworks.length;
+/** The deck renders the slide list three times; the user always lives in
+ *  the middle copy, so a swipe past either end loops seamlessly. */
+const COPIES = 3;
 
 interface ArtworkStackProps {
   /** Index the stack opens on. The component mounts only while open. */
@@ -23,14 +27,15 @@ interface ArtworkStackProps {
 }
 
 /**
- * Layered deck for mobile built on CSS scroll snap along the horizontal
- * axis: each artwork is a full-width snap slide, so momentum, flick, and
- * the tap-vs-swipe call are the browser's, not hand-rolled pointer
- * handling - a swipe is consumed as scrolling and never fires the flip.
- * Rendered as a native modal dialog, the page behind is inert. Swipe left
- * moves to the next artwork, right to the previous; tapping a card flips
- * it to its caption. The position is kept in the URL hash (`#card=<slug>`)
- * so a viewed card survives refresh.
+ * Infinite layered deck for mobile built on CSS scroll snap along the
+ * horizontal axis: each artwork is a full-width snap slide, so momentum,
+ * flick, and the tap-vs-swipe call are the browser's, not hand-rolled
+ * pointer handling — a swipe is consumed as scrolling and never fires the
+ * flip. Rendered as a native modal dialog, the page behind is inert.
+ * Swipe left moves to the next artwork, right to the previous; the deck
+ * loops past both ends. Tapping a card flips it to its caption. The
+ * position is kept in the URL hash (`#card=<slug>`) so a viewed card
+ * survives refresh.
  */
 export function ArtworkStack({
   startIndex,
@@ -41,27 +46,28 @@ export function ArtworkStack({
   const dlgRef = useRef<HTMLDialogElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [index, setIndex] = useState(startIndex);
+  // Position in the tripled slide list (middle copy = TOTAL..TOTAL*2-1).
+  const [pos, setPos] = useState(TOTAL + startIndex);
   const [flipped, setFlipped] = useState(false);
-  // Start point of the pointer on the card, so the flip only reacts to
-  // taps - a swipe's click (where the browser fires one) is ignored.
-  const cardDown = useRef<{ x: number; y: number } | null>(null);
   // Latest values for native callbacks (refs are sync-safe there).
-  const indexRef = useRef(startIndex);
+  const posRef = useRef(pos);
   const onCloseRef = useRef(onClose);
 
+  useEffect(() => {
+    posRef.current = pos;
+  });
   useEffect(() => {
     onCloseRef.current = onClose;
   });
 
   // Open the native dialog and lock page scroll while the layer is up.
   // Closure is detected via the `open` attribute itself (MutationObserver),
-  // so every close path - Escape, ✕, programmatic - reports back reliably.
+  // so every close path — Escape, ✕, programmatic — reports back reliably.
   useEffect(() => {
     const dlg = dlgRef.current;
     if (!dlg) return;
     const handleClose = (): void => {
-      onCloseRef.current(indexRef.current);
+      onCloseRef.current(posRef.current % TOTAL);
     };
     const mo = new MutationObserver(() => {
       if (!dlg.open) handleClose();
@@ -71,14 +77,16 @@ export function ArtworkStack({
     // Position after showModal: a closed dialog is display:none, so any
     // earlier layout read would see a 0-width scroller.
     const scroller = scrollRef.current;
-    if (scroller) scroller.scrollLeft = startIndex * scroller.clientWidth;
+    if (scroller) {
+      scroller.scrollLeft = (TOTAL + startIndex) * scroller.clientWidth;
+    }
     const prevOverflow = document.documentElement.style.overflow;
     document.documentElement.style.overflow = "hidden";
     return () => {
       mo.disconnect();
       document.documentElement.style.overflow = prevOverflow;
       if (dlg.open) dlg.close();
-      // Strip our own hash as it stands NOW - StrictMode's first cleanup
+      // Strip our own hash as it stands NOW — StrictMode's first cleanup
       // already cleared the value captured at mount.
       const { pathname, search, hash } = window.location;
       if (hash.startsWith(HASH_PREFIX)) {
@@ -98,10 +106,10 @@ export function ArtworkStack({
       (entries) => {
         for (const entry of entries) {
           if (!entry.isIntersecting || entry.intersectionRatio < 0.55) continue;
-          const i = Number((entry.target as HTMLElement).dataset.index);
-          if (i !== indexRef.current) {
-            indexRef.current = i;
-            setIndex(i);
+          const g = Number((entry.target as HTMLElement).dataset.index);
+          if (g !== posRef.current) {
+            posRef.current = g;
+            setPos(g);
             setFlipped(false);
           }
         }
@@ -116,6 +124,33 @@ export function ArtworkStack({
     };
   }, []);
 
+  // Loop the deck: once a swipe settles in a clone copy, teleport (no
+  // animation) to the identical slide of the middle copy. scrollend where
+  // supported, an idle fallback everywhere else.
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const settle = (): void => {
+      const slideW = Math.max(1, el.clientWidth);
+      const g = Math.round(el.scrollLeft / slideW);
+      if (g < TOTAL || g >= TOTAL * 2) {
+        el.scrollLeft = ((g % TOTAL) + TOTAL) * slideW;
+      }
+    };
+    let idle = 0;
+    const onScroll = (): void => {
+      window.clearTimeout(idle);
+      idle = window.setTimeout(settle, 120);
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    el.addEventListener("scrollend", settle);
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      el.removeEventListener("scrollend", settle);
+      window.clearTimeout(idle);
+    };
+  }, []);
+
   // Deck depth while scrolling: the settled card sits at full scale, the
   // one arriving rises from the plane behind it. Direct style mutation
   // keeps scroll off the React render path.
@@ -127,11 +162,11 @@ export function ArtworkStack({
     const apply = (): void => {
       raf = 0;
       const slideW = Math.max(1, el.clientWidth);
-      const pos = el.scrollLeft / slideW;
+      const p = el.scrollLeft / slideW;
       slideRefs.current.forEach((slide, i) => {
         const deck = slide?.firstElementChild as HTMLElement | null;
         if (!deck) return;
-        const dist = Math.min(1, Math.abs(pos - i));
+        const dist = Math.min(1, Math.abs(p - i));
         if (dist >= 1) {
           deck.style.opacity = "0";
           deck.style.transform = "";
@@ -158,30 +193,30 @@ export function ArtworkStack({
     window.history.replaceState(
       null,
       "",
-      `${pathname}${search}${HASH_PREFIX}${artworks[index].slug}`,
+      `${pathname}${search}${HASH_PREFIX}${artworks[pos % TOTAL].slug}`,
     );
-  }, [index]);
+  }, [pos]);
 
   // Warm the cache for the cards adjacent to the current one.
   useEffect(() => {
     [1, 2].forEach((d) => {
-      const next = artworks[index + d];
+      const next = artworks[(pos % TOTAL) + d];
       if (!next) return;
       const img = new Image();
       img.src = artworkSrc(next.publicId, 650);
     });
-  }, [index]);
+  }, [pos]);
 
-  const scrollToSlide = (i: number): void => {
+  const scrollToSlide = (g: number): void => {
     const el = scrollRef.current;
     if (!el) return;
     el.scrollTo({
-      left: i * el.clientWidth,
+      left: g * el.clientWidth,
       behavior: reduced ? "auto" : "smooth",
     });
   };
 
-  const total = artworks.length;
+  const logical = pos % TOTAL;
 
   return (
     <dialog
@@ -210,70 +245,67 @@ export function ArtworkStack({
           aria-label={t("overlay.label")}
           className="no-scrollbar flex min-h-0 w-full flex-1 snap-x snap-mandatory overflow-x-auto overscroll-contain"
         >
-          {artworks.map((artwork, i) => (
-            <div
-              key={artwork.slug}
-              data-index={i}
-              ref={(el) => {
-                slideRefs.current[i] = el;
-              }}
-              aria-roledescription={t("overlay.slideLabel")}
-              aria-label={artwork.title}
-              className="flex h-full w-full shrink-0 snap-center snap-always items-center justify-center py-1"
-            >
-              <div className="group relative w-[min(84vw,41.5vh)] perspective-distant">
-                {/* Resting deck planes peeking behind the card */}
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 scale-[0.95] translate-y-3.5 rounded-3xl border border-cream/15 bg-cream/10"
-                />
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 scale-[0.90] translate-y-7 rounded-3xl border border-cream/10 bg-cream/5"
-                />
+          {Array.from({ length: COPIES }, (_, c) =>
+            artworks.map((artwork, i) => {
+              const g = c * TOTAL + i;
+              return (
                 <div
-                  role="button"
-                  tabIndex={0}
-                  aria-pressed={flipped && i === index}
-                  aria-label={t("card.flipAria", { title: artwork.title })}
-                  onPointerDown={(e) => {
-                    cardDown.current = { x: e.clientX, y: e.clientY };
+                  key={`${c}-${artwork.slug}`}
+                  data-index={g}
+                  ref={(el) => {
+                    slideRefs.current[g] = el;
                   }}
-                  onClick={(e) => {
-                    const down = cardDown.current;
-                    cardDown.current = null;
-                    if (down && Math.hypot(e.clientX - down.x, e.clientY - down.y) > 10) {
-                      return;
-                    }
-                    setFlipped((v) => !v);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      setFlipped((v) => !v);
-                    } else if (e.key === "ArrowLeft") {
-                      e.preventDefault();
-                      scrollToSlide(Math.max(0, i - 1));
-                    } else if (e.key === "ArrowRight") {
-                      e.preventDefault();
-                      scrollToSlide(Math.min(total - 1, i + 1));
-                    }
-                  }}
-                  className={cn(
-                    "relative grid transform-3d transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
-                    flipped && i === index && "transform-[rotateY(180deg)]",
-                  )}
+                  aria-roledescription={t("overlay.slideLabel")}
+                  aria-label={artwork.title}
+                  className="flex h-full w-full shrink-0 snap-center snap-always items-center justify-center py-1"
                 >
-                  <ArtworkFront
-                    artwork={artwork}
-                    index={i}
-                    badge={t("card.flip")}
-                  />
-                  <ArtworkBack artwork={artwork} index={i} />
+                  <div className="group relative w-[min(84vw,41.5vh)] [perspective:1200px]">
+                    {/* Resting deck planes peeking behind the card */}
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 scale-[0.95] translate-y-3.5 rounded-3xl border border-cream/15 bg-cream/10"
+                    />
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 scale-[0.90] translate-y-7 rounded-3xl border border-cream/10 bg-cream/5"
+                    />
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      aria-pressed={flipped && g === pos}
+                      aria-label={t("card.flipAria", { title: artwork.title })}
+                      onClick={() => {
+                        setFlipped((v) => !v);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setFlipped((v) => !v);
+                        } else if (e.key === "ArrowLeft") {
+                          e.preventDefault();
+                          scrollToSlide(pos - 1);
+                        } else if (e.key === "ArrowRight") {
+                          e.preventDefault();
+                          scrollToSlide(pos + 1);
+                        }
+                      }}
+                      className={cn(
+                        "relative grid [transform-style:preserve-3d] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+                        flipped && g === pos && "[transform:rotateY(180deg)]",
+                      )}
+                    >
+                      <ArtworkFront
+                        artwork={artwork}
+                        index={i}
+                        badge={t("card.flip")}
+                      />
+                      <ArtworkBack artwork={artwork} index={i} />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              );
+            }),
+          )}
         </div>
 
         {/* Scrolling is never the only way through: buttons + live counter */}
@@ -282,11 +314,10 @@ export function ArtworkStack({
             <button
               type="button"
               aria-label={t("pages.prev")}
-              disabled={index === 0}
               onClick={() => {
-                scrollToSlide(index - 1);
+                scrollToSlide(pos - 1);
               }}
-              className="grid size-11 place-items-center rounded-full border border-cream/30 text-cream transition hover:bg-cream/10 disabled:pointer-events-none disabled:opacity-40"
+              className="grid size-11 place-items-center rounded-full border border-cream/30 text-cream transition hover:bg-cream/10"
             >
               <ArrowLeft className="size-5" aria-hidden="true" />
             </button>
@@ -295,18 +326,17 @@ export function ArtworkStack({
               className="min-w-14 text-center text-[13px] font-bold text-cream tabular-nums"
             >
               {t("pages.counter", {
-                current: pad2(index + 1),
-                total: pad2(total),
+                current: pad2(logical + 1),
+                total: pad2(TOTAL),
               })}
             </p>
             <button
               type="button"
               aria-label={t("pages.next")}
-              disabled={index === total - 1}
               onClick={() => {
-                scrollToSlide(index + 1);
+                scrollToSlide(pos + 1);
               }}
-              className="grid size-11 place-items-center rounded-full border border-cream/30 text-cream transition hover:bg-cream/10 disabled:pointer-events-none disabled:opacity-40"
+              className="grid size-11 place-items-center rounded-full border border-cream/30 text-cream transition hover:bg-cream/10"
             >
               <ArrowRight className="size-5" aria-hidden="true" />
             </button>

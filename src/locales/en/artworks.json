@@ -10,7 +10,7 @@
     "flipAria": "Artwork {{title}}. Activating flips the card to show its caption.",
     "captionLabel": "Caption",
     "artworkLabel": "Artwork",
-    "credit": "by {{name}}",
+    "credit": "{{name}}",
     "tapToExplore": "Tap to explore",
     "openAria": "Artwork {{title}}. Opens the interactive artwork stack."
   },
