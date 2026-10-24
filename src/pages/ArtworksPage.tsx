@@ -36,11 +36,11 @@ export function ArtworksPage(): ReactNode {
     canonical: locale === "id" ? "/id/artworks" : "/artworks",
   });
 
-  const isMd = useMediaQuery("(min-width: 512px)");
-  const isXl = useMediaQuery("(min-width: 1280px)");
+  const isMd = useMediaQuery("(min-width: 768px)");
+  // const isXl = useMediaQuery("(min-width: 1280px)");
 
   // Desktop pagination state.
-  const pageSize = isXl ? 10 : 6; // 5 × 2 or 5 × 1
+  const pageSize = 8; // 5 × 2 or 5 × 1
   const pageCount = Math.ceil(artworks.length / pageSize);
   const [page, setPage] = useState(0);
   const current = Math.min(page, pageCount - 1);
@@ -127,7 +127,7 @@ export function ArtworksPage(): ReactNode {
               <div
                 key={current}
                 aria-live="polite"
-                className="mt-6 grid animate-enter grid-cols-5 md:grid-cols-3 gap-5"
+                className="mt-6 grid animate-enter grid-cols-4 gap-5"
               >
                 {items.map((artwork, i) => (
                   <ArtworkCard
