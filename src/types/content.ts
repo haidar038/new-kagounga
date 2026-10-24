@@ -135,10 +135,19 @@ export interface NavLink {
   to: string;
 }
 
+export type SocialBrand =
+  | "instagram"
+  | "tiktok"
+  | "x"
+  | "threads"
+  | "youtube"
+  | "linkedin";
+
 export interface SocialLink {
   label: string;
   href: string;
-  iconSrc: string;
+  brand: SocialBrand;
+  /** Tailwind size classes for the inline icon (color handled by the consumer). */
   iconClass: string;
 }
 

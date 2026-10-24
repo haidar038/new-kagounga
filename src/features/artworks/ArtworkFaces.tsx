@@ -124,7 +124,9 @@ export function ArtworkBack({
   return (
     <span
       className={cn(
-        "relative flex h-full w-full flex-col overflow-hidden rounded-3xl bg-white p-5 backface-hidden [-webkit-backface-visibility:hidden] [grid-area:1/1] transform-[rotateY(180deg)] md:p-6",
+        // Out of flow: the card height is owned by the front face's poster
+        // aspect, so long captions scroll inside instead of growing the row.
+        "absolute inset-0 flex flex-col overflow-hidden rounded-3xl bg-white p-5 backface-hidden [-webkit-backface-visibility:hidden] transform-[rotateY(180deg)] md:p-6",
         className,
       )}
     >
@@ -149,11 +151,16 @@ export function ArtworkBack({
         {t("card.captionLabel")}
       </span>
       <span className="mt-1 block text-xl font-bold">{artwork.title}</span>
-      <CaptionText
-        lines={artwork.caption[locale]}
-        className="mt-3 text-[13px] leading-relaxed text-ink/75"
-      />
-      <span className="mt-auto pt-4 text-[11px] italic text-ink/50">
+      <span
+        tabIndex={0}
+        className="caption-scroll mt-3 min-h-0 w-full flex-1 overflow-y-auto overscroll-contain pr-1 focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-lime/60"
+      >
+        <CaptionText
+          lines={artwork.caption[locale]}
+          className="text-[13px] leading-relaxed text-ink/75"
+        />
+      </span>
+      <span className="mt-3 block text-[11px] italic text-ink/50">
         {/* Byline: Fadrié × Sketch EA for the marked cards, Shahnaz for the rest */}
         {t("card.credit", {
           name: hasEaSketch ? SKETCH_EA_CREDIT : SHAHNAZ_CREDIT,

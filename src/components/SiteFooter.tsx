@@ -8,6 +8,7 @@ import {
 } from "../data/site";
 import { localeLink, useLocale } from "../i18n";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { SocialIcon } from "./SocialIcons";
 import { cld } from "../lib/cloudinary";
 
 const YEAR = new Date().getFullYear();
@@ -39,16 +40,11 @@ export function SiteFooter(): React.JSX.Element {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="grid size-11 place-items-center rounded-full border border-cream/20 transition hover:border-lime hover:bg-lime"
+                  className="group grid size-11 place-items-center rounded-full border border-cream/20 transition hover:border-lime hover:bg-lime"
                 >
-                  <img
-                    src={s.iconSrc}
-                    alt=""
-                    width={20}
-                    height={20}
-                    className={s.iconClass}
-                    loading="lazy"
-                    decoding="async"
+                  <SocialIcon
+                    brand={s.brand}
+                    className={`${s.iconClass} text-white transition-colors group-hover:text-ink`}
                   />
                 </a>
               ))}

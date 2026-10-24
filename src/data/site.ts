@@ -41,33 +41,39 @@ export const SOCIALS: SocialLink[] = [
   {
     label: "Instagram",
     href: "https://www.instagram.com/kagounga.id/",
-    iconSrc: "/icons/social/instagram.svg",
-    iconClass: "size-5 invert",
+    brand: "instagram",
+    iconClass: "size-5",
   },
   {
     label: "TikTok",
     href: "https://www.tiktok.com/@kagounga.id/",
-    iconSrc: "/icons/social/tiktok.svg",
-    iconClass: "size-5 invert",
+    brand: "tiktok",
+    iconClass: "size-5",
   },
   {
     label: "X",
     href: "https://x.com/kagounga/",
-    iconSrc: "/icons/social/x.svg",
+    brand: "x",
     iconClass: "size-4",
   },
   {
     label: "Threads",
     href: "https://www.threads.com/@kagounga.id",
-    iconSrc: "/icons/social/threads.svg",
+    brand: "threads",
     iconClass: "size-5",
   },
   {
     label: "YouTube",
     href: "https://www.youtube.com/@Kagounga",
-    iconSrc: "/icons/social/youtube.svg",
-    iconClass: "size-5 invert",
+    brand: "youtube",
+    iconClass: "size-5",
   },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/kagounga",
+    brand: "linkedin",
+    iconClass: "size-5",
+  }
 ];
 
 export const WHATSAPP_ICON = "/icons/social/whatsapp.svg";

@@ -2,6 +2,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import { CONTACT, SOCIALS } from "../data/site";
+import { SocialIcon } from "../components/SocialIcons";
 import { useLocale } from "../i18n";
 import { FindUs } from "../features/contact/FindUs";
 import { ContactForm } from "../features/contact/ContactForm";
@@ -95,16 +96,11 @@ export function ContactPage(): React.JSX.Element {
                         key={s.label}
                         href={s.href}
                         aria-label={s.label}
-                        className="grid size-11 place-items-center rounded-full border border-cream/20 transition hover:border-lime hover:bg-lime"
+                        className="group grid size-11 place-items-center rounded-full border border-cream/20 transition hover:border-lime hover:bg-lime"
                       >
-                        <img
-                          src={s.iconSrc}
-                          alt=""
-                          width={20}
-                          height={20}
-                          className={s.iconClass}
-                          loading="lazy"
-                          decoding="async"
+                        <SocialIcon
+                          brand={s.brand}
+                          className={`${s.iconClass} text-white transition-colors group-hover:text-ink`}
                         />
                       </a>
                     ))}

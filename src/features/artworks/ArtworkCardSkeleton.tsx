@@ -9,7 +9,7 @@ import { cld } from "../../lib/cloudinary";
 export function ArtworkCardSkeleton(): ReactNode {
   const monogram = ARTWORK_LOGO_ASSETS["ō_monogram"];
   return (
-    <div className="h-full" aria-hidden="true">
+    <div className="aspect-650/1063 h-full w-full" aria-hidden="true">
       <div className="flex h-full w-full items-center justify-center rounded-3xl border border-dashed border-ink/15 bg-white/40">
         <img
           src={cld(monogram.publicId, 96)}

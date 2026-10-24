@@ -21,10 +21,11 @@ import { cn } from "../lib/cn";
 const pad2 = (n: number): string => String(n).padStart(2, "0");
 
 /**
- * Desktop (md+): paginated grid - 2 or 4 cards per page, click to flip,
- * prev/next buttons plus page dots. Short last pages get skeleton fillers.
- * Mobile: a single entry card that opens the layered stack carousel, so no
- * in-flow indicators are needed at all.
+ * Desktop and tablet (md+): paginated grid - ten cards per page (5 × 2),
+ * click to flip, prev/next buttons plus page dots. The short last page
+ * gets skeleton fillers to complete the 5 × 2 layout. Mobile: a single
+ * entry card that opens the layered stack carousel, so no in-flow
+ * indicators are needed at all.
  */
 export function ArtworksPage(): ReactNode {
   const { t } = useTranslation(["artworks", "seo"]);
@@ -35,11 +36,11 @@ export function ArtworksPage(): ReactNode {
     canonical: locale === "id" ? "/id/artworks" : "/artworks",
   });
 
-  const isMd = useMediaQuery("(min-width: 768px)");
+  const isMd = useMediaQuery("(min-width: 512px)");
   const isXl = useMediaQuery("(min-width: 1280px)");
 
   // Desktop pagination state.
-  const pageSize = isXl ? 4 : 3;
+  const pageSize = isXl ? 10 : 6; // 5 × 2 or 5 × 1
   const pageCount = Math.ceil(artworks.length / pageSize);
   const [page, setPage] = useState(0);
   const current = Math.min(page, pageCount - 1);
@@ -126,7 +127,7 @@ export function ArtworksPage(): ReactNode {
               <div
                 key={current}
                 aria-live="polite"
-                className="mt-6 grid animate-enter grid-cols-3 gap-6 xl:grid-cols-4"
+                className="mt-6 grid animate-enter grid-cols-5 md:grid-cols-3 gap-5"
               >
                 {items.map((artwork, i) => (
                   <ArtworkCard
@@ -135,7 +136,7 @@ export function ArtworksPage(): ReactNode {
                     index={current * pageSize + i}
                   />
                 ))}
-                {/* Fill leftover slots on short last pages (e.g. 2 + 2 on xl). */}
+                {/* Fill leftover slots on short last pages (e.g. 4 + 6 of 5 × 2). */}
                 {Array.from({ length: pageSize - items.length }, (_, i) => (
                   <ArtworkCardSkeleton key={`skeleton-${i}`} />
                 ))}
