@@ -134,7 +134,7 @@ Struktur tautan dalam halaman: 29 total, 23 internal, 6 eksternal follow, 0 ekst
 
 ### 4.4 Kegunaan dan PageSpeed
 
-**Seluler — skor 60**
+**Seluler - skor 60**
 
 | Metrik | Hasil laporan |
 |---|---:|
@@ -145,7 +145,7 @@ Struktur tautan dalam halaman: 29 total, 23 internal, 6 eksternal follow, 0 ekst
 | Total Blocking Time (TBT) | 0,1 dtk |
 | Cumulative Layout Shift (CLS) | 0 |
 
-**Desktop — skor 96**
+**Desktop - skor 96**
 
 | Metrik | Hasil laporan |
 |---|---:|
@@ -201,7 +201,7 @@ Ini bukan temuan SEO langsung. `p=none` merupakan kebijakan pemantauan; jangan m
 
 Prioritas di bawah adalah **prioritas analitis**, bukan salinan prioritas dari tool. Kolom prioritas audit asli dipertahankan pada JSON.
 
-### P0 — Baseline dan performa seluler
+### P0 - Baseline dan performa seluler
 
 1. Uji ulang PageSpeed/Lighthouse untuk URL yang sama dan simpan metrik sebelum perubahan.
 2. Identifikasi elemen LCP dan bottleneck render pada mobile.
@@ -210,7 +210,7 @@ Prioritas di bawah adalah **prioritas analitis**, bukan salinan prioritas dari t
 
 **Selesai jika:** terdapat baseline yang dapat diulang, LCP seluler membaik secara terukur, dan tidak ada regresi UX/fungsi.
 
-### P1 — Konten, relevansi, alt, dan backlink
+### P1 - Konten, relevansi, alt, dan backlink
 
 1. Perbarui title tag dengan konteks penawaran yang benar tanpa mengorbankan identitas merek.
 2. Petakan kata kunci ke kebutuhan pencarian dan bagian halaman yang relevan.
@@ -221,7 +221,7 @@ Prioritas di bawah adalah **prioritas analitis**, bukan salinan prioritas dari t
 
 **Selesai jika:** konten lebih jelas, alt informatif terisi, backlink sudah dikategorikan berdasarkan pemeriksaan manual, dan semua klaim kontak konsisten.
 
-### P2 — Validasi SEO teknis dan lokal
+### P2 - Validasi SEO teknis dan lokal
 
 1. Minta daftar URL yang ditandai kurang ramah; jangan mengubah URL tanpa contoh.
 2. Validasi canonical, sitemap, robots.txt, bahasa/hreflang, dan JSON-LD pada website saat ini.
@@ -229,7 +229,7 @@ Prioritas di bawah adalah **prioritas analitis**, bukan salinan prioritas dari t
 
 **Selesai jika:** temuan teknis tervalidasi dan tidak ada perubahan yang menimbulkan redirect/URL rusak atau structured data yang tidak akurat.
 
-### P3 — Peningkatan bersyarat
+### P3 - Peningkatan bersyarat
 
 - Facebook Pixel bila memang ada kampanye iklan/retargeting.
 - Halaman Facebook, LinkedIn, dan pertumbuhan YouTube sesuai tujuan serta kapasitas pengelolaan kanal.

@@ -5,6 +5,7 @@ import { HomePage } from "../pages/HomePage";
 import { ErrorPage } from "../pages/ErrorPage";
 import {
   AboutPage,
+  ArtworksPage,
   CatalogPage,
   ContactPage,
   MusicPage,
@@ -33,6 +34,7 @@ export const routes: RouteObject[] = [
       { path: "/news/:slug", element: susp(<NewsDetailPage />) },
       { path: "/catalog", element: susp(<CatalogPage />) },
       { path: "/catalog/:slug", element: susp(<ProductPage />) },
+      { path: "/artworks", element: susp(<ArtworksPage />) },
       { path: "/stockists/:city", element: susp(<StockistPage />) },
       { path: "/contact", element: susp(<ContactPage />) },
       { path: "/music", element: susp(<MusicPage />) },
@@ -53,6 +55,7 @@ export const routes: RouteObject[] = [
       { path: "news/:slug", element: susp(<NewsDetailPage />) },
       { path: "catalog", element: susp(<CatalogPage />) },
       { path: "catalog/:slug", element: susp(<ProductPage />) },
+      { path: "artworks", element: susp(<ArtworksPage />) },
       { path: "stockists/:city", element: susp(<StockistPage />) },
       { path: "contact", element: susp(<ContactPage />) },
       { path: "music", element: susp(<MusicPage />) },

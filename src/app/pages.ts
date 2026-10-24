@@ -29,6 +29,9 @@ function lazyPage(loader: () => Promise<PageModule>) {
 const About = lazyPage(() =>
   import("../pages/AboutPage").then((m) => ({ default: m.AboutPage })),
 );
+const Artworks = lazyPage(() =>
+  import("../pages/ArtworksPage").then((m) => ({ default: m.ArtworksPage })),
+);
 const News = lazyPage(() =>
   import("../pages/NewsPage").then((m) => ({ default: m.NewsPage })),
 );
@@ -63,6 +66,7 @@ const Terms = lazyPage(() =>
 );
 
 export const AboutPage = About.Component;
+export const ArtworksPage = Artworks.Component;
 export const NewsPage = News.Component;
 export const NewsDetailPage = NewsDetail.Component;
 export const CatalogPage = Catalog.Component;
@@ -79,6 +83,7 @@ export async function preloadPage(pathname: string): Promise<void> {
   const stripped = stripLocalePrefix(pathname);
   const path = stripped.length > 1 ? stripped.replace(/\/+$/, "") : stripped;
   if (path === "/about") return About.preload();
+  if (path === "/artworks") return Artworks.preload();
   if (path === "/news") return News.preload();
   if (path.startsWith("/news/")) return NewsDetail.preload();
   if (path === "/catalog") return Catalog.preload();

@@ -7,7 +7,7 @@ import {
 import { NEWS_POSTS } from "../../src/data/news";
 
 // Fixture subset yang DIDUKUNG konverter (paragraf, h1–h3, list, quote,
-// link, bold/italic/code — tanpa nesting campur). Fixture identik dengan
+// link, bold/italic/code - tanpa nesting campur). Fixture identik dengan
 // suite CMS `kagounga-cms/tests/unit/lexical-markdown.spec.ts` (D-010/D-031).
 const ROUNDTRIP_FIXTURES: string[] = [
   "Plain paragraph.",

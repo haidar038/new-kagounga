@@ -32,7 +32,7 @@ const EVENTS_PER_PAGE = 4;
  *   14     Trade Expo Indonesia, Tangerang
  *
  * > EVENTS_PER_PAGE: kotak dapat digulir vertikal tanpa scrollbar, snap per
- *   item (setiap awal halaman — item ke-1 — memakai snap-always agar geseran
+ *   item (setiap awal halaman - item ke-1 - memakai snap-always agar geseran
  *   tidak melompati batas halaman), gaya scroll mengikuti container utama.
  */
 function EventRows({
@@ -48,7 +48,7 @@ function EventRows({
       className={cn(
         "flex flex-col gap-2.5 text-xs",
         scrollable &&
-          "no-scrollbar max-h-[6.875rem] snap-y snap-mandatory overflow-y-auto",
+        "no-scrollbar max-h-[6.875rem] snap-y snap-mandatory overflow-y-auto",
       )}
       role="list"
       aria-label={label}

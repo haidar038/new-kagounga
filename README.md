@@ -1,4 +1,4 @@
-# Kagōunga — Move, Moreover
+# Kagōunga - Move, Moreover
 
 Company profile + catalog + music + news + distribution map. React 19 + TS + Vite + Tailwind 4 + react-router 7 + MapLibre.
 

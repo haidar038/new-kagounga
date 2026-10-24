@@ -1,4 +1,4 @@
-# Guardrails — Rambu Tidak Keluar Jalur
+# Guardrails - Rambu Tidak Keluar Jalur
 
 ## Wajib
 - Kerja per fase `PHASES.md`. Satu fase aktif. Selesai = exit criteria + centang `TASKLIST.md` + baris `CHANGELOG.md`.

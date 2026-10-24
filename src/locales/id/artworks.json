@@ -1,0 +1,31 @@
+{
+  "hero": {
+    "eyebrow": "Karya Visual",
+    "titleBold": "Koleksi ",
+    "titleLight": "Karya.",
+    "lede": "Koleksi seni ilustratif tentang Maluku Utara, gunung berapinya, bentengnya, sagu, dan walking shark. Ketuk kartu untuk membaca ceritanya."
+  },
+  "card": {
+    "flip": "Ketuk untuk membalik",
+    "flipAria": "Karya {{title}}. Mengaktifkan akan membalik kartu untuk menampilkan keterangannya.",
+    "captionLabel": "Keterangan",
+    "artworkLabel": "Karya",
+    "credit": "oleh {{name}}",
+    "tapToExplore": "Ketuk untuk menjelajah",
+    "openAria": "Karya {{title}}. Membuka tumpukan karya interaktif."
+  },
+  "overlay": {
+    "label": "Tumpukan karya",
+    "close": "Tutup",
+    "swipeHint": "Geser ke kiri atau kanan untuk pindah karya",
+    "carouselLabel": "korsel",
+    "slideLabel": "salindia"
+  },
+  "pages": {
+    "prev": "Karya sebelumnya",
+    "next": "Karya berikutnya",
+    "counter": "{{current}} / {{total}}",
+    "pageOf": "Ke halaman {{current}} dari {{total}}",
+    "groupLabel": "Halaman karya"
+  }
+}

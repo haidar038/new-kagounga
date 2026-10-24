@@ -3,7 +3,7 @@
     "findUs": {
         "lede": "Distribution map of {{count}} Kagōunga product points: from Ternate to Jakarta. Click a marker or region card to navigate.",
         "map": "Kagōunga product distribution map",
-        "mapFallback": "The interactive map is unavailable on this device — browse the city list below to find Kagōunga near you.",
+        "mapFallback": "The interactive map is unavailable on this device - browse the city list below to find Kagōunga near you.",
         "titleBold": "Reach",
         "titleLight": " Us."
     },

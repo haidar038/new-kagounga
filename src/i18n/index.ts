@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import enAbout from "../locales/en/about.json";
+import enArtworks from "../locales/en/artworks.json";
 import enCatalog from "../locales/en/catalog.json";
 import enCommon from "../locales/en/common.json";
 import enContact from "../locales/en/contact.json";
@@ -13,6 +14,7 @@ import enProductPage from "../locales/en/productPage.json";
 import enSeo from "../locales/en/seo.json";
 import enStockists from "../locales/en/stockists.json";
 import idAbout from "../locales/id/about.json";
+import idArtworks from "../locales/id/artworks.json";
 import idCatalog from "../locales/id/catalog.json";
 import idCommon from "../locales/id/common.json";
 import idContact from "../locales/id/contact.json";
@@ -34,6 +36,7 @@ const BANNER_KEY = "kga-lang-banner";
 const resources = {
   en: {
     about: enAbout,
+    artworks: enArtworks,
     catalog: enCatalog,
     common: enCommon,
     contact: enContact,
@@ -47,6 +50,7 @@ const resources = {
   },
   id: {
     about: idAbout,
+    artworks: idArtworks,
     catalog: idCatalog,
     common: idCommon,
     contact: idContact,

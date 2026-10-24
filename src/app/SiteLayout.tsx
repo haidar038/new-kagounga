@@ -16,7 +16,9 @@ function ScrollManager(): null {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    if (hash) {
+    // Only plain id anchors (#movement) are scroll targets. State hashes
+    // like #card=<slug> belong to a component and would throw as selectors.
+    if (hash && /^#[\w-]+$/.test(hash)) {
       const el = document.querySelector(hash);
       if (el) {
         const reduced = window.matchMedia(

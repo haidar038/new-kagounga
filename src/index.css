@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Open Sauce One — self-hosted (SIL OFL 1.1, bukti lisensi: public/fonts/LICENSE).
+/* Open Sauce One - self-hosted (SIL OFL 1.1, bukti lisensi: public/fonts/LICENSE).
    Bobot mengikuti inventaris UI: 300/400/500/600/700/800/900. Italic terdaftar
    tanpa preload (dipakai konten rich-text CMS, tidak dipakai UI statis). */
 @font-face {
@@ -292,6 +292,10 @@ footer[id] {
 
 #productDialog::backdrop {
   background: rgba(31, 44, 34, 0.5);
+}
+
+#artworkStackDialog::backdrop {
+  background: rgba(31, 44, 34, 0.55);
 }
 
 .kga-marker {

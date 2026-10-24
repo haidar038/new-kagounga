@@ -1,4 +1,4 @@
-# SEO Action Plan — 2026-10-20
+# SEO Action Plan - 2026-10-20
 
 Panduan eksekusi lanjutan setelah audit `kagounga.com`. Fokus: P1-6, P1-7, P1-8, dan P2.
 P0-2, P0-3, P1-4, P1-5, P1-6, P1-7 (kecuali font), dan P1-8 sudah diimplementasikan di kode.
@@ -13,7 +13,7 @@ Langkah eksekusi + gate + bukti: `../../docs/RUNBOOK-MANUAL-SEO.md`.
 
 ## Sudah diimplementasikan
 
-### P0-2 — Soft 404
+### P0-2 - Soft 404
 
 - `vercel.json`: catch-all rewrite `/(.*) -> /` dihapus.
 - `scripts/seo-build.mjs`: menghasilkan `dist/404.html` dengan `noindex, nofollow`, tanpa canonical/hreflang.
@@ -32,7 +32,7 @@ curl.exe -sI https://kagounga.com/about | Select-String "HTTP/"
 
 Target: `/test` = `404`, `/about` = `200`, `/id` = `200`.
 
-### P0-3 — Image sitemap
+### P0-3 - Image sitemap
 
 - `cmsPost()` sekarang memakai `absMedia()`: URL absolut Cloudinary tidak lagi ditempeli `https://cms.kagounga.com`.
 - `sitemap-images.xml` hanya memuat artikel yang punya cover.
@@ -47,7 +47,7 @@ curl.exe -s https://kagounga.com/sitemap-images.xml | Select-String "<image:loc>
 
 Target: 7 `<image:loc>`, 0 double prefix.
 
-### P1-5 — Structured data
+### P1-5 - Structured data
 
 - Satu sumber JSON-LD: `scripts/seo-build.mjs`, dirender ke HTML mentah setiap URL.
 - Client tidak lagi menyuntikkan JSON-LD (`useDocumentMeta.jsonLd`, `SiteLayout` Organization, schema di pages dihapus) sehingga tidak ada duplikat.
@@ -62,7 +62,7 @@ Target: 7 `<image:loc>`, 0 double prefix.
 
 Catatan: `Offer.priceCurrency` saat ini `USD` mengikuti harga `$` di UI. Kalau harga diubah ke IDR, ubah di `productListNode()`.
 
-### P1-4 — Body content prerender
+### P1-4 - Body content prerender
 
 - Route tree tunggal di `src/app/routes.tsx`, dipakai browser router dan SSR.
 - `src/entry-server.tsx`: set locale, preload chunk route, buat memory router, lalu `renderToString`.
@@ -85,7 +85,7 @@ Target: 48 halaman punya body + 1 `<h1>`, 404 tanpa canonical/JSON-LD, dan tidak
 
 ---
 
-## P1-6 — Halaman produk & stockist
+## P1-6 - Halaman produk & stockist
 
 Status: **selesai di kode**. 26 URL baru (16 produk + 10 kota), schema, sitemap, body prerender, dan internal link sudah ada.
 
@@ -150,7 +150,7 @@ Jumlah URL baru: 8 produk × 2 locale + 5 kota × 2 locale = **26 URL**.
 
 ---
 
-## P1-7 — Performance
+## P1-7 - Performance
 
 Status: **selesai di kode kecuali font**. Hero/tisan/produk sudah `srcSet`, MapLibre + CSS jadi chunk lazy `MapView`, peta dark, ikon sosial lokal, `/assets` immutable. Font masih CDN karena file WOFF2 + lisensi belum tersedia.
 
@@ -245,7 +245,7 @@ Target: contact initial JS turun dari ~1,08 MB ke < 250 KB gzip; peta baru dimua
 
 ---
 
-## P1-8 — Accessibility
+## P1-8 - Accessibility
 
 Status: **selesai di kode**. Kontras teks kecil, heading order, label switcher, skip link, dan label-content-name mismatch sudah diperbaiki. Lighthouse lokal 100 untuk home/catalog/product/contact/stockist.
 
@@ -293,7 +293,7 @@ Atau hapus `aria-label` dan sediakan visually-hidden full name.
 
 ---
 
-## P2 — Roadmap
+## P2 - Roadmap
 
 ### P2-1. Content engine
 
@@ -320,10 +320,10 @@ Status: **sebagian selesai**. Title/description produk + stockist ID sudah unik 
 
 Dari screenshot GSC:
 
-- `https://kagounga.com/sitemap.xml` — Success, 22 URL live. Build baru berisi 48 URL; submit ulang setelah deploy.
-- `https://kagounga.com/sitemap-images.xml` — Success, 7 URL. Pertahankan.
-- `https://www.kagounga.com/sitemap.xml` — Success, 22 URL. **Hapus** dari daftar; `www` sudah 308 ke apex.
-- `https://kagounga.com/sitemap-image.xml` — 1 error. **Hapus**; nama yang benar `sitemap-images.xml`.
+- `https://kagounga.com/sitemap.xml` - Success, 22 URL live. Build baru berisi 48 URL; submit ulang setelah deploy.
+- `https://kagounga.com/sitemap-images.xml` - Success, 7 URL. Pertahankan.
+- `https://www.kagounga.com/sitemap.xml` - Success, 22 URL. **Hapus** dari daftar; `www` sudah 308 ke apex.
+- `https://kagounga.com/sitemap-image.xml` - 1 error. **Hapus**; nama yang benar `sitemap-images.xml`.
 
 Langkah:
 

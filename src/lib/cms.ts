@@ -1,6 +1,6 @@
 /**
  * Transport CMS (Payload) + tipe DTO cermin `kagounga-cms/src/payload-types.ts`.
- * Tanpa workspace: tipe dijaga sinkron manual (D-010). Tanpa throw —
+ * Tanpa workspace: tipe dijaga sinkron manual (D-010). Tanpa throw -
  * semua fetch gagal -> `null`, loader -> fallback statis + flag `error`.
  */
 

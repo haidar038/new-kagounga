@@ -21,7 +21,7 @@ const SITE = (process.env.VITE_SITE_URL || "https://kagounga.com").replace(/\/+$
 const CMS = (process.env.CMS_URL || process.env.VITE_CMS_URL || "").replace(/\/+$/, "");
 const OG_DEFAULT =
   "https://res.cloudinary.com/fal5otmd/image/upload/v1791556121/OpenGraph.webp";
-// Hero LCP candidates — must match src/features/home/Hero.tsx srcSet exactly so
+// Hero LCP candidates - must match src/features/home/Hero.tsx srcSet exactly so
 // the preload is reused instead of triggering a second fetch.
 const HERO_SRCSET = [640, 960, 1280, 1920]
   .map((w) => `https://res.cloudinary.com/fal5otmd/image/upload/f_auto,q_auto,w_${w}/hero-bg-nature.webp ${w}w`)
@@ -222,6 +222,7 @@ const BASE_ROUTES = [
   { en: "/about", key: "about", type: "website", changefreq: "monthly", priority: "0.8", lastmod: today, crumbs: ["home", "about"] },
   { en: "/news", key: "news", type: "website", changefreq: "weekly", priority: "0.8", lastmod: newsLastmod, crumbs: ["home", "news"] },
   { en: "/catalog", key: "catalog", type: "website", changefreq: "weekly", priority: "0.9", lastmod: today, crumbs: ["home", "catalog"] },
+  { en: "/artworks", key: "artworks", type: "website", changefreq: "monthly", priority: "0.7", lastmod: today, crumbs: ["home", "artworks"] },
   { en: "/music", key: "music", type: "website", changefreq: "monthly", priority: "0.7", lastmod: today, crumbs: ["home", "music"] },
   { en: "/contact", key: "contact", type: "website", changefreq: "monthly", priority: "0.7", lastmod: today, crumbs: ["home", "contact"] },
   { en: "/privacy", key: "privacy", type: "website", changefreq: "yearly", priority: "0.3", lastmod: today, crumbs: ["home", "privacy"] },

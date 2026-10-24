@@ -1,4 +1,4 @@
-# I18N Plan — EN default + ID penuh
+# I18N Plan - EN default + ID penuh
 
 Status: selesai 2026-10-10 (T-P4-01 s/d T-P4-10, `tsc` 0, `oxlint` 0, build OK 22 halaman, parity OK 9 ns). Penyesuaian dari rencana: resources statis (tanpa `resources-to-backend`, bundle kecil, tanpa dep tambahan); overlay data ID di JSON (`products/signatures/movements/roles/subjects`, EN tetap TS base).
 
@@ -14,7 +14,7 @@ Status: selesai 2026-10-10 (T-P4-01 s/d T-P4-10, `tsc` 0, `oxlint` 0, build OK 2
 
 - `src/i18n/index.ts`: init sekali (`lng` dari `localStorage kga-lang`, default `en`), `fallbackLng: en`, `ns` per rute, `resourcesToBackend` lazy `../locales/{lng}/{ns}.json`.
 - Namespace: `common` (header/nav/footer/consent/404/switcher/banner), `home`, `about`, `catalog`, `music`, `news`, `contact`, `legal`, `products` (data), `seo` (title/desc per rute per locale).
-- Data ber-`id`/`en` ganda: `products.ts` (name tetap, blurb/badges/specs/note/eyebrow/per), `tracks.ts` (meta/deskripsi), `news.json` + kolom ID (`titleId/descriptionId/excerptId/ledeId/bodyMarkdownId/coverAltId`, slug sama), `collaborators/movements/signatures/partners/site.ts` label, `contactSubjects`, template WA (`orderMessage/inquiryMessage` per locale — kini ID saja, EN perlu dibuat).
+- Data ber-`id`/`en` ganda: `products.ts` (name tetap, blurb/badges/specs/note/eyebrow/per), `tracks.ts` (meta/deskripsi), `news.json` + kolom ID (`titleId/descriptionId/excerptId/ledeId/bodyMarkdownId/coverAltId`, slug sama), `collaborators/movements/signatures/partners/site.ts` label, `contactSubjects`, template WA (`orderMessage/inquiryMessage` per locale - kini ID saja, EN perlu dibuat).
 - Router: `src/app/router.tsx` tambah cabang `/id/*` ke komponen halaman yang sama (komponen baca locale dari hook, bukan duplikat page). `useLocalePath()` untuk mirror path. `SiteLayout` sinkron `document.lang`, `useDocumentMeta` baca meta dari ns `seo` + `hreflang` en/id/x-default + kanonis per locale.
 - Switcher: header desktop + menu mobile (+ footer link). Klik = simpan `kga-lang` + navigasi ke path mirror. `aria-label` dua bahasa.
 
@@ -22,13 +22,13 @@ Status: selesai 2026-10-10 (T-P4-01 s/d T-P4-10, `tsc` 0, `oxlint` 0, build OK 2
 
 | Area | ID | Fallback |
 |---|---|---|
-| Nav/header/footer/consent/404/form label/validasi/aria | penuh | — |
-| Home/About/Catalog/Music/Contact/hero/lede/section | penuh | — |
+| Nav/header/footer/consent/404/form label/validasi/aria | penuh | - |
+| Home/About/Catalog/Music/Contact/hero/lede/section | penuh | - |
 | Product blurb/specs/note/badges/eyebrow | penuh | EN + tanpa badge |
 | News title/desc/excerpt/lede/body/coverAlt | penuh | EN + badge "Tersedia dalam bahasa Inggris" |
 | Privacy/Terms | penuh | EN + badge |
-| `dateLabel` | render `Intl` dari `dateISO` | — |
-| Harga, nomor WA, email, alamat fisik, nama brand/orang, slug | tetap | — |
+| `dateLabel` | render `Intl` dari `dateISO` | - |
+| Harga, nomor WA, email, alamat fisik, nama brand/orang, slug | tetap | - |
 
 ## SEO per locale
 
@@ -50,7 +50,7 @@ Status: selesai 2026-10-10 (T-P4-01 s/d T-P4-10, `tsc` 0, `oxlint` 0, build OK 2
 
 ## Risiko + non-goal
 
-- Risiko: volume terjemahan news body (3 artikel, panjang) — butuh penulis ID, bukan MT mentah untuk halaman uang/brand. Mitigasi: fallback EN + badge, rilis ID bertahap per namespace.
+- Risiko: volume terjemahan news body (3 artikel, panjang) - butuh penulis ID, bukan MT mentah untuk halaman uang/brand. Mitigasi: fallback EN + badge, rilis ID bertahap per namespace.
 - Non-goal: slug terlokalisasi, konversi mata uang, CMS terjemahan, RTL, locale ketiga, auto-redirect browser.
 
 ## Urutan eksekusi

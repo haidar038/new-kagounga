@@ -1,6 +1,6 @@
-# Tasklist — Ceklis Eksekusi
+# Tasklist - Ceklis Eksekusi
 
-## P0 — Kritis (selesai 2026-10-09, tsc 0)
+## P0 - Kritis (selesai 2026-10-09, tsc 0)
 - [x] T-P0-01 Escape popup map `src/features/contact/FindUs.tsx:21`.
 - [x] T-P0-02 Guard clipboard `src/hooks/useShare.ts:30`.
 - [x] T-P0-03 Dedup lokasi `src/data/locations.ts:109` (19 id unik, pin jitter).
@@ -10,7 +10,7 @@
 - [x] T-P0-07 Marker keyboard `src/features/contact/FindUs.tsx:48` (button + label + CSS).
 - [x] T-P0-08 Bersih git (staging hapus `public/img/news/WhatsApp Image...5.29.32 AM.jpeg`).
 
-## P1 — Major (selesai 2026-10-09, oxlint 0)
+## P1 - Major (selesai 2026-10-09, oxlint 0)
 - [x] T-P1-01 Fasad Spotify `TrackCard.tsx` (tombol Play preview, cover fallback lokal).
 - [x] T-P1-02 Return-focus dialog `ProductDialog` + `CityDialog`.
 - [x] T-P1-03 Form WA `ContactForm.tsx:62` (aria-describedby/live + link fallback bila popup blokir).
@@ -22,7 +22,7 @@
 - [x] T-P1-09 Consent GA (`ConsentBanner`, `page_path` tanpa query, tanpa `page_location`).
 - [x] T-P1-10 Fallback CDN (sosmed `target/rel` + `onError` hide, cover `onError` lokal).
 
-## P2 — Minor (selesai 2026-10-09)
+## P2 - Minor (selesai 2026-10-09)
 - [x] T-P2-01 Footer + legal (selesai 2026-10-09): `/privacy` + `/terms` lazy, footer + banner link hidup.
 - [x] T-P2-02 Deep-link signature (`/?sig=id#signature` + baca query).
 - [x] T-P2-03 Harga konsisten (hapus duplikat ` USD`, tinggal `$`).
@@ -33,7 +33,7 @@
 - [x] T-P2-08 Tahun dinamis (`YEAR` module-scope).
 - [x] T-P2-09 HTML valid Signature (trim split, `button>p` bukan `button>h3`).
 
-## P3 — Rilis (selesai sebagian 2026-10-09)
+## P3 - Rilis (selesai sebagian 2026-10-09)
 - [x] T-P3-02 Dimensi logo header/footer + cover fallback (kompres massal 111MB ditunda: butuh pipeline gambar).
 - [x] T-P3-03 Lazy semua route + `NotFoundPage` 404 nyata (`src/app/pages.ts`).
 - [x] T-P3-04 `README.md` nyata.
@@ -41,7 +41,7 @@
 - [x] T-P3-01 Cloudinary (selesai 2026-10-09): helper `src/lib/cloudinary.ts` (`f_auto,q_auto` + width, cloud `fal5otmd` via `VITE_CLOUDINARY_CLOUD_NAME`). 64 ref `/img/*` di `src` -> 0 (sisa favicon lokal). News `https` lolos normalisasi cover. File lokal `public/img` belum hapus (fallback + favicon).
 - [x] T-P3-06 CHANGELOG + baseline kunci (entri ini).
 
-## P5 — SEO hardening (selesai 2026-10-20, tsc 0, oxlint 0, build OK 22+404)
+## P5 - SEO hardening (selesai 2026-10-20, tsc 0, oxlint 0, build OK 22+404)
 - [x] T-P5-01 Soft 404: hapus catch-all rewrite, generate `dist/404.html` (noindex, tanpa canonical), `StatusPage` + `ErrorPage` + `AppErrorBoundary`.
 - [x] T-P5-02 Image sitemap: `absMedia()` untuk cover CMS, guard cover kosong, robots cantumkan `sitemap-images.xml`.
 - [x] T-P5-03 JSON-LD satu sumber di `seo-build.mjs`: Organization/WebSite/WebPage, Product+Offer, LocalBusiness, MusicGroup, NewsArticle, ItemList, breadcrumb locale; hapus injeksi client.
@@ -49,16 +49,16 @@
 - [x] T-P5-05 Guide `SEO-ACTION-PLAN.md` (P1-6/P1-7/P1-8/P2).
 - [x] T-P5-06 Body prerender P1-4: route tree bersama, `entry-server.tsx` (`renderToString` setelah preload chunk), `seo-build.mjs` inject body 22 URL, hydration deterministik + `noscript` reveal; `404.html` tetap kosong/noindex. `tsc` 0, `oxlint` 0, build OK.
 
-## P6 — SEO P1-6/P1-7/P1-8 + P2 (selesai 2026-10-21, tsc 0, oxlint 0, build OK 48 halaman + 404)
+## P6 - SEO P1-6/P1-7/P1-8 + P2 (selesai 2026-10-21, tsc 0, oxlint 0, build OK 48 halaman + 404)
 - [x] T-P6-01 P1-6 produk: 8 halaman EN + 8 ID, copy unik, `Product` + `Offer` + breadcrumb, internal link katalog/stockist; CMS product tanpa copy tidak ditautkan ke halaman.
 - [x] T-P6-02 P1-6 stockist: 5 halaman EN + 5 ID, data `LOCATIONS`, `Store` + `ItemList` + breadcrumb, kartu kota jadi link halaman + quick view.
 - [x] T-P6-03 P1-7: `srcSet` hero/tisan/produk, ikon sosial lokal + dimensi, MapLibre + CSS jadi chunk lazy `MapView`, peta dark CARTO, cache `/assets` immutable.
 - [x] T-P6-04 P1-8: kontras teks kecil `text-ink/70`, Milestones H5→H3, H2 katalog, label switcher, skip link, label-content mismatch Signature diperbaiki; marker peta 24px + cluster; Lighthouse home/catalog/product/contact/stockist 100 a11y/SEO/best-practices.
 - [x] T-P6-05 P2-2/P2-4 kode: metadata produk/stockist ID unik, hreflang reciprocal, NAP + `Store` schema kota; GSC/GBP/direktori tetap manual.
 - [x] T-P6-06 Build/verifikasi: 48 URL + `404.html`, sitemap 48 `<loc>`, image sitemap 7, body prerender + satu H1, 404 noindex tanpa canonical.
-- [ ] T-P6-07 Manual: jalankan `../../docs/RUNBOOK-MANUAL-SEO.md` — GSC submit ulang, GBP/Apple/Bing, review native ID, backlink/outreach, self-host font setelah lisensi/WOFF2, ukur CWV setelah deploy.
+- [ ] T-P6-07 Manual: jalankan `../../docs/RUNBOOK-MANUAL-SEO.md` - GSC submit ulang, GBP/Apple/Bing, review native ID, backlink/outreach, self-host font setelah lisensi/WOFF2, ukur CWV setelah deploy.
 
-## P7 — Product Page Copy CMS (kode selesai 2026-10-23, tsc 0, oxlint 0, build 48+404; konten manual terbuka)
+## P7 - Product Page Copy CMS (kode selesai 2026-10-23, tsc 0, oxlint 0, build 48+404; konten manual terbuka)
 - [x] T-P7-01 Adapter `src/data/productContent.ts` + `products.ts`: baca `intro`/`usage`/`sourcing`/`seoTitle` dari CMS, fallback statis `productPageCopy.json`.
 - [x] T-P7-02 `ProductPage` static-first + upgrade runtime CMS; `ProductCard` tetap kompatibel.
 - [x] T-P7-03 `scripts/cms-snapshot.mjs` + `build`/`seo`/`sync:cms`: snapshot `CMS_URL` build-time, fallback `[]`.
@@ -66,7 +66,7 @@
 - [x] T-P7-05 Verifikasi prod: 16 URL 200, title/meta/canonical/hreflang, Usage tampil, 404 benar; fallback statis tetap ada.
 - [ ] T-P7-06 Manual (pemilik): lengkapi gap konten B2B di `../../docs/CONTENT-CHECKLIST-B2B.md` (7F/G5, Popeda EN specs, insideTitle, categories).
 
-## P4 — i18n (selesai 2026-10-10, tsc 0, oxlint 0, build OK 22 halaman)
+## P4 - i18n (selesai 2026-10-10, tsc 0, oxlint 0, build OK 22 halaman)
 - [x] T-P4-01 Fondasi: `i18next` + `react-i18next`, `src/i18n/index.ts` (resources statis, fallback EN, `kga-lang`), `useLocale`, `src/lib/format.ts` (`Intl` tanggal/bulan), `tsc` 0.
 - [x] T-P4-02 Routing + switcher: cabang `/id/*` di `src/app/router.tsx`, mirror path, `LanguageSwitcher` header/mobile/footer, `LocaleBanner` 1x tanpa auto-redirect, `LocaleSync` (`document.lang` + simpan pref).
 - [x] T-P4-03 UI umum + Home + About: ns `common/home/about`, nav/footer/konsent/404, Hero/Milestones (`Intl` bulan)/Signature/Movement/Partners, `getCollaborators`.

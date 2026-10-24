@@ -15,7 +15,7 @@ const STYLE_URL =
 /**
  * Crawler render environments and locked-down devices have no WebGL context;
  * MapLibre's constructor throws there. That error must never bubble up to
- * AppErrorBoundary — it renders ErrorPage, which noindexes the whole route.
+ * AppErrorBoundary - it renders ErrorPage, which noindexes the whole route.
  */
 function webglAvailable(): boolean {
   try {
@@ -85,7 +85,7 @@ export default function MapView({
   useEffect(() => {
     // Crawler render environments and locked-down devices have no WebGL
     // context; MapLibre's constructor throws there. That error must never
-    // bubble up to AppErrorBoundary — it renders ErrorPage, which noindexes
+    // bubble up to AppErrorBoundary - it renders ErrorPage, which noindexes
     // the whole route.
     if (!webglAvailable()) {
       onFatal();
@@ -110,7 +110,7 @@ export default function MapView({
     }
     // Tile/style fetch failures fire "error" events; they are non-fatal and
     // must not look like a crash to error reporting.
-    map.on("error", () => {});
+    map.on("error", () => { });
 
     let rendered: maplibregl.Marker[] = [];
     let renderedGroups: Array<{

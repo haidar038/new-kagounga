@@ -81,7 +81,7 @@ describe("loadStockistCities", () => {
   });
 
   // Sengaja berbeda dari products/news (D-029): snapshot CMS bersifat
-  // otoritatif — CMS kosong = daftar kosong, BUKAN fallback statis.
+  // otoritatif - CMS kosong = daftar kosong, BUKAN fallback statis.
   it("serves an empty list, not the fallback, when CMS is reachable but empty", async () => {
     vi.stubGlobal("fetch", vi.fn(async () => Response.json({ docs: [] })));
     const res = await loadStockistCities("en", fallback, "https://cms.test");

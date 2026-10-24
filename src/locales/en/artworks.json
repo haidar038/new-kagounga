@@ -1,0 +1,31 @@
+{
+  "hero": {
+    "eyebrow": "Visual Artwork",
+    "titleBold": "The ",
+    "titleLight": "Collection.",
+    "lede": "An illustrated art collection about the North Moluccas, its volcanoes, forts, sago, and the walking shark. Tap any card to read its story."
+  },
+  "card": {
+    "flip": "Tap to flip",
+    "flipAria": "Artwork {{title}}. Activating flips the card to show its caption.",
+    "captionLabel": "Caption",
+    "artworkLabel": "Artwork",
+    "credit": "by {{name}}",
+    "tapToExplore": "Tap to explore",
+    "openAria": "Artwork {{title}}. Opens the interactive artwork stack."
+  },
+  "overlay": {
+    "label": "Artwork stack",
+    "close": "Close",
+    "swipeHint": "Swipe left or right to move between artworks",
+    "carouselLabel": "carousel",
+    "slideLabel": "slide"
+  },
+  "pages": {
+    "prev": "Previous artworks",
+    "next": "Next artworks",
+    "counter": "{{current}} / {{total}}",
+    "pageOf": "Go to page {{current}} of {{total}}",
+    "groupLabel": "Artwork pages"
+  }
+}

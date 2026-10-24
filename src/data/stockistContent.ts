@@ -72,7 +72,7 @@ export const STOCKIST_PAGES: Record<
     en: {
       seoTitle: "Kagōunga Stockists in Denpasar & Sanur, Bali | Kagōunga",
       description:
-        "Shop Kagōunga in Bali at our Renon hub in Denpasar and JAVARA House Sanur — popeda, sago, and North Moluccan spices for kitchens and gift retail.",
+        "Shop Kagōunga in Bali at our Renon hub in Denpasar and JAVARA House Sanur - popeda, sago, and North Moluccan spices for kitchens and gift retail.",
       title: "Find Kagōunga in Denpasar.",
       lede: "Our Bali hub in Renon and a partner point in Sanur connect North Moluccan pantry staples to the island.",
       paragraphs: [
@@ -84,7 +84,7 @@ export const STOCKIST_PAGES: Record<
     id: {
       seoTitle: "Toko & Stokis Kagōunga di Denpasar & Sanur | Kagōunga",
       description:
-        "Beli produk Kagōunga di Bali melalui hub Renon di Denpasar dan JAVARA House Sanur — popeda, sagu, dan rempah Maluku Utara untuk dapur dan ritel hadiah.",
+        "Beli produk Kagōunga di Bali melalui hub Renon di Denpasar dan JAVARA House Sanur - popeda, sagu, dan rempah Maluku Utara untuk dapur dan ritel hadiah.",
       title: "Temukan Kagōunga di Denpasar.",
       lede: "Hub Bali kami di Renon dan titik partner di Sanur menghubungkan bahan pokok Maluku Utara ke pulau ini.",
       paragraphs: [

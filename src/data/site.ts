@@ -6,6 +6,7 @@ export const NAV_LINKS: NavLink[] = [
   { key: "about", label: "About", to: "/about" },
   { key: "news", label: "News", to: "/news" },
   { key: "catalog", label: "Catalog", to: "/catalog" },
+  { key: "artworks", label: "Artworks", to: "/artworks" },
   { key: "music", label: "Music", to: "/music" },
 ];
 
@@ -13,6 +14,7 @@ export const FOOTER_NAVIGATE: NavLink[] = [
   { key: "about", label: "About", to: "/about" },
   { key: "news", label: "News", to: "/news" },
   { key: "catalog", label: "Catalog", to: "/catalog" },
+  { key: "artworks", label: "Artworks", to: "/artworks" },
   { key: "music", label: "Music", to: "/music" },
   { key: "movement", label: "Movement", to: "/#movement" },
   { key: "events", label: "Events", to: "/#milestones" },

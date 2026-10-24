@@ -9,6 +9,7 @@ import { getLocaleFromPath } from './lib/seo'
 import './index.css'
 
 const container = document.getElementById('root')!
+
 const app = (
   <StrictMode>
     <App />

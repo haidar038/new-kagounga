@@ -1,15 +1,19 @@
 {
     "about": {
         "description": "Meet the people behind Kagōunga: our story from the North Moluccas, our collaborators, and the identity that ties five forms of expression together.",
-        "title": "Our Story — The Journey from North Moluccas | Kagōunga"
+        "title": "Our Story - The Journey from North Moluccas | Kagōunga"
+    },
+    "artworks": {
+        "description": "Explore the Kagōunga artwork collection: illustrated stories of North Malukan volcanoes, forts, sago, and the walking shark - tap a card to read the story behind the art.",
+        "title": "Artworks - Illustrated Stories from the North Moluccas | Kagōunga"
     },
     "catalog": {
         "description": "Shop Kagōunga: instant popeda, sago starch, and single-origin North Moluccan spices. B2B partnership for retail, cafe, hotel, and distributor.",
-        "title": "Our Catalog — Sago, Spices & Pantry Staples | Kagōunga"
+        "title": "Our Catalog - Sago, Spices & Pantry Staples | Kagōunga"
     },
     "contact": {
         "description": "Find Kagōunga distribution points across Indonesia, from Ternate to Jakarta. Get in touch for business inquiries, partnerships, or media requests.",
-        "title": "Contact Us — Stockists & Business Inquiries | Kagōunga"
+        "title": "Contact Us - Stockists & Business Inquiries | Kagōunga"
     },
     "error": {
         "description": "The page could not be loaded. Please try again.",
@@ -17,15 +21,15 @@
     },
     "home": {
         "description": "Kagōunga. Five distinct forms of expression bound by one identity. Gastronomy, personal care, home fragrance, sonic identity, and fine art from North Moluccas.",
-        "title": "Kagōunga | Move, Moreover."
+        "title": "Kagōunga | Move, Moreover. - Heritage & Innovation"
     },
     "music": {
         "description": "Listen to original music by Kagōunga. Discover our brand songs and the sonic identity of the brand on Spotify, Apple Music, YouTube Music, and more.",
-        "title": "Our Music — Original Brand Songs & Sonic Identity | Kagōunga"
+        "title": "Our Music - Original Brand Songs & Sonic Identity | Kagōunga"
     },
     "news": {
         "description": "Stay updated with the latest news, events, and stories from Kagōunga: popeda, North Moluccan cuisine, and local culture.",
-        "title": "News & Stories — Events, Culture & Kitchen | Kagōunga"
+        "title": "News & Stories - Events, Culture & Kitchen | Kagōunga"
     },
     "maintenance": {
         "description": "Kagōunga is temporarily unavailable for maintenance.",
@@ -37,10 +41,10 @@
     },
     "privacy": {
         "description": "How Kagōunga handles analytics consent, contact messages you send via WhatsApp, local cache on your device, and third-party services we rely on.",
-        "title": "Privacy Policy — Analytics, Data & Cookies | Kagōunga"
+        "title": "Privacy Policy - Analytics, Data & Cookies | Kagōunga"
     },
     "terms": {
         "description": "The terms that apply when you browse kagounga.com, order products via WhatsApp, contact our team, or reuse Kagōunga content and brand assets.",
-        "title": "Terms of Use — Orders, Content & WhatsApp | Kagōunga"
+        "title": "Terms of Use - Orders, Content & WhatsApp | Kagōunga"
     }
 }
