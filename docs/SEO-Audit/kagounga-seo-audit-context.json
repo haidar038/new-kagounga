@@ -1,0 +1,800 @@
+{
+  "document_type": "seo_audit_context",
+  "schema_version": "1.0.0",
+  "language": "id-ID",
+  "purpose": "Konteks kerja untuk AI agent yang membantu menganalisis, merencanakan, mengimplementasikan, dan memvalidasi perbaikan SEO untuk Kagōunga.",
+  "source": {
+    "filename": "seo-report.pdf",
+    "title": "Audit SEO untuk kagounga.com",
+    "page_count": 17,
+    "report_date": null,
+    "source_scope": "Snapshot laporan audit yang diunggah. Tanggal audit tidak dicantumkan secara eksplisit.",
+    "limitations": [
+      "Nilai dan metrik adalah hasil alat audit pada saat laporan dibuat, bukan verifikasi kondisi website saat ini.",
+      "Laporan tidak menyertakan semua metodologi pengujian, contoh URL yang bermasalah, atau data real-user yang cukup untuk Core Web Vitals.",
+      "Analisis yang ditambahkan dalam dokumen ini dipisahkan dari fakta yang dikutip dari laporan."
+    ]
+  },
+  "site": {
+    "domain": "kagounga.com",
+    "canonical_url": "https://kagounga.com/",
+    "brand_name": "Kagōunga",
+    "title_tag_reported": "Kagōunga | Move, Moreover.",
+    "title_tag_length_reported": 26,
+    "meta_description_reported": "Kagōunga. Five distinct forms of expression bound by one identity. Gastronomy, personal care, home fragrance, sonic identity, and fine art from North Moluccas.",
+    "meta_description_length_reported": 159,
+    "declared_language": "English",
+    "tagline": "Move, Moreover.",
+    "site_description_from_geo_audit": "Kagōunga diidentifikasi sebagai merek kreatif yang berakar pada budaya dan mencakup gastronomi, perawatan diri, pewangi rumah, musik, dan seni.",
+    "note": "Deskripsi entitas di atas berasal dari laporan audit dan harus dikonfirmasi terhadap positioning merek yang berlaku sebelum perubahan konten."
+  },
+  "executive_summary": {
+    "overall_grade": "B",
+    "recommendations_reported": 18,
+    "assessment": "Fondasi SEO teknis, struktur heading, metadata description, schema Organization, sitemap, robots.txt, serta performa desktop dinilai relatif baik. Area risiko utama adalah profil backlink yang lemah/tidak jelas, performa seluler, konsistensi relevansi kata kunci, volume konten tekstual, atribut alt, serta FAQ yang belum tersedia.",
+    "key_decisions": [
+      "Perbaiki dan ukur ulang pengalaman seluler sebelum melakukan optimasi yang lebih kecil.",
+      "Periksa kualitas backlink secara manual; jumlah tautan tidak sama dengan otoritas atau kualitas.",
+      "Tulis konten dan FAQ berdasarkan informasi bisnis yang nyata, bukan menambah teks hanya demi kata kunci atau jumlah kata.",
+      "Jadikan rekomendasi lokal, pixel iklan, dan kanal sosial bersifat kondisional sesuai model bisnis serta strategi kanal.",
+      "Verifikasi semua nilai pada website dan tool resmi sebelum mengubah implementasi."
+    ]
+  },
+  "category_scores": [
+    {
+      "category": "SEO On-Page",
+      "grade": "A-",
+      "interpretation": "Relatif kuat, namun judul, distribusi kata kunci, volume teks, dan alt gambar perlu ditinjau."
+    },
+    {
+      "category": "GEO (Generative Engine Optimization)",
+      "grade": "A",
+      "interpretation": "Entitas, struktur konten, kesiapan sitasi, transparansi kontak, dan akses crawler AI dilaporkan cukup baik; FAQ belum ada."
+    },
+    {
+      "category": "Tautan / Backlink",
+      "grade": "F",
+      "interpretation": "Laporan menyebut kekuatan domain dan halaman bernilai 0, dengan kualitas sumber tautan yang perlu diperiksa."
+    },
+    {
+      "category": "Kegunaan",
+      "grade": "C",
+      "interpretation": "Fondasi viewport ada; pengujian PageSpeed seluler lemah sedangkan data desktop kuat."
+    },
+    {
+      "category": "Performa",
+      "grade": "A+",
+      "interpretation": "Pengujian umum cepat, ukuran halaman dan praktik caching/minifikasi dilaporkan baik; skor seluler tetap harus ditangani."
+    }
+  ],
+  "on_page_seo": {
+    "title_tag": {
+      "value": "Kagōunga | Move, Moreover.",
+      "length": 26,
+      "audit_guidance": "Alat menyarankan 50-60 karakter termasuk spasi; gunakan sebagai panduan dan jangan memaksakan kata-kata."
+    },
+    "meta_description": {
+      "value": "Kagōunga. Five distinct forms of expression bound by one identity. Gastronomy, personal care, home fragrance, sonic identity, and fine art from North Moluccas.",
+      "length": 159,
+      "status_reported": "Dalam kisaran panjang yang disarankan audit (120-160 karakter)."
+    },
+    "hreflang_present": true,
+    "language_attribute_present": true,
+    "declared_language": "English",
+    "h1_present": true,
+    "heading_counts": {
+      "h2": 4,
+      "h3": 8,
+      "h4": 0,
+      "h5": 0,
+      "h6": 0
+    },
+    "heading_structure_status": "Dinilai baik, tanpa level terlewat atau heading kosong.",
+    "keyword_consistency_status": "Audit menilai distribusi kata kunci utama di tag HTML penting belum baik.",
+    "keywords_reported": [
+      {
+        "keyword": "sago palm",
+        "page_frequency": 2
+      },
+      {
+        "keyword": "global reach",
+        "page_frequency": 2
+      },
+      {
+        "keyword": "maluku utara",
+        "page_frequency": 2
+      },
+      {
+        "keyword": "indonesia",
+        "page_frequency": 4
+      },
+      {
+        "keyword": "scheduled",
+        "page_frequency": 3
+      },
+      {
+        "keyword": "jakarta",
+        "page_frequency": 3
+      },
+      {
+        "keyword": "identity",
+        "page_frequency": 3
+      },
+      {
+        "keyword": "innovation",
+        "page_frequency": 3
+      }
+    ],
+    "text_word_count_reported": 470,
+    "image_count_reported": 56,
+    "images_missing_alt_reported": 29,
+    "canonical_url": "https://kagounga.com/",
+    "ssl_enabled": true,
+    "https_redirect_status_reported": "Berhasil dialihkan ke HTTPS.",
+    "robots_txt_detected": true,
+    "robots_txt_url_reported": "http://kagounga.com/robots.txt",
+    "major_search_crawlers_allowed_reported": true,
+    "noindex_tag_absent_reported": true,
+    "noindex_header_absent_reported": true,
+    "xml_sitemaps_reported": [
+      "https://kagounga.com/sitemap.xml",
+      "https://kagounga.com/sitemap-images.xml"
+    ],
+    "analytics_reported": [
+      "Google Analytics"
+    ],
+    "structured_data": {
+      "json_ld_detected": true,
+      "organization_entity_detected": true
+    }
+  },
+  "geo": {
+    "grade": "A",
+    "rendered_content_percentage_reported": 11,
+    "rendered_content_note": "Audit menyatakan persentase rendering rendah cenderung lebih mudah dibaca LLM, tetapi metodologi dan interpretasi metrik 11% tidak dijelaskan; validasi sebelum membuat keputusan teknis.",
+    "llms_txt_detected": true,
+    "llms_txt_url_reported": "http://kagounga.com/llms.txt",
+    "major_ai_crawlers_allowed_reported": true,
+    "organization_schema_detected": true,
+    "entity_definition_status": "Jelas menurut laporan; merek dijelaskan sebagai merek kreatif berbasis budaya lintas kategori.",
+    "contact_transparency_status": "Laporan menyebut alamat kantor, email, telepon, akses kontak, dan tautan sosial resmi.",
+    "faq_content_status": "Tidak ditemukan konten tanya-jawab/FAQ eksplisit.",
+    "citation_readiness_status": "Ada klaim mandiri tentang produk, warisan, tonggak, bahan, sertifikasi, dan tujuan organisasi.",
+    "content_structure_status": "Heading, card, statistik, kelompok acara, kategori produk, dan paragraf singkat dinilai mudah dipindai.",
+    "freshness_signals_status": "Laporan menyebut acara tahun 2026, copyright 2026, dan jadwal dinamis, tetapi tidak menemukan timestamp pembaruan yang jelas.",
+    "authority_trust_status": "Ada logo mitra/media, klaim sertifikasi produk, detail organisasi dan lokasi, namun kredensial dinilai terbatas."
+  },
+  "backlinks": {
+    "grade": "F",
+    "domain_strength_reported": 0,
+    "page_strength_reported": 0,
+    "total_backlinks_reported": 27,
+    "referring_domains_reported": 23,
+    "follow_backlinks_reported": 27,
+    "nofollow_backlinks_reported": 0,
+    "edu_backlinks_reported": 0,
+    "gov_backlinks_reported": 0,
+    "ip_count_reported": 4,
+    "subnet_count_reported": 4,
+    "top_backlink_landing_page": {
+      "url": "https://kagounga.com/",
+      "backlink_count": 27
+    },
+    "top_anchor_text": {
+      "text": "kagounga.com",
+      "backlink_count": 27
+    },
+    "top_referring_pages_reported": [
+      {
+        "domain_score": 65,
+        "url": "https://bye.fyi/report/5826"
+      },
+      {
+        "domain_score": 63,
+        "url": "https://drjack.world/report/5827"
+      },
+      {
+        "domain_score": 62,
+        "url": "https://atomizelink.icu/report/5826"
+      },
+      {
+        "domain_score": 59,
+        "url": "https://blogsphere.top/stats/5826"
+      },
+      {
+        "domain_score": 59,
+        "url": "https://metamagic.top/stats/5827"
+      },
+      {
+        "domain_score": 59,
+        "url": "https://anchorurl.cloud/share/5826"
+      },
+      {
+        "domain_score": 59,
+        "url": "https://backlinks-checker.com/share/5826"
+      },
+      {
+        "domain_score": 59,
+        "url": "https://shortenurls.eu/share/5827"
+      },
+      {
+        "domain_score": 59,
+        "url": "https://byteshort.xyz/report/5826"
+      },
+      {
+        "domain_score": 58,
+        "url": "https://optimizeflow.top/stats/5827"
+      }
+    ],
+    "referring_domain_tlds_reported": {
+      "top": 6,
+      "com": 5,
+      "eu": 2,
+      "cloud": 1,
+      "other": 9
+    },
+    "referring_domain_countries_reported": {
+      "FI": 19,
+      "SG": 3,
+      "CA": 1
+    },
+    "analyst_caveat": "Sebagian URL perujuk terlihat seperti halaman report/share/stats otomatis dari pola URL. Ini sinyal untuk inspeksi manual, bukan bukti tunggal bahwa backlink berbahaya. Jangan melakukan disavow otomatis."
+  },
+  "links_on_page": {
+    "total_links_reported": 29,
+    "internal_links_reported": 23,
+    "external_follow_links_reported": 6,
+    "external_nofollow_links_reported": 0,
+    "descriptive_internal_anchor_text_status": "Lulus menurut audit.",
+    "url_friendliness_status": "Sebagian URL tautan dinilai kurang mudah dibaca, tetapi contoh URL tidak disediakan."
+  },
+  "performance_and_usability": {
+    "mobile_pagespeed_score": 60,
+    "mobile_metrics_seconds": {
+      "first_contentful_paint": 4.0,
+      "speed_index": 5.2,
+      "largest_contentful_paint": 6.8,
+      "time_to_interactive": 6.9,
+      "total_blocking_time": 0.1,
+      "cumulative_layout_shift": 0.0
+    },
+    "desktop_pagespeed_score": 96,
+    "desktop_metrics_seconds": {
+      "first_contentful_paint": 0.9,
+      "speed_index": 0.9,
+      "largest_contentful_paint": 1.2,
+      "time_to_interactive": 1.2,
+      "total_blocking_time": 0.01,
+      "cumulative_layout_shift": 0.0
+    },
+    "core_web_vitals_real_user_data": "Data tidak cukup untuk membuat penilaian menurut laporan.",
+    "test_context_caveat": "Laporan menyatakan evaluasi PageSpeed dilakukan dari server AS; hasil dapat berbeda dari pengujian lain.",
+    "opportunities_reported": [
+      {
+        "issue": "Hindari pengalihan halaman ganda",
+        "estimated_savings_seconds_mobile": 0.63,
+        "estimated_savings_seconds_desktop": 0.19
+      },
+      {
+        "issue": "Kurangi JavaScript yang tidak terpakai",
+        "estimated_savings_seconds_mobile": 0.6
+      },
+      {
+        "issue": "Kurangi request yang menghambat render",
+        "estimated_savings_seconds_mobile": 0.45
+      },
+      {
+        "issue": "Perbaiki delivery gambar",
+        "estimated_savings_seconds_mobile": 0.3
+      }
+    ],
+    "page_load_summary": {
+      "server_response_seconds_reported": 0.18,
+      "all_page_content_loaded_seconds_reported": 0.9,
+      "all_page_scripts_complete_seconds_reported": 1.0,
+      "download_size_mb_reported": 0.88,
+      "download_size_breakdown_mb_reported": {
+        "html": 0.01,
+        "css": 0.01,
+        "javascript": 0.33,
+        "images": 0.39,
+        "other": 0.14
+      },
+      "resource_counts_reported": {
+        "total_objects": 25,
+        "html": 1,
+        "javascript": 7,
+        "css": 1,
+        "images": 6,
+        "other": 10
+      },
+      "compression_reported": {
+        "overall_compression_percent": 45,
+        "html_percent": 77,
+        "css_percent": 79,
+        "javascript_percent": 66,
+        "images_percent": 0,
+        "other_percent": 7
+      },
+      "image_dimensions_explicit_reported": true,
+      "image_optimization_status_reported": "Semua gambar tampak dioptimalkan menurut pemeriksaan audit.",
+      "browser_caching_efficient_reported": true,
+      "javascript_errors_reported": false,
+      "http2_or_newer_reported": true,
+      "css_and_javascript_minified_reported": true,
+      "deprecated_html_tags_detected": false,
+      "inline_styles_detected": true,
+      "render_blocking_resources_detected": true,
+      "viewport_meta_reported": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+      "flash_detected": false,
+      "iframes_detected": false,
+      "favicon_url_reported": "https://kagounga.com/favicon/favicon.svg"
+    }
+  },
+  "social_and_local_seo": {
+    "facebook_page_linked": false,
+    "facebook_open_graph_tags_present": true,
+    "facebook_pixel_detected": false,
+    "x_profile_url": "https://x.com/kagounga",
+    "x_cards_present": true,
+    "instagram_profile_url": "https://instagram.com/kagounga.id",
+    "linkedin_profile_linked": false,
+    "youtube_channel_url_reported": "https://youtube.com/channel/UC56V7HM6piJhih9855fyr7w",
+    "youtube_subscriber_assessment": "Jumlah pelanggan dinilai rendah oleh audit; angka aktual tidak dicantumkan.",
+    "phone_reported_by_local_seo_section": "+62 811 1538 111",
+    "address_detected_by_local_seo_section": false,
+    "local_business_schema_detected": false,
+    "google_business_profile_detected": false,
+    "local_seo_consistency_caveat": "Bagian GEO melaporkan alamat dan kontak tersedia, sedangkan bagian SEO lokal menyatakan alamat tidak teridentifikasi. Perlu verifikasi langsung."
+  },
+  "technology_and_domain": {
+    "technologies_detected": [
+      "Google Analytics",
+      "HSTS",
+      "Vercel",
+      "Vercel Analytics"
+    ],
+    "server_ip_reported": "216.198.79.1",
+    "dns_nameservers_reported": [
+      "ns2.dns-parking.com",
+      "ns1.dns-parking.com"
+    ],
+    "web_server_reported": "Vercel",
+    "content_type_reported": "text/html; charset=utf-8",
+    "dmarc_record_reported": "v=DMARC1; p=none",
+    "spf_record_reported": "v=spf1 include:_spf.mail.hostinger.com ~all",
+    "email_security_note": "DMARC p=none biasanya menandakan pemantauan tanpa penolakan otomatis; ini observasi konfigurasi, bukan temuan SEO. Jangan ubah kebijakan tanpa mengecek alur email yang sah."
+  },
+  "analyst_priority_roadmap": [
+    {
+      "priority": "P0",
+      "goal": "Konfirmasi baseline dan perbaiki performa seluler",
+      "tasks": [
+        "Uji ulang PageSpeed/Lighthouse",
+        "Identifikasi elemen LCP dan bottleneck",
+        "Atasi redirect berantai, unused JS, render blocking, dan delivery gambar bila terkonfirmasi"
+      ]
+    },
+    {
+      "priority": "P1",
+      "goal": "Benahi relevansi dan pemahaman konten",
+      "tasks": [
+        "Revisi title tag secara natural",
+        "Petakan kata kunci relevan ke konten",
+        "Tambah konten substantif dan FAQ",
+        "Lengkapi alt pada gambar informatif",
+        "Verifikasi konsistensi alamat/kontak"
+      ]
+    },
+    {
+      "priority": "P1",
+      "goal": "Audit kualitas backlink",
+      "tasks": [
+        "Tinjau 23 domain pengarah",
+        "Validasi URL sumber yang tampak otomatis",
+        "Bangun tautan editorial yang relevan",
+        "Jangan disavow otomatis"
+      ]
+    },
+    {
+      "priority": "P2",
+      "goal": "Validasi SEO teknis dan struktur URL",
+      "tasks": [
+        "Tinjau contoh URL yang dianggap kurang ramah",
+        "Validasi sitemap, robots.txt, canonical, hreflang/lang, dan JSON-LD pada situs aktual"
+      ]
+    },
+    {
+      "priority": "P3",
+      "goal": "Optimasi bersyarat di luar SEO inti",
+      "tasks": [
+        "Pertimbangkan Google Business Profile dan LocalBusiness schema hanya jika layak",
+        "Pasang Facebook Pixel hanya jika ada kebutuhan ads",
+        "Perbaiki inline style hanya bila berdampak",
+        "Kembangkan kanal sosial yang memang akan dikelola"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "SEO-01",
+      "title": "Bangun backlink yang relevan dan berkualitas",
+      "category": "backlinks",
+      "audit_priority": "prioritas_utama",
+      "analyst_priority": "P1-high",
+      "source_finding": "Nilai tautan F; kekuatan domain 0 dan kekuatan halaman 0. Laporan mencatat 27 backlink dari 23 domain pengarah.",
+      "analysis": "Jumlah backlink saja tidak menunjukkan kualitas. Sepuluh URL yang ditampilkan memakai pola report/share/stats; ini tampak seperti halaman laporan otomatis, tetapi belum cukup bukti untuk menyebutnya berbahaya atau spam.",
+      "actions": [
+        "Periksa tiap domain dan halaman perujuk secara manual; catat relevansi topik, konteks tautan, indeksabilitas, dan apakah tautannya editorial atau otomatis.",
+        "Prioritaskan penyebutan dan tautan autentik dari mitra, komunitas, media, organisasi lokal, pemasok, acara, dan publikasi yang relevan dengan Kagōunga.",
+        "Gunakan Google Search Console dan alat pemeriksa backlink lain untuk membandingkan temuan sebelum membuat keputusan terhadap tautan.",
+        "Jangan langsung menolak/disavow domain hanya berdasarkan daftar ini; dokumentasikan bukti dan risiko terlebih dahulu."
+      ],
+      "success_criteria": "Ada inventaris domain perujuk yang sudah ditinjau, strategi memperoleh tautan relevan yang terdokumentasi, dan pemantauan berkala terhadap domain pengarah serta halaman tujuan.",
+      "source_pages": [
+        1,
+        8,
+        9
+      ]
+    },
+    {
+      "id": "SEO-02",
+      "title": "Perbaiki judul halaman utama",
+      "category": "on_page_seo",
+      "audit_priority": "prioritas_sedang",
+      "analyst_priority": "P1-high",
+      "source_finding": "Judul saat ini 'Kagōunga | Move, Moreover.' memiliki panjang 26 karakter. Alat audit menyarankan 50-60 karakter termasuk spasi.",
+      "analysis": "Judul saat ini kuat sebagai identitas merek, tetapi belum banyak menjelaskan kategori atau konteks bisnis kepada mesin pencari dan pengguna.",
+      "actions": [
+        "Buat beberapa opsi title tag yang mempertahankan nama dan identitas merek, sambil menjelaskan penawaran inti secara faktual.",
+        "Gunakan kisaran 50-60 karakter sebagai panduan dari laporan, bukan aturan absolut; pastikan judul tetap jelas dan tidak dipaksakan.",
+        "Hindari memasukkan semua kategori produk atau kata kunci secara berlebihan ke satu judul."
+      ],
+      "success_criteria": "Title tag unik, deskriptif, sesuai halaman, dan dapat terbaca dengan wajar pada hasil pencarian.",
+      "source_pages": [
+        3
+      ]
+    },
+    {
+      "id": "SEO-03",
+      "title": "Selaraskan kata kunci dengan title, meta description, heading, dan isi",
+      "category": "on_page_seo",
+      "audit_priority": "prioritas_sedang",
+      "analyst_priority": "P1-high",
+      "source_finding": "Audit menyatakan konsistensi kata kunci di tag HTML penting belum baik.",
+      "analysis": "Audit mencatat kata kunci 'sago palm' (2), 'global reach' (2), 'maluku utara' (2), 'indonesia' (4), 'scheduled' (3), 'jakarta' (3), 'identity' (3), dan 'innovation' (3). Kata kunci ini harus diperiksa relevansinya, bukan dimasukkan otomatis.",
+      "actions": [
+        "Petakan setiap kata kunci ke tujuan pencarian dan bagian halaman yang benar-benar relevan.",
+        "Masukkan istilah yang cocok secara alami pada title, deskripsi meta, satu heading yang sesuai, dan paragraf isi bila membantu pemahaman.",
+        "Jangan memaksakan istilah seperti 'scheduled' atau lokasi tertentu jika tidak mewakili konten atau penawaran aktual."
+      ],
+      "success_criteria": "Setiap istilah target yang dipilih didukung konten yang relevan dan tidak ada pengulangan kata kunci yang terasa dipaksakan.",
+      "source_pages": [
+        4
+      ]
+    },
+    {
+      "id": "SEO-04",
+      "title": "Tambahkan FAQ yang benar-benar menjawab pertanyaan pengguna",
+      "category": "geo_and_content",
+      "audit_priority": "prioritas_sedang",
+      "analyst_priority": "P1-high",
+      "source_finding": "GEO mendapat nilai A, tetapi laporan menyebut tidak ada konten FAQ eksplisit.",
+      "analysis": "FAQ dapat membantu memperjelas entitas, produk, proses, asal-usul, bahan, sertifikasi, ketersediaan, dan kontak. FAQ harus berdasarkan pertanyaan nyata dan fakta yang bisa diverifikasi, bukan dibuat hanya untuk menambah kata kunci.",
+      "actions": [
+        "Kumpulkan pertanyaan yang paling sering diajukan calon pelanggan atau pengunjung.",
+        "Beri jawaban ringkas dan mandiri dengan heading pertanyaan yang jelas.",
+        "Tautkan jawaban ke halaman produk, cerita, acara, atau kontak yang relevan bila membantu navigasi.",
+        "Pastikan jawaban tidak membuat klaim baru tentang sertifikasi, bahan, atau sejarah tanpa sumber internal yang sah."
+      ],
+      "success_criteria": "Tersedia bagian FAQ yang terlihat pengguna, berisi jawaban faktual, dan dipelihara ketika informasi berubah.",
+      "source_pages": [
+        6
+      ]
+    },
+    {
+      "id": "SEO-05",
+      "title": "Lengkapi atribut alt untuk gambar informatif",
+      "category": "on_page_seo_and_accessibility",
+      "audit_priority": "prioritas_rendah",
+      "analyst_priority": "P1-high",
+      "source_finding": "Audit menemukan 56 gambar dan 29 di antaranya tidak memiliki atribut alt.",
+      "analysis": "Alt yang tepat membantu aksesibilitas dan memberi konteks pada gambar. Tidak semua gambar dekoratif membutuhkan deskripsi panjang; alt kosong dapat sesuai untuk gambar yang murni dekoratif.",
+      "actions": [
+        "Inventarisasi gambar yang penting untuk memahami produk, bahan, orang, tempat, atau karya.",
+        "Tulis alt singkat, spesifik, dan sesuai isi gambar untuk gambar informatif.",
+        "Gunakan alt='' untuk gambar dekoratif yang tidak menambah informasi; jangan menjejalkan kata kunci."
+      ],
+      "success_criteria": "Semua gambar informatif memiliki alt yang bermakna dan gambar dekoratif tidak menghasilkan pembacaan yang berulang.",
+      "source_pages": [
+        5
+      ]
+    },
+    {
+      "id": "SEO-06",
+      "title": "Audit URL dan sederhanakan URL yang tidak deskriptif",
+      "category": "technical_seo",
+      "audit_priority": "prioritas_rendah",
+      "analyst_priority": "P2-medium",
+      "source_finding": "Laporan menyebut beberapa URL tautan kurang mudah dibaca, tetapi tidak mencantumkan contoh URL bermasalah.",
+      "analysis": "Tanpa daftar URL spesifik, perubahan URL massal berisiko menimbulkan tautan rusak atau redirect yang tidak perlu.",
+      "actions": [
+        "Minta crawl/daftar URL untuk mengidentifikasi URL yang benar-benar panjang, ambigu, atau berisi parameter yang tidak diperlukan.",
+        "Jika URL perlu diubah, siapkan redirect 301 satu-ke-satu, perbarui tautan internal dan sitemap, lalu cek status HTTP.",
+        "Jangan mengubah URL yang sudah bekerja baik hanya untuk memenuhi rekomendasi generik."
+      ],
+      "success_criteria": "URL penting konsisten dan deskriptif, tidak ada tautan internal rusak, dan pengalihan tidak membentuk rantai.",
+      "source_pages": [
+        9
+      ]
+    },
+    {
+      "id": "SEO-07",
+      "title": "Perluas konten tekstual dengan informasi yang berguna",
+      "category": "content_seo",
+      "audit_priority": "prioritas_rendah",
+      "analyst_priority": "P1-high",
+      "source_finding": "Audit menghitung 470 kata dan menandainya sebagai volume teks yang rendah.",
+      "analysis": "Jumlah kata bukan target kualitas tersendiri. Tujuannya adalah menjelaskan Kagōunga, kategori produk, keunikan, bukti pendukung, dan langkah berikutnya secara cukup jelas tanpa teks pengisi.",
+      "actions": [
+        "Perjelas apa itu Kagōunga, kategori yang diwakili, hubungan dengan Maluku Utara, dan manfaat atau nilai yang dapat didukung bukti.",
+        "Tambahkan deskripsi kategori atau halaman khusus untuk setiap penawaran penting jika memang tersedia dalam produk.",
+        "Sertakan fakta yang dapat diverifikasi, konteks bahan/warisan/kegiatan, dan tautan ke sumber atau halaman terkait.",
+        "Hindari membuat klaim tentang skala, jangkauan global, sertifikasi, atau dampak tanpa bukti."
+      ],
+      "success_criteria": "Halaman menjawab kebutuhan pengguna dengan konten unik, akurat, mudah dipindai, dan tidak menambah paragraf hanya demi panjang teks.",
+      "source_pages": [
+        4,
+        6
+      ]
+    },
+    {
+      "id": "SEO-08",
+      "title": "Prioritaskan perbaikan PageSpeed seluler",
+      "category": "performance_and_usability",
+      "audit_priority": "prioritas_rendah",
+      "analyst_priority": "P0-critical",
+      "source_finding": "PageSpeed seluler 60; FCP 4.0 detik, Speed Index 5.2 detik, LCP 6.8 detik, TTI 6.9 detik, TBT 0.1 detik, CLS 0. Laporan menyatakan data Core Web Vitals dunia nyata belum memadai.",
+      "analysis": "Masalah tampak terutama pada waktu tampilnya konten awal dan LCP, sementara TBT dan CLS rendah dalam pengujian tersebut. Skor ini berasal dari audit yang menyebut server pengujian di AS, sehingga hasil perlu diulang pada perangkat/lokasi yang mewakili audiens.",
+      "actions": [
+        "Uji ulang halaman utama di PageSpeed Insights dan Lighthouse, termasuk simulasi seluler; catat URL, tanggal, dan kondisi pengujian.",
+        "Identifikasi elemen LCP, ukuran dan format gambar hero, font, serta JavaScript yang benar-benar dibutuhkan pada initial load.",
+        "Periksa redirect berantai, JavaScript yang tidak digunakan, dan request render-blocking.",
+        "Bandingkan hasil sebelum dan sesudah setiap perubahan agar penyebab peningkatan jelas."
+      ],
+      "success_criteria": "LCP seluler turun secara nyata, skor dan metrik diukur ulang dalam kondisi yang konsisten, dan tidak ada regresi visual atau fungsional.",
+      "source_pages": [
+        11,
+        12
+      ]
+    },
+    {
+      "id": "SEO-09",
+      "title": "Tunda atau kurangi sumber daya yang menghambat render",
+      "category": "performance",
+      "audit_priority": "prioritas_rendah",
+      "analyst_priority": "P1-high",
+      "source_finding": "Audit mendeteksi sumber daya yang menghambat first paint dan memperkirakan peluang penghematan sekitar 0.45 detik untuk request yang menghambat render.",
+      "analysis": "Pengoptimalan harus berdasarkan waterfall dan dependency nyata; tidak semua stylesheet atau script aman untuk ditunda.",
+      "actions": [
+        "Periksa waterfall jaringan dan identifikasi CSS/JS yang memblokir rendering konten utama.",
+        "Gunakan defer/async, code splitting, preload, atau critical CSS hanya ketika sesuai dengan fungsi resource dan hasil pengukuran.",
+        "Uji navigasi, animasi, menu, analitik, dan interaksi setelah perubahan."
+      ],
+      "success_criteria": "Konten utama tampil lebih cepat tanpa error JavaScript, FOUC, kehilangan gaya penting, atau fitur yang rusak.",
+      "source_pages": [
+        11,
+        12
+      ]
+    },
+    {
+      "id": "SEO-10",
+      "title": "Evaluasi Google Business Profile berdasarkan model bisnis dan kelayakan",
+      "category": "local_seo",
+      "audit_priority": "prioritas_rendah",
+      "analyst_priority": "P2-medium-conditional",
+      "source_finding": "Audit tidak menemukan Google Business Profile yang tertaut ke situs.",
+      "analysis": "Ini bukan kewajiban SEO universal. Buat profil hanya jika entitas dan cara melayani pelanggan memenuhi kebijakan kelayakan Google; jangan membuat listing lokasi fiktif untuk merek yang sepenuhnya online.",
+      "actions": [
+        "Pastikan apakah Kagōunga memiliki lokasi fisik yang melayani pelanggan atau area layanan yang memenuhi syarat.",
+        "Jika memenuhi syarat, buat/klaim profil resmi dan samakan nama, alamat/area layanan, telepon, situs, kategori, serta jam operasional.",
+        "Jika tidak memenuhi syarat, tandai rekomendasi sebagai tidak relevan; fokus pada halaman merek, produk, dan direktori/mitra yang benar-benar sesuai."
+      ],
+      "success_criteria": "Keputusan kelayakan terdokumentasi; bila profil dibuat, datanya akurat dan terverifikasi.",
+      "source_pages": [
+        15,
+        16
+      ]
+    },
+    {
+      "id": "SEO-11",
+      "title": "Konsistenkan informasi kontak dan alamat",
+      "category": "local_seo_and_trust",
+      "audit_priority": "prioritas_rendah",
+      "analyst_priority": "P1-high-verification",
+      "source_finding": "Bagian GEO menyatakan tersedia alamat kantor pusat, email, telepon, dan akses kontak. Bagian SEO lokal menyatakan alamat tidak teridentifikasi tetapi menampilkan telepon +62 811 1538 111.",
+      "analysis": "Dua bagian laporan tidak konsisten tentang alamat. Periksa halaman langsung dan markup sebelum menambahkan atau mengubah informasi kontak.",
+      "actions": [
+        "Verifikasi informasi kontak resmi dan alamat yang boleh dipublikasikan.",
+        "Pastikan informasi yang tampil, footer, halaman kontak, Organization schema, dan profil eksternal tidak saling bertentangan.",
+        "Jangan menambahkan alamat rumah atau lokasi fiktif; gunakan detail bisnis yang sah dan sesuai model operasional."
+      ],
+      "success_criteria": "Kontak resmi dapat ditemukan pengguna dan konsisten di semua tempat yang relevan.",
+      "source_pages": [
+        6,
+        16
+      ]
+    },
+    {
+      "id": "SEO-12",
+      "title": "Tambahkan LocalBusiness schema hanya jika sesuai",
+      "category": "structured_data",
+      "audit_priority": "prioritas_rendah",
+      "analyst_priority": "P2-medium-conditional",
+      "source_finding": "Organization schema sudah teridentifikasi; Local Business schema tidak teridentifikasi.",
+      "analysis": "Organization schema yang sudah ada tidak sama dengan LocalBusiness schema. Jenis markup harus mencerminkan model bisnis yang sebenarnya dan tidak menduplikasi atau bertentangan dengan data entitas yang ada.",
+      "actions": [
+        "Audit JSON-LD yang sedang dipakai dan pastikan nama entitas, URL kanonis, logo, serta kontak benar.",
+        "Tambahkan tipe LocalBusiness atau subtype yang relevan hanya jika memenuhi kebutuhan dan keadaan bisnis yang sesungguhnya.",
+        "Validasi structured data setelah implementasi dan periksa error/warning."
+      ],
+      "success_criteria": "Structured data valid, konsisten dengan konten terlihat, dan sesuai jenis entitas sebenarnya.",
+      "source_pages": [
+        5,
+        6,
+        16
+      ]
+    },
+    {
+      "id": "SEO-13",
+      "title": "Pasang Meta/Facebook Pixel hanya bila ada kebutuhan iklan",
+      "category": "analytics_and_marketing",
+      "audit_priority": "prioritas_rendah",
+      "analyst_priority": "P3-low-conditional",
+      "source_finding": "Audit tidak mendeteksi Facebook Pixel.",
+      "analysis": "Pixel bukan perbaikan SEO organik. Pixel baru relevan untuk pengukuran kampanye atau retargeting, dengan konfigurasi privasi dan consent yang sesuai.",
+      "actions": [
+        "Konfirmasikan rencana penggunaan Meta Ads/retargeting sebelum memasang pixel.",
+        "Jika digunakan, pasang melalui mekanisme analitik/tag yang terkelola dan uji event yang benar-benar diperlukan.",
+        "Sesuaikan pemberitahuan privasi dan consent dengan kewajiban yang berlaku untuk audiens situs."
+      ],
+      "success_criteria": "Pixel hanya dipasang jika ada tujuan bisnis yang jelas, event teruji, dan pengelolaan privasi ditangani.",
+      "source_pages": [
+        14,
+        15
+      ]
+    },
+    {
+      "id": "SEO-14",
+      "title": "Kurangi penggunaan inline style jika memang memberi dampak",
+      "category": "code_quality_and_performance",
+      "audit_priority": "prioritas_rendah",
+      "analyst_priority": "P3-low",
+      "source_finding": "Audit mendeteksi penggunaan inline style.",
+      "analysis": "Inline style bukan otomatis masalah SEO atau performa yang besar; dampaknya bergantung pada banyaknya kode, cacheability, dan strategi styling aplikasi.",
+      "actions": [
+        "Periksa apakah inline style dihasilkan framework, atribut style dinamis, atau bagian dari komponen tertentu.",
+        "Refactor hanya bagian yang menghambat pemeliharaan, cache, konsistensi, atau kinerja yang terukur.",
+        "Hindari refactor besar hanya untuk mengejar indikator audit generik."
+      ],
+      "success_criteria": "Styling tetap benar, kode lebih mudah dipelihara jika refactor diperlukan, dan pengujian tidak menunjukkan regresi.",
+      "source_pages": [
+        14
+      ]
+    },
+    {
+      "id": "SEO-15",
+      "title": "Kurangi eksposur email terhadap scraping tanpa merusak aksesibilitas",
+      "category": "privacy_and_usability",
+      "audit_priority": "prioritas_rendah",
+      "analyst_priority": "P3-low",
+      "source_finding": "Audit mendeteksi alamat email dalam teks biasa.",
+      "analysis": "Laporan menyarankan mengganti email dengan gambar atau formulir. Gambar yang hanya berisi alamat email dapat mengurangi aksesibilitas, kemampuan salin, dan kegunaan; bukan pilihan default yang disarankan.",
+      "actions": [
+        "Tinjau tingkat spam dan apakah alamat perlu ditampilkan langsung.",
+        "Pertimbangkan formulir kontak yang mudah diakses atau teknik mitigasi spam yang tidak menghalangi pengguna dan pembaca layar.",
+        "Jika email tetap ditampilkan, pertahankan teks alternatif/aksesibilitas dan uji alur kontak."
+      ],
+      "success_criteria": "Pengguna masih bisa menghubungi bisnis dengan mudah dan aksesibilitas tidak menurun.",
+      "source_pages": [
+        12
+      ]
+    },
+    {
+      "id": "SEO-16",
+      "title": "Buat dan tautkan halaman Facebook hanya bila kanal ini aktif digunakan",
+      "category": "social_presence",
+      "audit_priority": "prioritas_rendah",
+      "analyst_priority": "P3-low-conditional",
+      "source_finding": "Tidak ditemukan halaman Facebook tertaut; Open Graph terdeteksi.",
+      "analysis": "Facebook bukan syarat SEO teknis. Profil yang tidak dikelola bisa menambah informasi usang, jadi keputusan harus mengikuti strategi kanal merek.",
+      "actions": [
+        "Tentukan apakah audiens Kagōunga aktif di Facebook dan siapa yang akan mengelola kanal.",
+        "Jika dibuat, gunakan profil resmi dengan informasi merek/kontak konsisten dan tautkan dari situs.",
+        "Jangan membuat profil kosong hanya untuk memenuhi daftar rekomendasi."
+      ],
+      "success_criteria": "Kanal resmi dikelola dan konsisten, atau rekomendasi dinyatakan tidak relevan secara sengaja.",
+      "source_pages": [
+        14,
+        15
+      ]
+    },
+    {
+      "id": "SEO-17",
+      "title": "Buat dan tautkan profil LinkedIn bila relevan",
+      "category": "social_presence_and_trust",
+      "audit_priority": "prioritas_rendah",
+      "analyst_priority": "P3-low-conditional",
+      "source_finding": "Tidak ditemukan profil LinkedIn tertaut dari situs.",
+      "analysis": "LinkedIn dapat berguna untuk kredibilitas organisasi, mitra, dan relasi profesional, tetapi bukan faktor wajib untuk setiap merek konsumen.",
+      "actions": [
+        "Tentukan apakah Kagōunga membutuhkan kanal organisasi profesional untuk kemitraan, perekrutan, atau komunikasi B2B.",
+        "Jika ya, buat halaman organisasi resmi dan tautkan dari situs setelah profil berisi informasi yang benar.",
+        "Jika tidak, dokumentasikan keputusan dan fokus pada kanal yang dipakai audiens."
+      ],
+      "success_criteria": "Profil resmi tersedia dan aktif bila relevan, atau tidak dibuat tanpa kebutuhan yang jelas.",
+      "source_pages": [
+        15
+      ]
+    },
+    {
+      "id": "SEO-18",
+      "title": "Kembangkan kanal YouTube melalui konten yang relevan",
+      "category": "social_presence_and_brand",
+      "audit_priority": "prioritas_rendah",
+      "analyst_priority": "P3-low",
+      "source_finding": "Audit menemukan tautan channel YouTube dan menilai jumlah pelanggan masih rendah.",
+      "analysis": "Laporan tidak mencantumkan jumlah pelanggan atau data interaksi. Pertumbuhan harus dinilai dari relevansi konten, konsistensi, dan tujuan kanal, bukan asumsi angka.",
+      "actions": [
+        "Tinjau performa konten dan tujuan channel sebelum menetapkan target pertumbuhan.",
+        "Buat video yang mendukung cerita, produk, proses, acara, atau pengetahuan yang relevan dengan Kagōunga.",
+        "Tautkan video ke halaman relevan di situs jika membantu pengguna, tanpa menganggap subscriber sebagai perbaikan teknis SEO."
+      ],
+      "success_criteria": "Ada sasaran konten dan metrik channel yang terdokumentasi; tautan dan informasi channel tetap benar.",
+      "source_pages": [
+        15
+      ]
+    }
+  ],
+  "positive_findings_reported": [
+    "Meta description berada pada kisaran panjang yang disarankan audit.",
+    "Hreflang, lang attribute, H1, dan struktur heading terdeteksi.",
+    "Canonical, SSL/redirect HTTPS, robots.txt, sitemap XML, dan sitemap gambar terdeteksi.",
+    "Halaman dapat di-crawl dan tidak terdeteksi memakai noindex tag/header.",
+    "JSON-LD dan Organization schema terdeteksi.",
+    "Konten dinilai mudah dipindai untuk analisis AI dan mengandung klaim mandiri yang bisa dikutip.",
+    "Desktop PageSpeed 96; CLS 0 dalam pengujian audit.",
+    "Caching, HTTP/2+, minifikasi CSS/JS, serta tidak adanya error JavaScript dilaporkan baik.",
+    "Open Graph, X Cards, tautan X, Instagram, dan YouTube terdeteksi."
+  ],
+  "data_quality_caveats": [
+    "Tanggal laporan tidak diketahui; seluruh hasil harus dianggap snapshot historis.",
+    "Laporan menilai domain/page strength 0 sekaligus melaporkan 27 backlink dan 23 referring domains. Ini dapat terjadi akibat perbedaan metrik atau basis data tool; jangan menganggapnya sebagai kontradiksi yang sudah terpecahkan.",
+    "URL referring pages terlihat seperti halaman report/share/stats otomatis; periksa manual sebelum menyimpulkan kualitas atau toksisitasnya.",
+    "GEO menyebut alamat tersedia, tetapi SEO lokal tidak berhasil mengidentifikasi alamat. Verifikasi HTML yang dirender, footer, halaman kontak, dan structured data.",
+    "PageSpeed seluler 60 kontras dengan desktop 96; pengujian dilakukan dari server AS dan data Core Web Vitals lapangan tidak cukup.",
+    "Audit menyebut semua gambar tampak dioptimalkan, tetapi juga menyebut peluang perbaikan image delivery dan laporan kompresi gambar 0%. Maknanya bergantung pada metode yang berbeda; ukur ulang sebelum mengambil kesimpulan.",
+    "Angka 11% untuk rendered content disajikan tanpa metodologi rinci; jangan mengubah rendering situs hanya berdasarkan angka itu.",
+    "Laporan tidak memberi daftar URL spesifik yang perlu disederhanakan, jumlah subscriber YouTube, atau data kualitas backlink terperinci."
+  ],
+  "agent_instructions": {
+    "use_as": "Baseline dan referensi untuk analisis atau implementasi SEO Kagōunga, bukan sebagai bukti bahwa kondisi situs saat ini sama dengan laporan.",
+    "evidence_labels": [
+      "DILAPORKAN_AUDIT",
+      "ANALISIS_AGENT",
+      "TERVERIFIKASI_LIVE"
+    ],
+    "rules": [
+      "Pisahkan data yang dikutip dari laporan, analisis, dan hasil verifikasi live.",
+      "Jangan mengarang jumlah trafik, ranking keyword, konversi, subscriber, tanggal audit, atau status implementasi.",
+      "Sebelum mengubah kode, crawl URL aktual dan verifikasi temuan yang berubah-ubah.",
+      "Jaga nama/identitas Kagōunga dan klaim merek; jangan mengubah positioning, cerita budaya, atau klaim produk tanpa sumber yang disetujui.",
+      "Hindari keyword stuffing dan konten pengisi. Relevansi, ketepatan, dan kegunaan lebih penting daripada volume kata mentah.",
+      "Jangan menambahkan Google Business Profile/LocalBusiness schema, Facebook Pixel, atau kanal sosial tanpa memastikan kelayakan dan tujuan bisnis.",
+      "Jangan otomatis melakukan disavow backlink. Inspeksi manual dan validasi independen lebih dahulu.",
+      "Setiap perubahan performa harus diukur dengan baseline sebelum/sesudah dan diuji agar tidak merusak UX, aksesibilitas, atau fungsi situs.",
+      "Hormati aksesibilitas: jangan mengganti alamat email hanya dengan gambar sebagai solusi default.",
+      "Saat menyarankan implementasi, sebutkan alasan, risiko, cara validasi, dan kriteria selesai."
+    ]
+  }
+}
