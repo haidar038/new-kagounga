@@ -32,3 +32,9 @@ dist/
 *.log
 playwright-report/
 test-results/
+
+# Tooling agent lokal (bukan bagian aplikasi)
+.agents/
+.claude/
+.zcode/
+skills-lock.json
