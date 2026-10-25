@@ -35,10 +35,10 @@ export const COLLABORATORS: Collaborator[] = [
     alt: "Portrait of Shahnaz",
   },
   {
-    name: "Joshua",
+    name: "Jae",
     role: "Visual Artist",
     image: cld("joshua2.webp", 800),
-    alt: "Portrait of Joshua",
+    alt: "Portrait of Jae",
   },
   {
     name: "Maryam",
