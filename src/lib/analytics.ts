@@ -21,6 +21,11 @@ export function setAnalyticsConsent(granted: boolean): void {
   } catch {
     // storage unavailable, consent stays denied
   }
+  // Lets the inline gtag loader (index.html) fetch gtag.js once consent is
+  // granted mid-session.
+  window.dispatchEvent(
+    new CustomEvent("kga-consent", { detail: granted ? "granted" : "denied" }),
+  );
 }
 
 export function trackPageView(path: string): void {

@@ -49,8 +49,10 @@
   <link rel="preload" href="/fonts/open-sauce-one-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/open-sauce-one-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin />
   <title>Kagōunga | Move, Moreover. - Heritage & Innovation</title>
-  <!-- Google tag (gtag.js): stub + config stay inline (commands queue in dataLayer),
-       the 194 KiB gtag.js bundle is injected after first paint to keep it off the critical path -->
+  <!-- Google tag (gtag.js): stub + config stay inline (commands queue in dataLayer).
+       The 194 KiB gtag.js bundle is fetched only for visitors who granted
+       analytics consent, then after first paint — it never competes with the
+       critical path and analytics events replay from the queue once it lands. -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
@@ -58,19 +60,32 @@
     gtag('config', 'G-8JC93J3FD7', { send_page_view: false });
 
     (function () {
+      var KEY = 'kga-consent-v1';
+      var injected = false;
       var inject = function () {
+        if (injected) return;
+        injected = true;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-8JC93J3FD7';
+        document.head.appendChild(s);
+      };
+      var queue = function () {
         (window.requestIdleCallback || function (cb) { setTimeout(cb, 1); })(
-          function () {
-            var s = document.createElement('script');
-            s.async = true;
-            s.src = 'https://www.googletagmanager.com/gtag/js?id=G-8JC93J3FD7';
-            document.head.appendChild(s);
-          },
+          inject,
           { timeout: 3000 }
         );
       };
-      if (document.readyState === 'complete') inject();
-      else window.addEventListener('load', inject);
+      var granted = false;
+      try { granted = localStorage.getItem(KEY) === 'granted'; } catch (e) {}
+      if (granted) {
+        if (document.readyState === 'complete') queue();
+        else window.addEventListener('load', queue);
+      } else {
+        window.addEventListener('kga-consent', function (e) {
+          if (e.detail === 'granted') queue();
+        });
+      }
     })();
   </script>
 </head>

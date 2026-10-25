@@ -45,33 +45,39 @@ export function useMilestonesYear(year: CalYear): MilestonesYear {
     }
     if (hydrated.fresh) return;
 
+    // The events API (Google Apps Script) is below-the-fold data: delay the
+    // network refresh so its connection + response never compete with the
+    // LCP hero during the load window. Cache paint above stays instant.
     const controller = new AbortController();
     let cancelled = false;
-    void (async () => {
-      setState((s) => (s === "cached-fresh" ? s : "pending"));
-      try {
-        const rows = await fetchYear(year, controller.signal);
-        if (cancelled) return;
-        if (rows) {
-          setBuckets((prev) => {
-            const next = bucketEvents(rows);
-            return JSON.stringify(prev ?? null) === JSON.stringify(next)
-              ? prev
-              : next;
-          });
-          setState("live");
-        } else {
-          setState(hydrated.buckets ? "cached-stale" : "failed");
+    const timer = setTimeout(() => {
+      void (async () => {
+        setState((s) => (s === "cached-fresh" ? s : "pending"));
+        try {
+          const rows = await fetchYear(year, controller.signal);
+          if (cancelled) return;
+          if (rows) {
+            setBuckets((prev) => {
+              const next = bucketEvents(rows);
+              return JSON.stringify(prev ?? null) === JSON.stringify(next)
+                ? prev
+                : next;
+            });
+            setState("live");
+          } else {
+            setState(hydrated.buckets ? "cached-stale" : "failed");
+          }
+        } catch {
+          if (!cancelled) {
+            setState(hydrated.buckets ? "cached-stale" : "failed");
+          }
         }
-      } catch {
-        if (!cancelled) {
-          setState(hydrated.buckets ? "cached-stale" : "failed");
-        }
-      }
-    })();
+      })();
+    }, 3500);
 
     return () => {
       cancelled = true;
+      clearTimeout(timer);
       controller.abort();
     };
   }, [year]);

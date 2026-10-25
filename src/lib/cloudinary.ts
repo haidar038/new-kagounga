@@ -6,10 +6,17 @@ const CLOUD_NAME =
  * Cloudinary delivery URL with automatic format + quality.
  * `publicId` includes extension as stored (e.g. `brand-music.webp`,
  * `logo-primary-horizontal.svg`). Versionless URLs always serve latest.
- * `transform` prepends extra chained transformations (e.g. `a_90`).
+ * `transform` prepends extra chained transformations (e.g. `a_90`). When it
+ * already sets format/quality (contains `f_`/`q_`), the f_auto,q_auto
+ * defaults are skipped so callers can pin e.g. `f_webp,q_55`.
  */
 export function cld(publicId: string, width?: number, transform?: string): string {
-  const base = transform ? `${transform},f_auto,q_auto` : "f_auto,q_auto";
+  const extra = transform ?? "";
+  const base = /(^|,)(f_|q_)/.test(extra)
+    ? extra
+    : extra
+      ? `${extra},f_auto,q_auto`
+      : "f_auto,q_auto";
   const t = width ? `${base},w_${width}` : base;
   return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${t}/${publicId}`;
 }
