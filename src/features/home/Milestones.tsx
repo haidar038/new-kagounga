@@ -38,17 +38,57 @@ const EVENTS_PER_PAGE = 4;
 function EventRows({
   events,
   label,
+  tone,
 }: {
   events: CalEventItem[];
   label: string;
+  tone: "dark" | "light";
 }): React.JSX.Element {
+  const { t } = useTranslation("home");
+  const reduced = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const [activePage, setActivePage] = useState(0);
   const scrollable = events.length > EVENTS_PER_PAGE;
-  return (
+  const pageCount = Math.ceil(events.length / EVENTS_PER_PAGE);
+
+  // Proportional mapping: a partial last page still reaches its own dot.
+  // Native listener: React's synthetic onScroll is unreliable for non-bubbling
+  // scroll events on this list.
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el || !scrollable || pageCount < 2) return;
+    const onScroll = (): void => {
+      const maxScroll = el.scrollHeight - el.clientHeight;
+      const page =
+        maxScroll > 0
+          ? Math.round((el.scrollTop / maxScroll) * (pageCount - 1))
+          : 0;
+      setActivePage((prev) => (prev === page ? prev : page));
+    };
+    onScroll();
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+    };
+  }, [scrollable, pageCount]);
+
+  const goToPage = (page: number): void => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const maxScroll = el.scrollHeight - el.clientHeight;
+    el.scrollTo({
+      top: Math.min(page * el.clientHeight, maxScroll),
+      behavior: reduced ? "auto" : "smooth",
+    });
+  };
+
+  const rows = (
     <div
+      ref={scrollerRef}
       className={cn(
-        "flex flex-col gap-2.5 text-xs",
+        "flex min-w-0 flex-1 flex-col gap-2.5 text-xs",
         scrollable &&
-        "no-scrollbar max-h-[6.875rem] snap-y snap-mandatory overflow-y-auto",
+        "no-scrollbar max-h-[6.875rem] snap-y snap-mandatory overflow-y-auto overscroll-contain",
       )}
       role="list"
       aria-label={label}
@@ -67,6 +107,40 @@ function EventRows({
           <span className="min-w-0 flex-1 leading-5">{e.text}</span>
         </div>
       ))}
+    </div>
+  );
+
+  if (!scrollable || pageCount < 2) return rows;
+
+  return (
+    <div className="flex items-stretch gap-3">
+      {rows}
+      <div
+        role="group"
+        aria-label={t("milestones.pages")}
+        className="flex flex-col justify-center gap-2"
+      >
+        {Array.from({ length: pageCount }, (_, p) => (
+          <button
+            key={p}
+            type="button"
+            className="cursor-pointer p-0.5"
+            aria-label={t("milestones.pageOf", { current: p + 1, total: pageCount })}
+            aria-current={p === activePage}
+            onClick={() => {
+              goToPage(p);
+            }}
+          >
+            <span
+              className={cn(
+                "event-dot",
+                tone === "dark" && "on-dark",
+                p === activePage && "active",
+              )}
+            />
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
@@ -112,7 +186,7 @@ function MonthCard({
   return (
     <article className={card}>
       <div className="flex items-start justify-between gap-3">
-        <div>
+        <div className="min-w-0 flex-1">
           <h3 className="text-[20px] font-bold tracking-tight md:text-[24px]">
             {monthName(month, locale)}
           </h3>
@@ -122,7 +196,11 @@ function MonthCard({
       </div>
       <div className={cn("my-4 border-t", divider)} />
       {ev && data ? (
-        <EventRows events={data.events} label={t("milestones.events")} />
+        <EventRows
+          events={data.events}
+          label={t("milestones.events")}
+          tone={kind === "done" ? "dark" : "light"}
+        />
       ) : kind === "idle" ? (
         <p className="mt-auto pt-8 text-[12px] font-medium tracking-wide">
           {t("milestones.status.noAgenda")}
@@ -139,7 +217,8 @@ function MonthCard({
 export function Milestones(): React.JSX.Element {
   const { t } = useTranslation("home");
   const locale = useLocale();
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
+  const isTablet = useMediaQuery("(min-width: 768px)");
   // Fixed during SSR/hydration; switches to the client date after hydration.
   const [now, setNow] = useState(FIXED_NOW);
   useEffect(() => {
@@ -156,7 +235,9 @@ export function Milestones(): React.JSX.Element {
   const touch = useRef<{ x: number; y: number } | null>(null);
   const { buckets: remote } = useMilestonesYear(calYear);
 
-  const size = isDesktop ? 3 : 1;
+  // Segmen halaman per breakpoint: desktop 3, tablet 2, mobile 1 — sinkron
+  // dengan grid-cols di bawah (md:grid-cols-2 lg:grid-cols-3).
+  const size = isDesktop ? 3 : isTablet ? 2 : 1;
   const pages = 12 / size;
   const anchor = anchorMonth ?? now.getMonth();
   const calPage = Math.floor(anchor / size);
@@ -248,14 +329,14 @@ export function Milestones(): React.JSX.Element {
           onTouchEnd={(e) => {
             const start = touch.current;
             touch.current = null;
-            if (!start || isDesktop) return;
+            if (!start || size === 3) return;
             const t = e.changedTouches[0];
             const dx = t.clientX - start.x;
             const dy = t.clientY - start.y;
             if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
             moveMonth(dx < 0 ? 1 : -1);
           }}
-          className="mt-6 grid animate-enter gap-5 md:grid-cols-3"
+          className="mt-6 grid animate-enter gap-5 md:grid-cols-2 lg:grid-cols-3"
         >
           {months.map((m) => (
             <MonthCard
@@ -268,7 +349,7 @@ export function Milestones(): React.JSX.Element {
           ))}
         </div>
 
-        {!isDesktop ? (
+        {!isTablet ? (
           <div
             role="group"
             aria-label={`${monthName(Math.min(11, calPage * size), locale)} ${calYear}`}

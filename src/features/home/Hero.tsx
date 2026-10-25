@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Reveal } from "../../components/Reveal";
 import { cld } from "../../lib/cloudinary";
 import { cn } from "../../lib/cn";
 
@@ -11,12 +10,12 @@ export function Hero(): React.JSX.Element {
 
   return (
     <section className="relative flex min-h-[92vh] items-center overflow-hidden bg-ink text-cream">
-      {/* f_webp,q_45: f_auto serves JPEG (~89 KiB) for this asset; pinned
-          webp at q_45 is ~57 KiB and sits behind the gradient overlays. */}
+      {/* f_webp,q_40: f_auto serves JPEG (~89 KiB) for this asset; pinned
+          webp at q_40 is ~52 KiB and sits behind the gradient overlays. */}
       <img
-        src={cld("hero-bg-nature.webp", 1280, "f_webp,q_45")}
+        src={cld("hero-bg-nature.webp", 1280, "f_webp,q_40")}
         srcSet={[640, 960, 1280, 1920]
-          .map((width) => `${cld("hero-bg-nature.webp", width, "f_webp,q_45")} ${width}w`)
+          .map((width) => `${cld("hero-bg-nature.webp", width, "f_webp,q_40")} ${width}w`)
           .join(", ")}
         sizes="100vw"
         width={1920}
@@ -44,7 +43,9 @@ export function Hero(): React.JSX.Element {
           setTapped(false);
         }}
         className={cn(
-          "absolute bottom-0 right-[8%] z-5 hidden h-[46%] animate-rise outline-none md:block md:h-[85%]",
+          // Tablet: half the mascot slides past the right viewport edge;
+          // desktop keeps the fully-visible right-[8%] composition.
+          "absolute bottom-0 z-5 hidden h-[46%] animate-rise outline-none md:block md:right-[-15%] md:h-[65%] lg:right-[8%] lg:h-[85%]",
           tapped && "tapped",
         )}
       >
@@ -84,19 +85,24 @@ export function Hero(): React.JSX.Element {
         }}
       />
       <div className="pointer-events-none relative z-10 mx-auto w-full max-w-7xl px-5 py-12 md:px-8 md:py-16">
-        <Reveal>
+        {/* Above-fold text animates via pure CSS (hero-rise), not Reveal:
+            Reveal gates paint behind hydration, which pushed FCP/SI past the
+            hero image on throttled mobile. Staggered delays stay short so the
+            text is contentful well before the image finishes its bandwidth
+            queue. */}
+        <div className="hero-rise" style={{ animationDelay: "0.05s" }}>
           <h1 className="display max-w-3xl text-5xl sm:text-6xl md:text-8xl">
             <span className="font-semibold">Move,</span>
             <br />
             <span className="font-light">Moreover.</span>
           </h1>
-        </Reveal>
-        <Reveal>
+        </div>
+        <div className="hero-rise" style={{ animationDelay: "0.15s" }}>
           <p className="mt-4 max-w-xl text-[17px] leading-relaxed text-cream/85 md:text-lg">
             {t("hero.lede")}
           </p>
-        </Reveal>
-        <Reveal>
+        </div>
+        <div className="hero-rise" style={{ animationDelay: "0.25s" }}>
           <div className="mt-7 flex flex-wrap gap-3">
             <a
               href="#signature"
@@ -111,8 +117,8 @@ export function Hero(): React.JSX.Element {
               {t("hero.events")}
             </a>
           </div>
-        </Reveal>
-        <Reveal>
+        </div>
+        <div className="hero-rise" style={{ animationDelay: "0.35s" }}>
           <dl className="mt-10 grid max-w-xl grid-cols-3 divide-x divide-cream/20 border-t border-cream/20 pt-6">
             {(["500+", "8+", "5"] as const).map((value, i) => (
               <div key={value} className={i === 0 ? "pr-5" : i === 1 ? "px-5" : "pl-5"}>
@@ -123,7 +129,7 @@ export function Hero(): React.JSX.Element {
               </div>
             ))}
           </dl>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

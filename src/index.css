@@ -92,6 +92,24 @@
   }
 }
 
+/* Hero load animation: pure CSS so above-fold text paints without JS.
+   .hero-rise runs on first paint (unlike .reveal, which is gated behind
+   hydration) — critical for FCP on throttled mobile. */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-rise {
+  animation: hero-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 body {
   font-family: "Open Sauce One", ui-sans-serif, system-ui, sans-serif;
   background: #F3F1E9;
@@ -223,6 +241,33 @@ footer[id] {
   background: #DBF066;
 }
 
+/* Vertical rail variant for the in-card events pager (Milestones). The active
+   dot stretches downward like .page-dot, rotated 90°: height grows instead. */
+.event-dot {
+  display: block;
+  height: 0.45rem;
+  width: 0.45rem;
+  border-radius: 9999px;
+  background: rgba(31, 44, 34, 0.2);
+  transition:
+    height 0.3s,
+    background 0.3s;
+}
+
+.event-dot.active {
+  height: 2.25rem;
+  background: #1f2c22;
+}
+
+/* Dark month cards (kind "done") use cream for contrast. */
+.event-dot.on-dark {
+  background: rgba(243, 241, 233, 0.3);
+}
+
+.event-dot.on-dark.active {
+  background: #DBF066;
+}
+
 @media (max-width: 767.98px) {
   .sig-desc.collapsed {
     display: -webkit-box;
@@ -350,5 +395,11 @@ footer[id] {
   }
   .tisan-swap {
     transition: none;
+  }
+  .event-dot {
+    transition: none;
+  }
+  .hero-rise {
+    animation: none;
   }
 }

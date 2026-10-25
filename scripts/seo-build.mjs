@@ -24,7 +24,7 @@ const OG_DEFAULT =
 // Hero LCP candidates - must match src/features/home/Hero.tsx srcSet exactly so
 // the preload is reused instead of triggering a second fetch.
 const HERO_SRCSET = [640, 960, 1280, 1920]
-  .map((w) => `https://res.cloudinary.com/fal5otmd/image/upload/f_webp,q_45,w_${w}/hero-bg-nature.webp ${w}w`)
+  .map((w) => `https://res.cloudinary.com/fal5otmd/image/upload/f_webp,q_40,w_${w}/hero-bg-nature.webp ${w}w`)
   .join(", ");
 const LOGO =
   "https://res.cloudinary.com/fal5otmd/image/upload/f_auto,q_auto/logo-primary-emblem.svg";
