@@ -1,4 +1,4 @@
-import type { NavLink, SocialLink } from "../types/content";
+import type { NavLink, ShopLink, SocialLink } from "../types/content";
 
 export const SITE_NAME = "Kagōunga";
 
@@ -42,38 +42,56 @@ export const SOCIALS: SocialLink[] = [
     label: "Instagram",
     href: "https://www.instagram.com/kagounga.id/",
     brand: "instagram",
-    iconClass: "size-5",
+    iconClass: "size-4",
   },
   {
     label: "TikTok",
     href: "https://www.tiktok.com/@kagounga.id/",
     brand: "tiktok",
-    iconClass: "size-5",
+    iconClass: "size-4",
   },
   {
     label: "X",
     href: "https://x.com/kagounga/",
     brand: "x",
-    iconClass: "size-4",
+    iconClass: "size-3",
   },
   {
     label: "Threads",
     href: "https://www.threads.com/@kagounga.id",
     brand: "threads",
-    iconClass: "size-5",
+    iconClass: "size-4",
   },
   {
     label: "YouTube",
     href: "https://www.youtube.com/@Kagounga",
     brand: "youtube",
-    iconClass: "size-5",
+    iconClass: "size-4",
   },
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/company/kagounga",
     brand: "linkedin",
-    iconClass: "size-5",
+    iconClass: "size-4",
   }
 ];
 
 export const WHATSAPP_ICON = "/icons/social/whatsapp.svg";
+
+export const SHOP_LINKS: ShopLink[] = [
+  {
+    label: "Tokopedia",
+    href: "https://www.tokopedia.com/kagounga",
+    icon: "/icons/shop/tokopedia.svg",
+  },
+  {
+    label: "Shopee",
+    href: "https://shopee.co.id/kagounga",
+    icon: "/icons/shop/shopee.svg",
+  },
+  {
+    label: "TikTok Shop",
+    href: "https://vt.tiktok.com/ZS9UoDrLPouRw-3NVgC/",
+    icon: "/icons/shop/tiktok.svg",
+  },
+];

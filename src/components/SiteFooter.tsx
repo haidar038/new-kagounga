@@ -40,7 +40,7 @@ export function SiteFooter(): React.JSX.Element {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="group grid size-11 place-items-center rounded-full border border-cream/20 transition hover:border-lime hover:bg-lime"
+                  className="group grid size-10 place-items-center rounded-full border border-cream/20 transition hover:border-lime hover:bg-lime"
                 >
                   <SocialIcon
                     brand={s.brand}

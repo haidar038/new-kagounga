@@ -154,6 +154,13 @@ export interface SocialLink {
   iconClass: string;
 }
 
+/** Online-shop marketplace link; icon is a badge SVG under /icons/shop/. */
+export interface ShopLink {
+  label: string;
+  href: string;
+  icon: string;
+}
+
 export type LocationKind = "hub" | "retail" | "partner";
 
 export interface DistributionPoint {

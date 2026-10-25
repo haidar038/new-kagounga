@@ -9,6 +9,7 @@ import { cldSrcSet } from "../../lib/cloudinary";
 import { useLocale } from "../../i18n";
 import { useHydrated } from "../../hooks/useHydrated";
 import { BlurImage } from "../../components/BlurImage";
+import { ShopLinks } from "../../components/ShopLinks";
 import { Reveal } from "../../components/Reveal";
 import { cn } from "../../lib/cn";
 
@@ -101,24 +102,27 @@ export function Signature(): React.JSX.Element {
               <p className="mt-5 text-[13px] font-semibold text-cream/60">
                 {main.meta}
               </p>
-              <div className="mt-7 flex items-center justify-between gap-3 md:justify-start">
-                <a
-                  href={waLink(inquiryMessage(main.title, main.category, locale))}
-                  target="_blank"
-                  rel="noopener"
-                  className="inline-flex items-center gap-2 rounded-full bg-lime px-6 py-3 text-sm font-bold text-ink hover:brightness-95"
-                >
-                  <img
-                    src={WHATSAPP_ICON}
-                    alt=""
-                    width={16}
-                    height={16}
-                    className="size-4"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  {t("signature.inquiry")}
-                </a>
+              <div className="mt-7 flex flex-wrap items-center justify-between gap-3 md:justify-start">
+                <div className="flex flex-wrap items-center gap-3">
+                  <a
+                    href={waLink(inquiryMessage(main.title, main.category, locale))}
+                    target="_blank"
+                    rel="noopener"
+                    className="inline-flex items-center gap-2 rounded-full bg-lime px-6 py-3 text-sm font-bold text-ink hover:brightness-95"
+                  >
+                    <img
+                      src={WHATSAPP_ICON}
+                      alt=""
+                      width={16}
+                      height={16}
+                      className="size-4"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    {t("signature.inquiry")}
+                  </a>
+                  <ShopLinks tone="dark" size="sm" />
+                </div>
                 <button
                   id="sigToggle"
                   type="button"
