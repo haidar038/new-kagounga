@@ -14,6 +14,7 @@ import { useLocale } from "../i18n";
 import type { ProductId } from "../types/content";
 import { ProductCard } from "../components/ProductCard";
 import { ProductDialog } from "../components/ProductDialog";
+import { ShopLinks } from "../components/ShopLinks";
 import { Reveal } from "../components/Reveal";
 
 const B2B_ICONS = [Store, UtensilsCrossed, Gift, BedDouble, Truck, Factory] as const;
@@ -103,6 +104,11 @@ export function CatalogPage(): React.JSX.Element {
               setActiveId(null);
             }}
           />
+          <Reveal>
+            <div className="mt-14 flex justify-center border-t border-ink/10 pt-10">
+              <ShopLinks tone="light" size="lg" className="justify-center" />
+            </div>
+          </Reveal>
         </div>
       </section>
 

@@ -19,7 +19,6 @@ import {
   getProductSeoTitle,
 } from "../data/productContent";
 import { useDocumentMeta } from "../hooks/useDocumentMeta";
-import { ShopLinks } from "../components/ShopLinks";
 import { localeLink, useLocale, type Locale } from "../i18n";
 import { cldSrcSet } from "../lib/cloudinary";
 import { NotFoundPage } from "./NotFoundPage";
@@ -446,11 +445,11 @@ export function ProductPage(): React.JSX.Element {
               </Reveal>
             ))}
           </div>
-          <Reveal>
+          {/* <Reveal>
             <div className="mt-14 flex justify-center border-t border-ink/10 pt-10">
               <ShopLinks tone="light" size="md" className="justify-center" />
             </div>
-          </Reveal>
+          </Reveal> */}
         </div>
       </section>
     </main>

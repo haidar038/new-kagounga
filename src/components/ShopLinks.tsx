@@ -8,13 +8,15 @@ interface ShopLinksProps {
    * backgrounds as-is; on light ones they get a thin ink ring to stay defined.
    */
   tone?: "dark" | "light";
-  size?: "sm" | "md";
+  size?: "sm" | "md" | "lg" | "xl";
   className?: string;
 }
 
 const BADGE_SIZE = {
   sm: "size-7",
   md: "size-9",
+  lg: "size-12",
+  xl: "size-16",
 } as const;
 
 export function ShopLinks({
@@ -27,7 +29,7 @@ export function ShopLinks({
     <div className={cn("flex flex-wrap items-center gap-2.5", className)}>
       <span
         className={cn(
-          "text-[13px] font-semibold",
+          "text-[14px] font-semibold",
           tone === "dark" ? "text-cream/70" : "text-ink/70",
         )}
       >
