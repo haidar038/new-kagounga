@@ -11,12 +11,12 @@ export function Hero(): React.JSX.Element {
 
   return (
     <section className="relative flex min-h-[92vh] items-center overflow-hidden bg-ink text-cream">
-      {/* f_webp,q_55: f_auto serves JPEG (~89 KiB) for this asset; pinned
-          webp at q_55 is ~65 KiB and sits behind the gradient overlays. */}
+      {/* f_webp,q_45: f_auto serves JPEG (~89 KiB) for this asset; pinned
+          webp at q_45 is ~57 KiB and sits behind the gradient overlays. */}
       <img
-        src={cld("hero-bg-nature.webp", 1280, "f_webp,q_55")}
+        src={cld("hero-bg-nature.webp", 1280, "f_webp,q_45")}
         srcSet={[640, 960, 1280, 1920]
-          .map((width) => `${cld("hero-bg-nature.webp", width, "f_webp,q_55")} ${width}w`)
+          .map((width) => `${cld("hero-bg-nature.webp", width, "f_webp,q_45")} ${width}w`)
           .join(", ")}
         sizes="100vw"
         width={1920}

@@ -1,30 +1,6 @@
 import { useLocation } from "react-router-dom";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import enAbout from "../locales/en/about.json";
-import enArtworks from "../locales/en/artworks.json";
-import enCatalog from "../locales/en/catalog.json";
-import enCommon from "../locales/en/common.json";
-import enContact from "../locales/en/contact.json";
-import enHome from "../locales/en/home.json";
-import enLegal from "../locales/en/legal.json";
-import enMusic from "../locales/en/music.json";
-import enNews from "../locales/en/news.json";
-import enProductPage from "../locales/en/productPage.json";
-import enSeo from "../locales/en/seo.json";
-import enStockists from "../locales/en/stockists.json";
-import idAbout from "../locales/id/about.json";
-import idArtworks from "../locales/id/artworks.json";
-import idCatalog from "../locales/id/catalog.json";
-import idCommon from "../locales/id/common.json";
-import idContact from "../locales/id/contact.json";
-import idHome from "../locales/id/home.json";
-import idLegal from "../locales/id/legal.json";
-import idMusic from "../locales/id/music.json";
-import idNews from "../locales/id/news.json";
-import idProductPage from "../locales/id/productPage.json";
-import idSeo from "../locales/id/seo.json";
-import idStockists from "../locales/id/stockists.json";
 
 export type Locale = "en" | "id";
 
@@ -33,55 +9,53 @@ export const DEFAULT_LOCALE: Locale = "en";
 export const LANG_KEY = "kga-lang";
 const BANNER_KEY = "kga-lang-banner";
 
-const resources = {
-  en: {
-    about: enAbout,
-    artworks: enArtworks,
-    catalog: enCatalog,
-    common: enCommon,
-    contact: enContact,
-    home: enHome,
-    legal: enLegal,
-    music: enMusic,
-    news: enNews,
-    productPage: enProductPage,
-    seo: enSeo,
-    stockists: enStockists,
-  },
-  id: {
-    about: idAbout,
-    artworks: idArtworks,
-    catalog: idCatalog,
-    common: idCommon,
-    contact: idContact,
-    home: idHome,
-    legal: idLegal,
-    music: idMusic,
-    news: idNews,
-    productPage: idProductPage,
-    seo: idSeo,
-    stockists: idStockists,
-  },
+// Locale bundles are loaded on demand: a visit only downloads the JSON of the
+// language it renders (~12 KB gzip), keeping both locales (~110 KB raw) out of
+// the main bundle and off the critical path.
+const localeChunks = {
+  en: import.meta.glob<{ default: Record<string, unknown> }>("../locales/en/*.json"),
+  id: import.meta.glob<{ default: Record<string, unknown> }>("../locales/id/*.json"),
 } as const;
+
+const loadedLocales = new Set<Locale>();
+
+/** Fetch + register a locale's namespaces once. Safe to call repeatedly. */
+export async function ensureLocale(locale: Locale): Promise<void> {
+  if (loadedLocales.has(locale)) return;
+  const entries = await Promise.all(
+    Object.entries(localeChunks[locale]).map(async ([path, load]) => {
+      const ns = (path.split("/").pop() ?? "").replace(/\.json$/, "");
+      const mod = await load();
+      return [ns, mod.default] as const;
+    }),
+  );
+  for (const [ns, data] of entries) {
+    i18n.addResourceBundle(locale, ns, data, true, true);
+  }
+  loadedLocales.add(locale);
+}
 
 let initPromise: Promise<void> | null = null;
 
-/** Call once before render. Static resources: no extra dep, tiny bundle. */
+/** Call once before render. Resources load async; awaited before hydration. */
 export async function initI18n(locale?: Locale): Promise<void> {
   if (!initPromise) {
-    initPromise = i18n
-      .use(initReactI18next)
-      .init({
-        resources,
+    initPromise = (async () => {
+      await i18n.use(initReactI18next).init({
         lng: locale ?? getStoredLocale() ?? DEFAULT_LOCALE,
         fallbackLng: DEFAULT_LOCALE,
         defaultNS: "common",
         interpolation: { escapeValue: false },
-      })
-      .then(() => undefined);
+        // Bundles are registered via ensureLocale right after init.
+        partialBundledLanguages: true,
+        resources: {},
+      });
+      await ensureLocale(i18n.language === "id" ? "id" : "en");
+    })();
   }
   await initPromise;
   if (locale && i18n.language !== locale) {
+    await ensureLocale(locale);
     await i18n.changeLanguage(locale);
   }
 }

@@ -5,7 +5,7 @@ import i18n from "i18next";
 import { SiteHeader } from "../components/SiteHeader";
 import { SiteFooter } from "../components/SiteFooter";
 import { LocaleBanner } from "../components/LocaleBanner";
-import { localeLink, setStoredLocale, useLocale } from "../i18n";
+import { ensureLocale, localeLink, setStoredLocale, useLocale } from "../i18n";
 import {
   setAnalyticsConsent,
   trackPageView,
@@ -112,7 +112,13 @@ function LocaleSync(): null {
   useEffect(() => {
     document.documentElement.lang = locale;
     setStoredLocale(locale);
-    if (i18n.language !== locale) void i18n.changeLanguage(locale);
+    if (i18n.language !== locale) {
+      void (async () => {
+        // Load the target bundle first so the switch never flashes raw keys.
+        await ensureLocale(locale);
+        if (i18n.language !== locale) await i18n.changeLanguage(locale);
+      })();
+    }
   }, [locale]);
   return null;
 }
