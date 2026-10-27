@@ -43,12 +43,12 @@ export type ArtworkLogoId =
  */
 export const ARTWORK_LOGO_ASSETS: Record<
   ArtworkLogoId,
-  { publicId: string; width: number; height: number }
+  { publicId: string; width: number; height: number; label: string }
 > = {
-  ea_sketch: { publicId: "sketch_e_logo_2.webp", width: 96, height: 135 },
-  ea_sketch_kanan: { publicId: "sketch_e_logo_2.webp", width: 96, height: 135 },
-  hexagon_merah: { publicId: "nukila_dive_logo.webp", width: 96, height: 110 },
-  "ō_monogram": { publicId: "logogram_dark_logo.webp", width: 96, height: 83 },
+  ea_sketch: { publicId: "sketch_e_logo_2.webp", width: 96, height: 135, label: "Sketch EA" },
+  ea_sketch_kanan: { publicId: "sketch_e_logo_2.webp", width: 96, height: 135, label: "Sketch EA" },
+  hexagon_merah: { publicId: "nukila_dive_logo.webp", width: 96, height: 110, label: "Nukila Dive" },
+  "ō_monogram": { publicId: "logogram_dark_logo.webp", width: 96, height: 83, label: "Kagōunga monogram" },
 };
 
 /** Byline for caption cards bearing the sketch-ea mark (from the artwork signatures). */

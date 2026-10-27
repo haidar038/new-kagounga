@@ -603,7 +603,7 @@ function articleNode(route, url) {
     inLanguage: route.locale,
     datePublished: new Date(p.dateISO).toISOString(),
     dateModified: new Date(p.updatedAt || p.dateISO).toISOString(),
-    author: { "@id": `${SITE}/#organization` },
+    author: { "@type": "Organization", "@id": `${SITE}/#organization`, name: "Kagōunga", url: `${SITE}/` },
     publisher: { "@id": `${SITE}/#organization` },
     isPartOf: { "@id": `${SITE}/#website` },
     mainEntityOfPage: { "@id": url },

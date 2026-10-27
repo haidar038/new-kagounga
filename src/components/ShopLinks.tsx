@@ -51,7 +51,7 @@ export function ShopLinks({
         >
           <img
             src={shop.icon}
-            alt=""
+            alt={shop.label}
             width={36}
             height={36}
             loading="lazy"

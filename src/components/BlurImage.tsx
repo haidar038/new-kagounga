@@ -95,8 +95,11 @@ export function BlurImage({
   return (
     <div className={cn("relative overflow-hidden", className)}>
       <img
+        // Same alt as the full image + aria-hidden: the placeholder is the
+        // visual twin of the image above it, so both carry descriptive text
+        // while screen readers announce it only once.
         src={blurSrc}
-        alt=""
+        alt={alt}
         aria-hidden="true"
         loading={loading}
         decoding="async"

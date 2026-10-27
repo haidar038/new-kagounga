@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, Calendar, Share2 } from "lucide-react";
+import { ArrowLeft, Calendar, Share2, UserRound } from "lucide-react";
 import { NEWS_POSTS, localizePost, type LocalizedPost } from "../data/news";
 import { formatDateLabel } from "../lib/format";
 import { localeLink, useLocale } from "../i18n";
@@ -60,10 +60,15 @@ export function NewsArticle({ post }: { post: LocalizedPost }): React.JSX.Elemen
                 {t("article.fallbackBadge")}
               </p>
             )}
-            <div className="mt-6 flex items-center gap-4 text-ink/70">
+            <div className="mt-6 flex flex-wrap items-center gap-4 text-ink/70">
               <p className="flex items-center gap-2 text-sm">
                 <Calendar className="size-4" aria-hidden="true" />
                 <time dateTime={post.dateISO}>{formatDateLabel(post.dateISO, locale)}</time>
+              </p>
+              {/* Authorship: organizational byline (Authority & Trust signal). */}
+              <p className="flex items-center gap-2 text-sm">
+                <UserRound className="size-4" aria-hidden="true" />
+                {t("article.byline", { name: t("article.author") })}
               </p>
               <button
                 type="button"

@@ -8,7 +8,11 @@ export function Partners(): React.JSX.Element {
     <section className="pb-16 md:pb-24">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <Reveal>
-          <h2 className="display text-center text-4xl font-black md:text-5xl">
+          {/* Authority signal for trust audits: names the network explicitly. */}
+          <p className="text-center text-[12px] font-bold uppercase tracking-[0.18em] text-ink/50">
+            {t("partners.eyebrow")}
+          </p>
+          <h2 className="display mt-3 text-center text-4xl font-black md:text-5xl">
             <span className="font-bold">{t("partners.titleBold")}</span>{" "}
             <span className="font-light">{t("partners.titleLight")}</span>
           </h2>
@@ -40,7 +44,9 @@ export function Partners(): React.JSX.Element {
                 <img
                   key={`dup-${p.name}`}
                   src={p.logo}
-                  alt=""
+                  // Duplicated marquee copy: alt still names the partner, while
+                  // aria-hidden keeps it out of the screen-reader stream.
+                  alt={p.name}
                   aria-hidden="true"
                   width={p.logoWidth}
                   height={p.logoHeight}

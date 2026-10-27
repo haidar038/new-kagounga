@@ -111,7 +111,7 @@ export function ArtworkBack({
       <img
         key={id}
         src={cld(asset.publicId, 96)}
-        alt=""
+        alt={asset.label}
         width={asset.width}
         height={asset.height}
         loading="lazy"

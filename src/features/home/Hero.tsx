@@ -20,7 +20,7 @@ export function Hero(): React.JSX.Element {
         sizes="100vw"
         width={1920}
         height={1080}
-        alt=""
+        alt="Tropical forest landscape of North Maluku"
         className="absolute inset-0 h-full w-full object-cover"
         fetchPriority="high"
         decoding="async"
@@ -55,7 +55,7 @@ export function Hero(): React.JSX.Element {
             .map((width) => `${cld("tisan-self.webp", width)} ${width}w`)
             .join(", ")}
           sizes="(min-width: 768px) 40vw, 1px"
-          alt=""
+          alt="Tisan, the Kagōunga mascot, holding a sago basket"
           aria-hidden="true"
           className="tisan-swap tisan-1 h-full w-auto object-contain"
           // lazy: the mascot is hidden on mobile (parent uses hidden md:block),
@@ -70,7 +70,7 @@ export function Hero(): React.JSX.Element {
             .map((width) => `${cld("tisan-self-2.webp", width)} ${width}w`)
             .join(", ")}
           sizes="(min-width: 768px) 40vw, 1px"
-          alt=""
+          alt="Tisan, the Kagōunga mascot, smiling"
           aria-hidden="true"
           className="tisan-swap tisan-2 absolute inset-0 h-full w-auto object-contain opacity-0"
           loading="lazy"

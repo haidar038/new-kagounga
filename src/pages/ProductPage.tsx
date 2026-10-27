@@ -19,6 +19,7 @@ import {
   getProductSeoTitle,
 } from "../data/productContent";
 import { useDocumentMeta } from "../hooks/useDocumentMeta";
+import { TrustBadges } from "../components/TrustBadges";
 import { localeLink, useLocale, type Locale } from "../i18n";
 import { cldSrcSet } from "../lib/cloudinary";
 import { NotFoundPage } from "./NotFoundPage";
@@ -212,6 +213,7 @@ export function ProductPage(): React.JSX.Element {
                   {t("order", { ns: "productPage" })}
                 </a>
               </div>
+              <TrustBadges tone="dark" className="mt-7 justify-start" />
             </div>
             <ProductGallery product={product} />
           </div>

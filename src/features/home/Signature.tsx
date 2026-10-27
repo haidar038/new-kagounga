@@ -10,6 +10,7 @@ import { useLocale } from "../../i18n";
 import { useHydrated } from "../../hooks/useHydrated";
 import { BlurImage } from "../../components/BlurImage";
 import { ShopLinks } from "../../components/ShopLinks";
+import { TrustBadges } from "../../components/TrustBadges";
 import { Reveal } from "../../components/Reveal";
 import { cn } from "../../lib/cn";
 
@@ -102,6 +103,7 @@ export function Signature(): React.JSX.Element {
               <p className="mt-5 text-[13px] font-semibold text-cream/60">
                 {main.meta}
               </p>
+              <TrustBadges tone="dark" className="mt-5 justify-start" />
               <div className="mt-7 flex flex-wrap items-center justify-between gap-3 md:justify-start">
                 <div className="flex flex-wrap items-center gap-3">
                   <a
@@ -112,7 +114,7 @@ export function Signature(): React.JSX.Element {
                   >
                     <img
                       src={WHATSAPP_ICON}
-                      alt=""
+                      alt="WhatsApp"
                       width={16}
                       height={16}
                       className="size-4"
