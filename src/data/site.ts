@@ -78,6 +78,13 @@ export const SOCIALS: SocialLink[] = [
 
 export const WHATSAPP_ICON = "/icons/social/whatsapp.svg";
 
+/**
+ * Google Business Profile listing URL (share/Maps link). Used for Local SEO:
+ * it lands in the JSON-LD `sameAs` arrays and a footer link once filled.
+ * Petunjuk pengisian: docs/RUNBOOK-MANUAL-SEO.md §5.2.
+ */
+export const GBP_URL = "https://share.google/n6AcokfpQVM3IfxSP";
+
 export const SHOP_LINKS: ShopLink[] = [
   {
     label: "Tokopedia",

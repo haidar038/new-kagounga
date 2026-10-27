@@ -64,6 +64,9 @@ const Privacy = lazyPage(() =>
 const Terms = lazyPage(() =>
   import("../pages/TermsPage").then((m) => ({ default: m.TermsPage })),
 );
+const ThankYou = lazyPage(() =>
+  import("../pages/ThankYouPage").then((m) => ({ default: m.ThankYouPage })),
+);
 
 export const AboutPage = About.Component;
 export const ArtworksPage = Artworks.Component;
@@ -77,6 +80,7 @@ export const ContactPage = Contact.Component;
 export const NotFoundPage = NotFound.Component;
 export const PrivacyPage = Privacy.Component;
 export const TermsPage = Terms.Component;
+export const ThankYouPage = ThankYou.Component;
 
 /** Load the chunk for the current URL before hydrating prerendered HTML. */
 export async function preloadPage(pathname: string): Promise<void> {
@@ -93,4 +97,5 @@ export async function preloadPage(pathname: string): Promise<void> {
   if (path === "/contact") return Contact.preload();
   if (path === "/privacy") return Privacy.preload();
   if (path === "/terms") return Terms.preload();
+  if (path === "/thank-you") return ThankYou.preload();
 }

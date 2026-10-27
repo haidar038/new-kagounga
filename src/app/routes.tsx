@@ -16,6 +16,7 @@ import {
   ProductPage,
   StockistPage,
   TermsPage,
+  ThankYouPage,
 } from "./pages";
 
 function susp(el: ReactNode): ReactNode {
@@ -40,6 +41,7 @@ export const routes: RouteObject[] = [
       { path: "/music", element: susp(<MusicPage />) },
       { path: "/privacy", element: susp(<PrivacyPage />) },
       { path: "/terms", element: susp(<TermsPage />) },
+      { path: "/thank-you", element: susp(<ThankYouPage />) },
       { path: "*", element: susp(<NotFoundPage />) },
     ],
   },
@@ -61,6 +63,7 @@ export const routes: RouteObject[] = [
       { path: "music", element: susp(<MusicPage />) },
       { path: "privacy", element: susp(<PrivacyPage />) },
       { path: "terms", element: susp(<TermsPage />) },
+      { path: "thank-you", element: susp(<ThankYouPage />) },
       { path: "*", element: susp(<NotFoundPage />) },
     ],
   },

@@ -4,9 +4,11 @@ import {
   CONTACT,
   FOOTER_NAVIGATE,
   FOOTER_SIGNATURES,
+  GBP_URL,
   SOCIALS,
 } from "../data/site";
 import { localeLink, useLocale } from "../i18n";
+import { EmailForm } from "./EmailForm";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { SocialIcon } from "./SocialIcons";
 import { cld } from "../lib/cloudinary";
@@ -88,7 +90,10 @@ export function SiteFooter(): React.JSX.Element {
             <p className="text-[12px] font-bold tracking-[0.18em] text-lime">
               {t("footer.reach")}
             </p>
-            <p className="font-bold">
+            {/* Semantic <address> + the all-pages LocalBusiness JSON-LD are
+                what Local SEO audits parse for NAP. The email itself is never
+                rendered (privacy): it is reachable via the Web3Forms form. */}
+            <address className="font-bold not-italic">
               {CONTACT.office}
               <br />
               <span className="font-normal opacity-70">
@@ -96,19 +101,24 @@ export function SiteFooter(): React.JSX.Element {
                 <br />
                 {CONTACT.address[1]}
               </span>
-            </p>
-            <a
-              href={`mailto:${CONTACT.email}`}
-              className="opacity-80 decoration-lime decoration-2 hover:opacity-100"
-            >
-              {CONTACT.email}
-            </a>
+            </address>
             <a
               href={CONTACT.phoneHref}
               className="opacity-80 hover:opacity-100"
             >
               {CONTACT.phoneLabel}
             </a>
+            {GBP_URL && (
+              <a
+                href={GBP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="opacity-80 hover:opacity-100"
+              >
+                {t("footer.gbp")}
+              </a>
+            )}
+            <EmailForm className="mt-2" />
           </div>
         </div>
         <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-cream/15 pt-6 text-[13px] text-cream/60">

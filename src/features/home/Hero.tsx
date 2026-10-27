@@ -77,32 +77,26 @@ export function Hero(): React.JSX.Element {
           decoding="async"
         />
       </div>
-      <div
-        className="pointer-events-none absolute inset-0 z-6"
-        style={{
-          background:
-            "linear-gradient(90deg, rgba(31,44,34,1) 0%, rgba(31,44,34,.5) 38%, rgba(31,44,34,0) 68%),linear-gradient(180deg, rgba(31,44,34,.45) 0%, rgba(31,44,34,.15) 40%, rgba(31,44,34,.78) 100%)",
-        }}
-      />
-      <div className="pointer-events-none relative z-10 mx-auto w-full max-w-7xl px-5 py-12 md:px-8 md:py-16">
+      <div className="hero-gradient pointer-events-none absolute inset-0 z-6" />
+      <div className="hero-content pointer-events-none relative z-10 mx-auto w-full max-w-7xl px-5 py-12 md:px-8 md:py-16">
         {/* Above-fold text animates via pure CSS (hero-rise), not Reveal:
             Reveal gates paint behind hydration, which pushed FCP/SI past the
             hero image on throttled mobile. Staggered delays stay short so the
             text is contentful well before the image finishes its bandwidth
-            queue. */}
-        <div className="hero-rise" style={{ animationDelay: "0.05s" }}>
+            queue. Delays live in CSS (.hero-content > .hero-rise:nth-child). */}
+        <div className="hero-rise">
           <h1 className="display max-w-3xl text-5xl sm:text-6xl md:text-8xl">
             <span className="font-semibold">Move,</span>
             <br />
             <span className="font-light">Moreover.</span>
           </h1>
         </div>
-        <div className="hero-rise" style={{ animationDelay: "0.15s" }}>
+        <div className="hero-rise">
           <p className="mt-4 max-w-xl text-[17px] leading-relaxed text-cream/85 md:text-lg">
             {t("hero.lede")}
           </p>
         </div>
-        <div className="hero-rise" style={{ animationDelay: "0.25s" }}>
+        <div className="hero-rise">
           <div className="mt-7 flex flex-wrap gap-3">
             <a
               href="#signature"
@@ -118,7 +112,7 @@ export function Hero(): React.JSX.Element {
             </a>
           </div>
         </div>
-        <div className="hero-rise" style={{ animationDelay: "0.35s" }}>
+        <div className="hero-rise">
           <dl className="mt-10 grid max-w-xl grid-cols-3 divide-x divide-cream/20 border-t border-cream/20 pt-6">
             {(["500+", "8+", "5"] as const).map((value, i) => (
               <div key={value} className={i === 0 ? "pr-5" : i === 1 ? "px-5" : "pl-5"}>

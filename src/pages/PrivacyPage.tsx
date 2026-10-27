@@ -17,6 +17,9 @@ interface LegalSection {
 }
 
 function LegalParagraphs({ p }: { p: string[] }): React.JSX.Element {
+  // Obfuscated so legal contact info survives without feeding scrapers
+  // (SEOptimer "Email Privacy" scans the rendered source).
+  const email = CONTACT.email.replace("@", "[at]").replace(/\./g, "[dot]");
   return (
     <>
       {p.map((text) => (
@@ -25,7 +28,7 @@ function LegalParagraphs({ p }: { p: string[] }): React.JSX.Element {
           className="mt-3 text-[15px] leading-relaxed text-ink/80"
         >
           {text
-            .replace("{{email}}", CONTACT.email)
+            .replace("{{email}}", email)
             .replace("{{phone}}", CONTACT.phoneLabel)}
         </p>
       ))}

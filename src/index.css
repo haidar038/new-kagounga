@@ -110,6 +110,33 @@
   animation: hero-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* Staggered entrance for the hero text blocks (pure CSS, no inline styles). */
+.hero-content > .hero-rise:nth-child(1) { animation-delay: 0.05s; }
+.hero-content > .hero-rise:nth-child(2) { animation-delay: 0.15s; }
+.hero-content > .hero-rise:nth-child(3) { animation-delay: 0.25s; }
+.hero-content > .hero-rise:nth-child(4) { animation-delay: 0.35s; }
+
+/* Dark scrim shared by Hero + PageHero over their background images. */
+.hero-gradient {
+  background:
+    linear-gradient(90deg, rgba(31, 44, 34, 1) 0%, rgba(31, 44, 34, 0.5) 38%, rgba(31, 44, 34, 0) 68%),
+    linear-gradient(180deg, rgba(31, 44, 34, 0.45) 0%, rgba(31, 44, 34, 0.15) 40%, rgba(31, 44, 34, 0.78) 100%);
+}
+
+/* Mobile milestones progress: twelve discrete fill states. */
+.milestone-progress-1 { transform: scaleX(0.0833); }
+.milestone-progress-2 { transform: scaleX(0.1667); }
+.milestone-progress-3 { transform: scaleX(0.25); }
+.milestone-progress-4 { transform: scaleX(0.3333); }
+.milestone-progress-5 { transform: scaleX(0.4167); }
+.milestone-progress-6 { transform: scaleX(0.5); }
+.milestone-progress-7 { transform: scaleX(0.5833); }
+.milestone-progress-8 { transform: scaleX(0.6667); }
+.milestone-progress-9 { transform: scaleX(0.75); }
+.milestone-progress-10 { transform: scaleX(0.8333); }
+.milestone-progress-11 { transform: scaleX(0.9167); }
+.milestone-progress-12 { transform: scaleX(1); }
+
 body {
   font-family: "Open Sauce One", ui-sans-serif, system-ui, sans-serif;
   background: #F3F1E9;

@@ -357,11 +357,13 @@ export function Milestones(): React.JSX.Element {
           >
             <div className="w-full max-w-xs">
               <div className="h-1.5 w-full overflow-hidden rounded-full bg-ink/10">
+                {/* Progress = months shown / 12 — twelve discrete states, one
+                    CSS class each (SEOptimer flags inline styles). */}
                 <div
-                  className="h-full w-full origin-left rounded-full bg-lime transition-transform duration-300"
-                  style={{
-                    transform: `scaleX(${(Math.min(11, calPage * size) + 1) / 12})`,
-                  }}
+                  className={cn(
+                    "h-full w-full origin-left rounded-full bg-lime transition-transform duration-300",
+                    `milestone-progress-${Math.min(11, calPage * size) + 1}`,
+                  )}
                 />
               </div>
               <p className="mt-2 text-center text-[12px] font-bold text-ink/70">

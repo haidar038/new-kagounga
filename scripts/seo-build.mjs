@@ -165,6 +165,7 @@ async function loadSchemaData(server) {
       },
       contact: siteMod.CONTACT,
       socials: siteMod.SOCIALS.map((s) => s.href),
+      gbp: siteMod.GBP_URL ?? "",
       tracks: tracksMod.TRACKS,
       stockistCities: {
         en: stockistMod.getStockistCities("en"),
@@ -179,6 +180,7 @@ async function loadSchemaData(server) {
       products: { en: [], id: [] },
       contact: null,
       socials: [],
+      gbp: "",
       tracks: [],
       stockistCities: { en: [], id: [] },
       productSeo: {},
@@ -227,6 +229,9 @@ const BASE_ROUTES = [
   { en: "/contact", key: "contact", type: "website", changefreq: "monthly", priority: "0.7", lastmod: today, crumbs: ["home", "contact"] },
   { en: "/privacy", key: "privacy", type: "website", changefreq: "yearly", priority: "0.3", lastmod: today, crumbs: ["home", "privacy"] },
   { en: "/terms", key: "terms", type: "website", changefreq: "yearly", priority: "0.3", lastmod: today, crumbs: ["home", "terms"] },
+  // Utility page for Web3Forms email submissions: prerendered but kept out of
+  // the sitemap and marked noindex.
+  { en: "/thank-you", key: "thank-you", type: "website", changefreq: "yearly", priority: "0.3", lastmod: today, crumbs: ["home"], noindex: true },
 ];
 
 const ROUTES = [];
@@ -244,6 +249,7 @@ for (const locale of ["en", "id"]) {
       changefreq: b.changefreq,
       priority: b.priority,
       lastmod: b.lastmod,
+      noindex: b.noindex ?? false,
       crumbs: b.crumbs
         ? b.crumbs.map((k, i) => ({
             name: crumbs[locale][k],
@@ -389,6 +395,13 @@ function socialsOf(data) {
   return data.socials.length ? data.socials : FALLBACK_SOCIALS;
 }
 
+/** Social profiles + (when filled) the Google Business Profile listing. */
+function linksOf(data) {
+  const sameAs = socialsOf(data);
+  if (data.gbp) return [...sameAs, data.gbp];
+  return sameAs;
+}
+
 function organizationNode(data) {
   const contact = contactOf(data);
   return {
@@ -398,7 +411,6 @@ function organizationNode(data) {
     url: `${SITE}/`,
     logo: { "@type": "ImageObject", url: LOGO },
     image: LOGO,
-    email: contact.email,
     telephone: contact.phoneLabel,
     address: {
       "@type": "PostalAddress",
@@ -412,13 +424,12 @@ function organizationNode(data) {
       {
         "@type": "ContactPoint",
         contactType: "customer service",
-        email: contact.email,
         telephone: contact.phoneLabel,
         areaServed: "ID",
         availableLanguage: ["en", "id"],
       },
     ],
-    sameAs: socialsOf(data),
+    sameAs: linksOf(data),
   };
 }
 
@@ -622,7 +633,6 @@ function localBusinessNode(url, data) {
     name: "Kagōunga Head Office",
     url,
     image: LOGO,
-    email: contact.email,
     telephone: contact.phoneLabel,
     address: {
       "@type": "PostalAddress",
@@ -633,7 +643,7 @@ function localBusinessNode(url, data) {
       addressCountry: "ID",
     },
     parentOrganization: { "@id": `${SITE}/#organization` },
-    sameAs: socialsOf(data),
+    sameAs: linksOf(data),
   };
 }
 
@@ -642,11 +652,13 @@ function pageJsonLd(route, url, data) {
     organizationNode(data),
     websiteNode(),
     webPageNode(route, url),
+    // LocalBusiness on every page: Local SEO audits (SEOptimer etc.) scan the
+    // homepage, not just /contact, for a parseable NAP + schema.
+    localBusinessNode(url, data),
   ];
   if (route.key === "catalog") nodes.push(productListNode(route, url, data));
   if (route.key === "product" && route.product) nodes.push(productNode(route, url));
   if (route.key === "stockist" && route.points) nodes.push(stockistListNode(route, url));
-  if (route.key === "contact") nodes.push(localBusinessNode(url, data));
   if (route.key === "music") nodes.push(musicGroupNode(url, data.tracks));
   if (route.key === "news" && !route.news) nodes.push(newsListNode(route, url));
   if (route.news) nodes.push(articleNode(route, url));
@@ -673,6 +685,9 @@ function renderRoute(template, route, body = "") {
   }
   html = setTitle(html, route.title);
   html = setMeta(html, "name", "description", route.desc);
+  if (route.noindex) {
+    html = setMeta(html, "name", "robots", "noindex, nofollow");
+  }
   html = setLink(html, "canonical", url);
   html = setLink(html, "alternate", enUrl, "en");
   html = setLink(html, "alternate", idUrl, "id");
@@ -714,7 +729,7 @@ function xmlEsc(s) {
 }
 
 function buildSitemaps() {
-  const urls = ROUTES.map(
+  const urls = ROUTES.filter((r) => !r.noindex).map(
     (r) =>
       `  <url><loc>${xmlEsc(`${SITE}${r.path}`)}</loc><lastmod>${r.lastmod}</lastmod><changefreq>${r.changefreq}</changefreq><priority>${r.priority}</priority></url>`,
   ).join("\n");

@@ -4,6 +4,7 @@ import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import { CONTACT, SOCIALS } from "../data/site";
 import { SocialIcon } from "../components/SocialIcons";
 import { useLocale } from "../i18n";
+import { EmailForm } from "../components/EmailForm";
 import { FindUs } from "../features/contact/FindUs";
 import { ContactForm } from "../features/contact/ContactForm";
 import { Reveal } from "../components/Reveal";
@@ -47,28 +48,23 @@ export function ContactPage(): React.JSX.Element {
                     className="size-6 shrink-0 text-lime"
                     aria-hidden="true"
                   />
-                  <div>
+                  <address className="not-italic">
                     <h3 className="font-bold">{CONTACT.office}</h3>
                     <p className="mt-1 text-[14px] leading-relaxed text-cream/70">
                       {CONTACT.address[0]}
                       <br />
                       {CONTACT.address[1]}
                     </p>
-                  </div>
+                  </address>
                 </div>
                 <div className="flex gap-4">
                   <Mail
                     className="size-6 shrink-0 text-lime"
                     aria-hidden="true"
                   />
-                  <div>
+                  <div className="min-w-0 flex-1">
                     <h3 className="font-bold">{t("email")}</h3>
-                    <a
-                      href={`mailto:${CONTACT.email}`}
-                      className="mt-1 block text-[14px] text-cream/70 hover:text-cream"
-                    >
-                      {CONTACT.email}
-                    </a>
+                    <EmailForm className="mt-2" />
                   </div>
                 </div>
                 <div className="flex gap-4">

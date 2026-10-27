@@ -27,7 +27,10 @@ for (const f of files) {
   const is404 = rel.includes("404");
 
   const robots = (html.match(/<meta name="robots" content="([^"]*)"/) || [])[1];
-  if (!is404 && robots !== "index, follow") robotsBad.push(`${rel} -> ${robots}`);
+  // Utility pages (e.g. /thank-you) are deliberately noindex; anything else
+  // must stay "index, follow".
+  const isUtility = robots === "noindex, nofollow";
+  if (!is404 && !isUtility && robots !== "index, follow") robotsBad.push(`${rel} -> ${robots}`);
 
   const title = rendered(
     (html.match(/<title>([^<]*)<\/title>/) || [])[1] || "",
