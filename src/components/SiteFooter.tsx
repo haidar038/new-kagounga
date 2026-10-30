@@ -29,6 +29,7 @@ export function SiteFooter(): React.JSX.Element {
               className="h-16 w-auto"
               width={160}
               height={64}
+              loading="lazy"
               decoding="async"
             />
             <p className="display mt-6 text-lg font-light md:text-4xl">

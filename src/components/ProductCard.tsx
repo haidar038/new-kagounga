@@ -12,9 +12,11 @@ import { Reveal } from "./Reveal";
 export function ProductCard({
   product,
   onDetails,
+  compact = false,
 }: {
   product: ProductDetail;
   onDetails: (id: ProductId) => void;
+  compact?: boolean;
 }): React.JSX.Element {
   const { t } = useTranslation("catalog");
   const locale = useLocale();
@@ -31,6 +33,43 @@ export function ProductCard({
       className="aspect-square w-full"
     />
   );
+
+  if (compact) {
+    return (
+      <Reveal className="h-full">
+        <article className="flex flex-col gap-2">
+          {hasPage ? (
+            <Link to={productHref} className="block" aria-label={product.name}>
+              {image}
+              <span className="sr-only">{product.name}</span>
+            </Link>
+          ) : (
+            image
+          )}
+          <div className="flex flex-col gap-1">
+            <h3 className="text-base font-bold text-ink">
+              {hasPage ? (
+                <Link to={productHref} className="hover:underline">
+                  {product.name}
+                </Link>
+              ) : (
+                product.name
+              )}
+            </h3>
+            <p className="text-lg font-black text-ink">{product.price}</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => onDetails(product.id)}
+            className="flex items-center justify-center gap-2 rounded-full border border-ink/15 px-5 py-2.5 text-sm font-bold text-ink hover:border-ink/40"
+          >
+            <Eye className="size-4" aria-hidden="true" />
+            {t("card.quickView")}
+          </button>
+        </article>
+      </Reveal>
+    );
+  }
   return (
     <Reveal className="h-full">
       <article className="card-hover flex h-full flex-col overflow-hidden rounded-3xl border border-ink/10 bg-white">

@@ -24,6 +24,7 @@ import { localeLink, useLocale, type Locale } from "../i18n";
 import { cldSrcSet } from "../lib/cloudinary";
 import { NotFoundPage } from "./NotFoundPage";
 import { Reveal } from "../components/Reveal";
+import { cn } from "../lib/cn";
 
 const DETAIL_KEYS = [
   "packaging",
@@ -74,8 +75,10 @@ function staticPageData(
 
 function ProductGallery({
   product,
+  className,
 }: {
   product: ProductDetail;
+  className?: string;
 }): React.JSX.Element {
   return (
     <img
@@ -87,7 +90,7 @@ function ProductGallery({
       height={800}
       fetchPriority="high"
       decoding="async"
-      className="aspect-square w-full rounded-4xl object-cover"
+      className={cn("aspect-square w-full rounded-4xl object-cover", className)}
     />
   );
 }
@@ -175,8 +178,22 @@ export function ProductPage(): React.JSX.Element {
             </span>
           </nav>
 
-          <div className="mt-8 grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-            <div>
+          <div className="mt-8 flex items-center justify-between gap-4">
+            <Link
+              to={href("/catalog")}
+              className="inline-flex items-center gap-2 text-sm font-bold underline decoration-lime decoration-2 underline-offset-4 hover:opacity-80"
+            >
+              <ArrowLeft className="size-4" aria-hidden="true" />
+              {t("back", { ns: "productPage" })}
+            </Link>
+          </div>
+
+          <div className="mt-8 gap-10 flex flex-col lg:flex-row lg:items-start lg:gap-16">
+            <ProductGallery
+              product={product}
+              className="order-0 w-full lg:order-2 lg:max-w-none lg:w-auto"
+            />
+            <div className="order-1 lg:order-1">
               <p className="text-[12px] font-bold uppercase tracking-[0.18em] text-lime">
                 {product.eyebrow}
               </p>
@@ -215,7 +232,6 @@ export function ProductPage(): React.JSX.Element {
               </div>
               <TrustBadges tone="dark" className="mt-7 justify-start" />
             </div>
-            <ProductGallery product={product} />
           </div>
         </div>
       </section>
@@ -296,13 +312,6 @@ export function ProductPage(): React.JSX.Element {
               <p className="mt-6 rounded-2xl bg-cream p-5 text-[14px] leading-relaxed text-ink/70">
                 {product.note}
               </p>
-              <Link
-                to={href("/catalog")}
-                className="mt-6 inline-flex items-center gap-2 text-sm font-bold underline decoration-lime decoration-2 underline-offset-4"
-              >
-                <ArrowLeft className="size-4" aria-hidden="true" />
-                {t("back", { ns: "productPage" })}
-              </Link>
             </Reveal>
           </article>
 

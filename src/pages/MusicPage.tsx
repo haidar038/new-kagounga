@@ -40,7 +40,7 @@ export function MusicPage(): React.JSX.Element {
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <Reveal>
-            <div className="mx-auto max-w-3xl overflow-hidden rounded-3xl border border-ink/10 shadow-lg">
+            <div className="mx-auto max-w-7xl overflow-hidden rounded-3xl border border-ink/10 shadow-lg">
               <iframe
                 title={t("hero.playerTitle")}
                 className="w-full"
@@ -128,7 +128,7 @@ export function MusicPage(): React.JSX.Element {
       <section className="pb-16 md:pb-24">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <Reveal>
-            <div className="rounded-[32px] bg-ink p-7 text-center text-cream md:p-12">
+            <div className="rounded-4xl bg-ink p-7 text-center text-cream md:p-12">
               <h2 className="display text-4xl md:text-5xl">
                 <span className="font-bold">{t("follow.titleBold")}</span>{" "}
                 <span className="font-light">{t("follow.titleLight")}</span>

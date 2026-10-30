@@ -51,7 +51,7 @@ export function SiteHeader(): React.JSX.Element {
               to={localeLink(link.to, locale)}
               className={({ isActive }) =>
                 isActive
-                  ? "rounded-full bg-lime px-4 py-1.5 text-ink"
+                  ? "rounded-full bg-ink/10 px-4 py-1.5 text-ink hover:bg-ink/20"
                   : "hover:opacity-60"
               }
             >
@@ -82,12 +82,19 @@ export function SiteHeader(): React.JSX.Element {
           </button>
         </div>
       </div>
-      {open && (
-        <div className="border-t border-ink/10 bg-cream px-5 py-3 lg:hidden">
-          <nav
-            aria-label={t("mobileNav")}
-            className="grid gap-1 text-[15px] font-medium"
-          >
+      <div
+        className={cn(
+          "border-t border-ink/10 bg-cream px-5 lg:hidden transition-all duration-300 ease-out overflow-hidden",
+          open
+            ? "max-h-96 opacity-100 pb-4"
+            : "max-h-0 opacity-0 pb-0 pointer-events-none",
+        )}
+        data-open={open}
+      >
+        <nav
+          aria-label={t("mobileNav")}
+          className="grid gap-1 text-[15px] font-medium"
+        >
             {NAV_LINKS.map((link) => (
               <NavLink
                 key={link.to}
@@ -119,7 +126,6 @@ export function SiteHeader(): React.JSX.Element {
             <LanguageSwitcher />
           </div>
         </div>
-      )}
-    </header>
+      </header>
   );
 }

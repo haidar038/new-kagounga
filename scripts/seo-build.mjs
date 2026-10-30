@@ -26,6 +26,10 @@ const OG_DEFAULT =
 const HERO_SRCSET = [640, 960, 1280, 1920]
   .map((w) => `https://res.cloudinary.com/fal5otmd/image/upload/f_webp,q_40,w_${w}/hero-bg-nature.webp ${w}w`)
   .join(", ");
+// Fallback href for audit tools that only count <link rel="preload"> entries
+// with an explicit href; `imagesrcset` alone is enough for modern browsers.
+const HERO_SRC =
+  "https://res.cloudinary.com/fal5otmd/image/upload/f_webp,q_40,w_1280/hero-bg-nature.webp";
 const LOGO =
   "https://res.cloudinary.com/fal5otmd/image/upload/f_auto,q_auto/logo-primary-emblem.svg";
 const today = new Date().toISOString().slice(0, 10);
@@ -687,7 +691,7 @@ function renderRoute(template, route, body = "") {
   if (route.path === "/" || route.path === "/id") {
     html = html.replace(
       "</head>",
-      () => `<link rel="preload" as="image" imagesrcset="${HERO_SRCSET}" imagesizes="100vw" fetchpriority="high" />\n</head>`,
+      () => `<link rel="preload" as="image" href="${HERO_SRC}" imagesrcset="${HERO_SRCSET}" imagesizes="100vw" fetchpriority="high" />\n</head>`,
     );
   }
   html = setTitle(html, route.title);
@@ -728,6 +732,11 @@ function renderRoute(template, route, body = "") {
   const ld = `<script id="kga-jsonld-page" type="application/ld+json">${JSON.stringify(pageJsonLd(route, url, schemaData))}</script>`;
   html = html.replace("</head>", () => `${siteLd}\n${ld}\n</head>`);
   if (body) {
+    // React 19 SSR emits its own href-less image preload for the hero; the
+    // head preload above already covers the same resource. Drop the duplicate.
+    if (route.path === "/" || route.path === "/id") {
+      body = body.replace(/<link rel="preload" as="image"[^>]*hero-bg-nature[^>]*>/g, "");
+    }
     html = html.replace(
       '<div id="root"></div>',
       () => `<div id="root">${body}</div>`,

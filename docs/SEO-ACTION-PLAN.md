@@ -14,6 +14,9 @@ CSS eksternal (bukan inline), CSP enforcing + HSTS preload-ready, halaman editor
 430 gambar 0 alt/dimensi hilang, 0 anchor kosong. Lighthouse lokal home/contact/editorial: SEO 100, a11y 100,
 Best Practices 96 (hanya `/_vercel/*` 404 di server lokal), Performance 56 di headless (caveat lokal, ukur ulang di prod).
 Rasio teks home 7,6% diterima sebagai tradeoff sadar: tidak ada section Story/FAQ baru. Rincian: §P8.
+Tindak lanjut re-audit: link HTML `llms.txt`, footer logo lazy, header logo `fetchpriority="high"`, hero preload
+ber-`href`. Schema `@type`, Threads `nofollow`, dan kompresi teks tidak diubah karena tidak dapat direproduksi;
+lihat §P8 "Tindak lanjut re-audit".
 
 ---
 
@@ -405,6 +408,26 @@ reading level. Konsekuensinya rasio teks tetap di bawah 10% dan skor Content dip
   sr-only deskriptif; honeypot `aria-label="botcheck"`; LanguageSwitcher memakai `hrefLang`/`lang` +
   sr-only sehingga lolos `label-content-name-mismatch`; kontras tanggal editorial dinaikkan ke `text-ink/70`.
 
+### Tindak lanjut re-audit (2026-10-30)
+
+- **`llms.txt`**: `<link rel="alternate" type="text/plain" href="/llms.txt">` ditambahkan ke `index.html`
+  agar audit yang hanya membaca HTML melihat referensinya. File sendiri sudah 200, `text/plain`, 958 B.
+- **Footer lazy**: logo footer sekarang `loading="lazy" decoding="async"`. Tiga gambar awal (logo header,
+  hero, Tisan) tetap eager.
+- **LCP hint**: logo header diberi `fetchPriority="high"` karena heuristik SEOmator memilih `header img`
+  sebelum hero. React 19 sudah mempreload logo, jadi ini hanya menyelaraskan hint, bukan request baru.
+  Preload hero manual sekarang punya `href` eksplisit (audit hanya menghitung preload ber-`href`), tetap
+  memakai `imagesrcset`/`imagesizes`; preload hero duplikat dari SSR React dibuang sehingga hanya tersisa
+  satu.
+- **Tidak diubah**: schema `@type` — semua 52 URL lulus `schema-type`; container `@graph` tanpa `@type`
+  valid dan node di dalamnya bertipe. Threads `nofollow` — aturan SEOmator hanya menandai anchor eksternal
+  berisi sponsor/advertiser/partner/paid atau nofollow internal; anchor "Kagōunga on Threads" tidak cocok,
+  dan temuan asli adalah descriptive anchor text yang sudah diperbaiki. Kompresi teks — 52 URL membalas
+  `content-encoding: br`; klien audit harus mengirim `Accept-Encoding`.
+- **Verifikasi**: build 54 halaman + 404, cek dist untuk keempat perubahan, 59 gambar/56 lazy,
+  `oxlint` 0, vitest 107/107, i18n parity 14 namespace. `verify-seo-dist.mjs` melaporkan 6 peringatan
+  panjang title/description yang tidak terkait perubahan ini.
+
 ### Verifikasi (2026-10-30)
 
 - `tsc` 0, `oxlint` 0 warning, vitest 107/107, `i18n:check` OK 14 namespace.
@@ -435,6 +458,8 @@ reading level. Konsekuensinya rasio teks tetap di bawah 10% dan skor Content dip
 3. Ukur CWV mobile di PageSpeed Insights (bukan Lighthouse lokal), cek Brotli aktif.
 4. Jangan submit HSTS preload dulu; HTTP/3 tetap menunggu dukungan platform.
 5. Review copy ID native + backlink/GBP sesuai `RUNBOOK-MANUAL-SEO.md`.
+6. Audit ulang setelah deploy. Jika schema `@type`, Threads `nofollow`, atau kompresi teks masih muncul,
+   simpan rule ID + URL + screenshot dulu; jangan ubah schema/nofollow/header tanpa bukti.
 
 ---
 

@@ -31,7 +31,7 @@ export function EditorialPage(): React.JSX.Element {
         lede={t("hero.lede")}
       />
       <section className="py-16 md:py-24">
-        <div className="mx-auto grid max-w-3xl gap-10 px-5 md:px-8">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 md:px-8">
           <Reveal>
             <p className="text-[12px] font-bold uppercase tracking-[0.14em] text-ink/70">
               {t("updated", {
