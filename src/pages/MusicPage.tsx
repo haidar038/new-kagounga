@@ -102,6 +102,8 @@ export function MusicPage(): React.JSX.Element {
                 key={d.name}
                 src={d.logo}
                 alt={d.name}
+                width={d.logoWidth}
+                height={d.logoHeight}
                 className="partner-logo"
                 loading="lazy"
               />
@@ -113,6 +115,8 @@ export function MusicPage(): React.JSX.Element {
                 key={d.name}
                 src={d.logo}
                 alt={d.name}
+                width={d.logoWidth}
+                height={d.logoHeight}
                 className="partner-logo"
                 loading="lazy"
               />

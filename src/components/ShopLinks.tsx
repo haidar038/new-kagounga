@@ -51,13 +51,14 @@ export function ShopLinks({
         >
           <img
             src={shop.icon}
-            alt={shop.label}
+            alt={`${shop.label} logo`}
             width={36}
             height={36}
             loading="lazy"
             decoding="async"
             className={cn(BADGE_SIZE[size], "block")}
           />
+          <span className="sr-only">{shop.label}</span>
         </a>
       ))}
     </div>

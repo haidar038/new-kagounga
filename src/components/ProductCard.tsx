@@ -35,8 +35,9 @@ export function ProductCard({
     <Reveal className="h-full">
       <article className="card-hover flex h-full flex-col overflow-hidden rounded-3xl border border-ink/10 bg-white">
         {hasPage ? (
-          <Link to={productHref} className="block">
+          <Link to={productHref} className="block" aria-label={product.name}>
             {image}
+            <span className="sr-only">{product.name}</span>
           </Link>
         ) : (
           image

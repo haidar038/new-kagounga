@@ -10,18 +10,10 @@
   <link rel="manifest" href="/site.webmanifest" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
-    content="Kagōunga. Five distinct forms of expression bound by one identity. Gastronomy, personal care, home fragrance, sonic identity, and fine art from North Moluccas." />
+    content="Kagōunga: five forms of expression from North Maluku — gastronomy, personal care, home fragrance, music, and fine art. Move, Moreover." />
   <meta name="robots" content="index, follow" />
   <!-- Set VITE_GOOGLE_SITE_VERIFICATION / VITE_BING_SITE_VERIFICATION to inject verification tags at runtime -->
   <meta name="theme-color" content="#1F2C22" />
-  <noscript>
-    <style>
-      .reveal {
-        opacity: 1 !important;
-        transform: none !important;
-      }
-    </style>
-  </noscript>
   <link rel="canonical" href="https://kagounga.com/" />
   <link rel="alternate" hreflang="en" href="https://kagounga.com/" />
   <link rel="alternate" hreflang="id" href="https://kagounga.com/id" />
@@ -31,7 +23,7 @@
   <meta property="og:locale" content="en_US" />
   <meta property="og:title" content="Kagōunga | Move, Moreover. - Heritage & Innovation" />
   <meta property="og:description"
-    content="Kagōunga. Five distinct forms of expression bound by one identity. Gastronomy, personal care, home fragrance, sonic identity, and fine art from North Moluccas." />
+    content="Kagōunga: five forms of expression from North Maluku — gastronomy, personal care, home fragrance, music, and fine art. Move, Moreover." />
   <meta property="og:url" content="https://kagounga.com/" />
   <meta property="og:image" content="https://res.cloudinary.com/fal5otmd/image/upload/v1791556121/OpenGraph.webp" />
   <meta property="og:image:width" content="1200" />
@@ -40,7 +32,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Kagōunga | Move, Moreover. - Heritage & Innovation" />
   <meta name="twitter:description"
-    content="Kagōunga. Five distinct forms of expression bound by one identity. Gastronomy, personal care, home fragrance, sonic identity, and fine art from North Moluccas." />
+    content="Kagōunga: five forms of expression from North Maluku — gastronomy, personal care, home fragrance, music, and fine art. Move, Moreover." />
   <meta name="twitter:image" content="https://res.cloudinary.com/fal5otmd/image/upload/v1791556121/OpenGraph.webp" />
   <meta name="twitter:image:alt" content="Kagōunga | Move, Moreover. - Heritage & Innovation" />
   <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
@@ -49,48 +41,17 @@
   <link rel="preload" href="/fonts/open-sauce-one-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/open-sauce-one-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin />
   <title>Kagōunga | Move, Moreover. - Heritage & Innovation</title>
-  <!-- Google tag (gtag.js): stub + config stay inline (commands queue in dataLayer).
-       The 194 KiB gtag.js bundle is fetched only for visitors who granted
-       analytics consent, then after first paint — it never competes with the
-       critical path and analytics events replay from the queue once it lands. -->
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-8JC93J3FD7', { send_page_view: false });
-
-    (function () {
-      var KEY = 'kga-consent-v1';
-      var injected = false;
-      var inject = function () {
-        if (injected) return;
-        injected = true;
-        var s = document.createElement('script');
-        s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-8JC93J3FD7';
-        document.head.appendChild(s);
-      };
-      var queue = function () {
-        (window.requestIdleCallback || function (cb) { setTimeout(cb, 1); })(
-          inject,
-          { timeout: 3000 }
-        );
-      };
-      var granted = false;
-      try { granted = localStorage.getItem(KEY) === 'granted'; } catch (e) {}
-      if (granted) {
-        if (document.readyState === 'complete') queue();
-        else window.addEventListener('load', queue);
-      } else {
-        window.addEventListener('kga-consent', function (e) {
-          if (e.detail === 'granted') queue();
-        });
-      }
-    })();
-  </script>
+  <!-- Google tag (gtag.js): consent-aware loader lives in /gtag-init.js so the
+       document has no inline script (strict CSP + no parse-blocking work).
+       gtag commands queue in dataLayer; the gtag.js bundle is fetched only for
+       visitors who granted analytics consent, after first paint. -->
+  <script src="/gtag-init.js" defer></script>
 </head>
 
 <body>
+  <noscript>
+    <link rel="stylesheet" href="/noscript.css" />
+  </noscript>
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>

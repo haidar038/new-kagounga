@@ -77,3 +77,13 @@
 - [x] T-P4-08 SEO locale: `hreflang` en/id/x-default, kanonis per locale, `og:locale` + alternate, JSON-LD `inLanguage`, sitemap 22 URL + images, `seo-build.mjs` render x2 locale.
 - [x] T-P4-09 QA: `scripts/i18n-parity.mjs` OK (9 ns) + `bun run i18n:check`, view-source EN+ID (title/meta/hreflang/JSON-LD), build OK.
 - [x] T-P4-10 Tutup: centang semua, `CHANGELOG.md`, adendum `AUDIT-BASELINE.md`.
+
+## P8 - Remediasi audit SEO 2026-10-30 (Option B, kode selesai; deploy/manual terbuka)
+- [x] T-P8-01 Content/meta: 6 meta description diperpendek (EN home 134 char, artworks/contact/about ID), `kga-jsonld-site` blok `WebSite` bertipe eksplisit dipertahankan bersama `@graph`, `dateModified` + `publishingPrinciples` per halaman.
+- [x] T-P8-02 Performance: CSS tidak lagi di-inline (hapus ~54,8 KB `<style>` per halaman, tetap `/assets/*.css` cacheable), normalisasi atribut camelCase React SSR (`imagesrcset`/`imagesizes`/`fetchpriority`/`srcset`), Tisan pertama eager + `fetchPriority="low"`, dimensi eksplisit Tisan/news cover/distributor/logo kolaborator (430 gambar, 0 tanpa width/height/alt), no `alt=""`.
+- [x] T-P8-03 Security: CSP enforcing (Cloudinary, CARTO, GA/GTM, Vercel Insights, Web3Forms, Spotify, `script.google.com`/`script.googleusercontent.com`, worker blob) + HSTS `max-age=63072000; includeSubDomains; preload`, nosniff, SAMEORIGIN, Referrer-Policy, Permissions-Policy; GA bootstrap ke `public/gtag-init.js`.
+- [x] T-P8-04 E-E-A-T/trust: halaman `/editorial` + `/id/editorial` (EN/ID parity), link footer + breadcrumb + `llms.txt`, `publishingPrinciples` di schema, byline "last reviewed" + link editorial di bawah FAQ beranda, link kebijakan editorial di byline artikel.
+- [x] T-P8-05 Anchor/a11y: logo header, Tokopedia/Shopee/TikTok Shop, sosial footer/kontak dapat teks sr-only deskriptif; honeypot `aria-label="botcheck"`; LanguageSwitcher `hrefLang`/`lang` + sr-only tanpa `label-content-name-mismatch`; kontras tanggal editorial `text-ink/70`.
+- [x] T-P8-06 Verifikasi: `tsc` 0, `oxlint` 0, vitest 107/107, i18n parity 14 ns, build 54 halaman + 404, sitemap 52, image sitemap 7, 0 anchor kosong, JSON-LD valid, Lighthouse lokal home/contact/editorial SEO 100 + a11y 100 + BP 96 (hanya `/_vercel/*` 404 di server lokal).
+- [ ] T-P8-07 Manual (pemilik): deploy lalu cek CSP di console prod, submit ulang sitemap di GSC, ukur CWV/Brotli di prod. Jangan submit `hstspreload.org` sampai yakin semua subdomain HTTPS. HTTP/3 tetap batas platform Vercel.
+- [ ] T-P8-08 Tradeoff terdokumentasi: rasio teks home 7,6% (<10%) diterima; tidak ada section Story/FAQ baru sesuai keputusan Option B. Tinjau ulang hanya jika audit berikutnya menuntut konten lebih panjang.

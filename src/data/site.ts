@@ -2,6 +2,9 @@ import type { NavLink, ShopLink, SocialLink } from "../types/content";
 
 export const SITE_NAME = "Kagōunga";
 
+/** Last substantive content review (ISO date). Feeds schema + on-page byline. */
+export const CONTENT_UPDATED = "2026-10-30";
+
 export const NAV_LINKS: NavLink[] = [
   { key: "about", label: "About", to: "/about" },
   { key: "news", label: "News", to: "/news" },

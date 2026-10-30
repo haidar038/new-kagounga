@@ -10,5 +10,6 @@ Canonical site: [https://kagounga.com](https://kagounga.com) (apex canonical, ww
 - [Catalog](https://kagounga.com/catalog): product lineup; ordering happens via WhatsApp.
 - [Music](https://kagounga.com/music): Kagōunga sonic identity and recordings.
 - [Contact](https://kagounga.com/contact): inquiries and store information.
+- [Editorial Policy](https://kagounga.com/editorial): how pages are researched, reviewed, and corrected.
 - [Sitemap](https://kagounga.com/sitemap.xml): all crawlable URLs.
 - [Image sitemap](https://kagounga.com/sitemap-images.xml): crawlable image URLs.

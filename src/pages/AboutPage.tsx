@@ -65,6 +65,8 @@ export function AboutPage(): React.JSX.Element {
                   <BlurImage
                     src={c.image}
                     alt={c.alt}
+                    width={c.width}
+                    height={c.height}
                     className="aspect-3/4 w-full md:aspect-square"
                     imgClassName="object-top"
                   />

@@ -166,6 +166,7 @@ async function loadSchemaData(server) {
       contact: siteMod.CONTACT,
       socials: siteMod.SOCIALS.map((s) => s.href),
       gbp: siteMod.GBP_URL ?? "",
+      updated: siteMod.CONTENT_UPDATED,
       tracks: tracksMod.TRACKS,
       stockistCities: {
         en: stockistMod.getStockistCities("en"),
@@ -181,6 +182,7 @@ async function loadSchemaData(server) {
       contact: null,
       socials: [],
       gbp: "",
+      updated: "",
       tracks: [],
       stockistCities: { en: [], id: [] },
       productSeo: {},
@@ -201,6 +203,7 @@ const schemaData = ssrServer
       products: { en: [], id: [] },
       contact: null,
       socials: [],
+      updated: "",
       tracks: [],
       stockistCities: { en: [], id: [] },
       productSeo: {},
@@ -227,6 +230,7 @@ const BASE_ROUTES = [
   { en: "/artworks", key: "artworks", type: "website", changefreq: "monthly", priority: "0.7", lastmod: today, crumbs: ["home", "artworks"] },
   { en: "/music", key: "music", type: "website", changefreq: "monthly", priority: "0.7", lastmod: today, crumbs: ["home", "music"] },
   { en: "/contact", key: "contact", type: "website", changefreq: "monthly", priority: "0.7", lastmod: today, crumbs: ["home", "contact"] },
+  { en: "/editorial", key: "editorial", type: "website", changefreq: "yearly", priority: "0.3", lastmod: today, crumbs: ["home", "editorial"] },
   { en: "/privacy", key: "privacy", type: "website", changefreq: "yearly", priority: "0.3", lastmod: today, crumbs: ["home", "privacy"] },
   { en: "/terms", key: "terms", type: "website", changefreq: "yearly", priority: "0.3", lastmod: today, crumbs: ["home", "terms"] },
   // Utility page for Web3Forms email submissions: prerendered but kept out of
@@ -430,6 +434,7 @@ function organizationNode(data) {
       },
     ],
     sameAs: linksOf(data),
+    publishingPrinciples: `${SITE}/editorial`,
   };
 }
 
@@ -452,6 +457,8 @@ function webPageNode(route, url) {
     name: route.title,
     description: route.desc,
     inLanguage: route.locale,
+    dateModified: schemaData.updated || undefined,
+    publishingPrinciples: `${SITE}/editorial`,
     isPartOf: { "@id": `${SITE}/#website` },
     about: { "@id": `${SITE}/#organization` },
   };
@@ -713,8 +720,13 @@ function renderRoute(template, route, body = "") {
       ? setMeta(html, "property", "article:published_time", route.publishedTime)
       : removeMeta(html, "property", "article:published_time");
   html = html.replace(/<script\s+id="kga-jsonld-page"[^>]*>.*?<\/script>\n?/s, "");
+  html = html.replace(/<script\s+id="kga-jsonld-site"[^>]*>.*?<\/script>\n?/s, "");
+  // Standalone typed WebSite block: audit tools that only read the first
+  // JSON-LD object look for an explicit root @type. The @graph below still
+  // carries the entity references used by the rest of the schema.
+  const siteLd = `<script id="kga-jsonld-site" type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", ...websiteNode() })}</script>`;
   const ld = `<script id="kga-jsonld-page" type="application/ld+json">${JSON.stringify(pageJsonLd(route, url, schemaData))}</script>`;
-  html = html.replace("</head>", () => `${ld}\n</head>`);
+  html = html.replace("</head>", () => `${siteLd}\n${ld}\n</head>`);
   if (body) {
     html = html.replace(
       '<div id="root"></div>',
@@ -765,7 +777,7 @@ for (const route of ROUTES) {
       console.warn(`seo-build: body prerender failed ${route.path} (${error.message})`);
     }
   }
-  const html = inlineStylesheets(renderRoute(template, route, body));
+  const html = normalizeHtml(renderRoute(template, route, body));
   const out = route.path === "/" ? join(DIST, "index.html") : join(DIST, route.path, "index.html");
   mkdirSync(dirname(out), { recursive: true });
   writeFileSync(out, html);
@@ -785,25 +797,19 @@ function render404(templateHtml) {
   return html;
 }
 
-// The main CSS bundle is render-blocking (~600ms est on slow 4G). Inlining it
-// into the 48 prerendered pages removes that request from the critical path;
-// the file stays in dist/assets for SPA navigations and repeat full loads.
-function inlineStylesheets(html) {
-  return html.replace(
-    /<link\s+rel="stylesheet"[^>]*href="([^"]+\.css)"[^>]*>\n?/g,
-    (match, href) => {
-      const file = join(DIST, href.replace(/^\//, "").split("?")[0]);
-      if (!existsSync(file)) {
-        console.warn(`seo-build: css not inlined (missing): ${href}`);
-        return match;
-      }
-      const css = readFileSync(file, "utf8").replace(/<\/style/gi, "<\\/style");
-      return `<style>${css}</style>\n`;
-    },
-  );
+// Keep CSS external: Vite already emits a cacheable /assets/index-*.css.
+// Inlining it into all 50 prerendered pages added 54 KB of non-content HTML
+// per page, which audits read as a low text-to-code ratio.
+function normalizeHtml(html) {
+  // React 19 SSR emits image preload links with camelCase attributes.
+  return html
+    .replace(/\bimageSrcSet=/g, "imagesrcset=")
+    .replace(/\bimageSizes=/g, "imagesizes=")
+    .replace(/\bfetchPriority=/g, "fetchpriority=")
+    .replace(/\bsrcSet=/g, "srcset=");
 }
 
-writeFileSync(join(DIST, "404.html"), inlineStylesheets(render404(template)));
+writeFileSync(join(DIST, "404.html"), normalizeHtml(render404(template)));
 buildSitemaps();
 console.log(
   `seo-build: ${ROUTES.length} pages + 404.html, sitemap + sitemap-images written (SITE=${SITE}, news=${newsSource})`,

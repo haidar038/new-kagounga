@@ -91,9 +91,12 @@ export function ContactPage(): React.JSX.Element {
                       <a
                         key={s.label}
                         href={s.href}
-                        aria-label={s.label}
+                        aria-label={t("footer.social", { network: s.label })}
                         className="group grid size-11 place-items-center rounded-full border border-cream/20 transition hover:border-lime hover:bg-lime"
                       >
+                        <span className="sr-only">
+                          {t("footer.social", { network: s.label })}
+                        </span>
                         <SocialIcon
                           brand={s.brand}
                           className={`${s.iconClass} text-white transition-colors group-hover:text-ink`}

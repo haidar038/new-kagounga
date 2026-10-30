@@ -70,6 +70,12 @@ export function NewsArticle({ post }: { post: LocalizedPost }): React.JSX.Elemen
                 <UserRound className="size-4" aria-hidden="true" />
                 {t("article.byline", { name: t("article.author") })}
               </p>
+              <Link
+                to={localeLink("/editorial", locale)}
+                className="text-sm text-ink/70 underline underline-offset-2 hover:text-ink"
+              >
+                {t("footer.editorial")}
+              </Link>
               <button
                 type="button"
                 onClick={() => {
@@ -93,6 +99,8 @@ export function NewsArticle({ post }: { post: LocalizedPost }): React.JSX.Elemen
             <BlurImage
               src={post.cover}
               alt={post.coverAlt}
+              width={post.coverWidth}
+              height={post.coverHeight}
               className="aspect-video w-full"
               fade={false}
               loading="eager"

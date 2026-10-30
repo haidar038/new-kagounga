@@ -20,6 +20,8 @@ export function NewsCard({ post }: { post: LocalizedPost }): React.JSX.Element {
           <BlurImage
             src={post.cover}
             alt={post.coverAlt}
+            width={post.coverWidth}
+            height={post.coverHeight}
             className="h-full w-full"
             imgClassName="transition-transform duration-500 group-hover:scale-105"
           />

@@ -41,9 +41,12 @@ export function SiteFooter(): React.JSX.Element {
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={s.label}
+                  aria-label={t("footer.social", { network: s.label })}
                   className="group grid size-10 place-items-center rounded-full border border-cream/20 transition hover:border-lime hover:bg-lime"
                 >
+                  <span className="sr-only">
+                    {t("footer.social", { network: s.label })}
+                  </span>
                   <SocialIcon
                     brand={s.brand}
                     className={`${s.iconClass} text-white transition-colors group-hover:text-ink`}
@@ -125,6 +128,9 @@ export function SiteFooter(): React.JSX.Element {
           <p>© {YEAR} Kagōunga. {t("footer.rights")}</p>
           <div className="flex items-center gap-5">
             <p className="flex gap-5">
+              <Link to={localeLink("/editorial", locale)} className="hover:text-cream">
+                {t("footer.editorial")}
+              </Link>
               <Link to={localeLink("/privacy", locale)} className="hover:text-cream">
                 {t("footer.privacy")}
               </Link>

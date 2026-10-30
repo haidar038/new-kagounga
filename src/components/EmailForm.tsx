@@ -58,7 +58,14 @@ export function EmailForm({ className }: { className?: string }): React.JSX.Elem
   return (
     <form onSubmit={onSubmit} className={cn("grid gap-2.5", className)}>
       {/* Honeypot — hidden from humans, caught by the Advanced Spam Filter. */}
-      <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} aria-hidden="true" />
+      <input
+        type="checkbox"
+        name="botcheck"
+        className="hidden"
+        tabIndex={-1}
+        aria-hidden="true"
+        aria-label="botcheck"
+      />
       <input
         type="text"
         name="name"

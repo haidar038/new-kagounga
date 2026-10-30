@@ -1,0 +1,45 @@
+{
+  "hero": {
+    "eyebrow": "Editorial",
+    "titleBold": "Kebijakan",
+    "titleLight": " Editorial.",
+    "lede": "Bagaimana Kagōunga meneliti, menulis, dan meninjau informasi yang diterbitkan di situs ini."
+  },
+  "updated": "Terakhir ditinjau {{date}}.",
+  "cta": "Hubungi kami",
+  "sections": [
+    {
+      "h": "Siapa yang menulis situs ini",
+      "p": [
+        "Halaman di kagounga.com ditulis dan dikelola oleh tim Kagōunga di Ternate, Maluku Utara. Tim ini bertanggung jawab atas profil perusahaan, informasi produk, resep, berita, dan jawaban yang diterbitkan di situs ini.",
+        "Artikel tentang acara, mitra, dan warisan budaya disusun dari partisipasi langsung, catatan internal, atau materi yang diberikan oleh organisasi terkait."
+      ]
+    },
+    {
+      "h": "Cara kami meneliti",
+      "p": [
+        "Informasi produk berasal dari catatan produksi dan spesifikasi kami sendiri. Kisah tentang bahan, petani, nelayan, dan praktisi lokal diperiksa bersama pihak yang bersangkutan sebelum diterbitkan.",
+        "Jika kami mengandalkan sumber eksternal, sumber itu disebutkan dalam teks. Kami tidak menyajikan klaim yang belum terverifikasi sebagai fakta, dan tidak mengarang kredensial, penghargaan, atau sertifikasi."
+      ]
+    },
+    {
+      "h": "Peninjauan dan pembaruan",
+      "p": [
+        "Tim editorial meninjau halaman yang sudah terbit ketika produk, harga, mitra, atau detail acara berubah. Tanggal tinjauan di FAQ beranda mencerminkan pemeriksaan terakhir atas halaman-halaman utama.",
+        "Versi bahasa Inggris dan Indonesia dikelola bersama. Jika terjemahan belum tersedia, halaman menampilkan bahasa sumber dan menandainya sebagai fallback."
+      ]
+    },
+    {
+      "h": "Koreksi",
+      "p": [
+        "Jika kamu menemukan kesalahan, detail yang sudah usang, atau klaim yang perlu sumber, beri tahu kami melalui halaman kontak. Sertakan alamat halaman dan bagian yang dimaksud agar kami dapat memeriksanya. Koreksi yang terverifikasi diterapkan pada halaman dan, bila relevan, tercermin pada tanggal tinjauan."
+      ]
+    },
+    {
+      "h": "Hubungan komersial",
+      "p": [
+        "Kagōunga menjual produk sendiri dan bekerja dengan mitra ritel, perhotelan, serta distribusi. Hubungan komersial tidak menentukan apa yang kami terbitkan, dan penempatan berbayar tidak disajikan sebagai konten editorial."
+      ]
+    }
+  ]
+}

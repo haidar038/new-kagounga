@@ -101,6 +101,8 @@ export function BlurImage({
         src={blurSrc}
         alt={alt}
         aria-hidden="true"
+        width={width}
+        height={height}
         loading={loading}
         decoding="async"
         className="absolute inset-0 h-full w-full scale-105 object-cover"

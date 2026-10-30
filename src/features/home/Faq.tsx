@@ -1,6 +1,10 @@
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { MarkdownText } from "../../components/MarkdownText";
 import { Reveal } from "../../components/Reveal";
+import { CONTENT_UPDATED } from "../../data/site";
+import { localeLink, useLocale } from "../../i18n";
+import { formatDateLabel } from "../../lib/format";
 
 interface FaqItem {
   q: string;
@@ -13,6 +17,7 @@ interface FaqItem {
  */
 export function Faq(): React.JSX.Element {
   const { t } = useTranslation("home");
+  const locale = useLocale();
   const items = t("faq.items", { returnObjects: true }) as FaqItem[];
 
   return (
@@ -43,6 +48,19 @@ export function Faq(): React.JSX.Element {
               </details>
             ))}
           </div>
+        </Reveal>
+        <Reveal>
+          <p className="mx-auto mt-5 text-center text-[12px] leading-relaxed text-ink/60">
+            {t("faq.updated", {
+              date: formatDateLabel(CONTENT_UPDATED, locale),
+            })}{" "}
+            <Link
+              to={localeLink("/editorial", locale)}
+              className="underline underline-offset-2 hover:text-ink"
+            >
+              {t("faq.readPolicy")}
+            </Link>
+          </p>
         </Reveal>
       </div>
     </section>

@@ -9,6 +9,12 @@ Sisa manual: GSC, domain `kagounga.id`, GBP/Apple/Bing, backlink, review copy ID
 kredensial GA4/GSC, dan self-host font setelah file WOFF2 + lisensi jelas.
 Langkah eksekusi + gate + bukti: `../../docs/RUNBOOK-MANUAL-SEO.md`.
 
+Status 2026-10-30 (audit lanjutan, Option B): 54 URL prerender + `404.html`, sitemap 52, image sitemap 7.
+CSS eksternal (bukan inline), CSP enforcing + HSTS preload-ready, halaman editorial EN/ID, schema `WebSite` root bertipe,
+430 gambar 0 alt/dimensi hilang, 0 anchor kosong. Lighthouse lokal home/contact/editorial: SEO 100, a11y 100,
+Best Practices 96 (hanya `/_vercel/*` 404 di server lokal), Performance 56 di headless (caveat lokal, ukur ulang di prod).
+Rasio teks home 7,6% diterima sebagai tradeoff sadar: tidak ada section Story/FAQ baru. Rincian: §P8.
+
 ---
 
 ## Sudah diimplementasikan
@@ -365,6 +371,70 @@ Status: **sisi kode selesai**. NAP footer/kontak konsisten, halaman stockist + `
 - Rank tracker untuk 20–30 keyword prioritas.
 - KPI 90 hari: brand query #1, 26 halaman produk/stockist terindeks, LCP mobile < 2,5 s, a11y 100.
 - Review setiap bulan; hentikan halaman yang tidak menghasilkan impression setelah 3 bulan.
+
+---
+
+## P8 - Remediasi audit 2026-10-30 (Option B)
+
+Audit eksternal (`../../docs/SEO-AUDIT-Kagounga-new.md`) menyorot rasio teks, meta description, HTTP/3,
+anchor kosong, dimensi gambar, label form, dan sinyal E-E-A-T. Keputusan pemilik: **Option B** — perbaiki
+temuan yang murah dan berdampak, tanpa menambah section Story, tanpa 4 FAQ baru, tanpa menulis ulang
+reading level. Konsekuensinya rasio teks tetap di bawah 10% dan skor Content diperkirakan ~92.
+
+### Yang diubah
+
+- **CSS eksternal**: `seo-build.mjs` tidak lagi meng-inline stylesheet ke 54 halaman. HTML home turun dari
+  ~116 KB ke ~61 KB; CSS tetap di `/assets/index-*.css` (cacheable, Brotli di Vercel). Ini akar masalah
+  text-to-HTML ratio, bukan menambah teks.
+- **Meta**: 6 description diperpendek (home EN 134 char, artworks EN/ID, about ID, contact ID, home ID),
+  canonical/OG/Twitter ikut sinkron. `verify-seo-dist.mjs` memastikan tidak ada description >160 char.
+- **Structured data**: blok `kga-jsonld-site` berdiri sendiri dengan `@type: WebSite` (audit hanya membaca
+  objek pertama), sementara `@graph` tetap memuat Organization/WebPage/LocalBusiness/NewsArticle.
+  `dateModified` + `publishingPrinciples` ditambahkan ke WebPage.
+- **E-E-A-T**: halaman `/editorial` + `/id/editorial` menjelaskan siapa menulis, cara riset, review,
+  koreksi, dan hubungan komersial. Ditautkan dari footer, breadcrumb, `llms.txt`, byline artikel, dan
+  baris "last reviewed" di bawah FAQ beranda. Tidak ada kredensial fiktif.
+- **Security/CSP**: `vercel.json` mengirim CSP enforcing (allowlist Cloudinary, CARTO, GA/GTM, Vercel
+  Insights, Web3Forms, Spotify, Google Apps Script calendar), HSTS `includeSubDomains; preload`, nosniff,
+  SAMEORIGIN, Referrer-Policy, Permissions-Policy. Inline GA stub dipindah ke `public/gtag-init.js`;
+  `noscript.css` menggantikan `<style>` di `<noscript>`.
+- **Gambar**: Tisan pertama `loading="eager"` + `fetchPriority="low"` (di atas fold desktop, tersembunyi di
+  mobile), dimensi eksplisit untuk Tisan, cover berita, logo distributor, dan potret kolaborator.
+  Hasil: 430 gambar, 0 tanpa `alt`, 0 tanpa `width`/`height`, 0 `alt=""`.
+- **Anchor/a11y**: logo header, Tokopedia/Shopee/TikTok Shop, dan ikon sosial footer/kontak punya teks
+  sr-only deskriptif; honeypot `aria-label="botcheck"`; LanguageSwitcher memakai `hrefLang`/`lang` +
+  sr-only sehingga lolos `label-content-name-mismatch`; kontras tanggal editorial dinaikkan ke `text-ink/70`.
+
+### Verifikasi (2026-10-30)
+
+- `tsc` 0, `oxlint` 0 warning, vitest 107/107, `i18n:check` OK 14 namespace.
+- `bun run build`: 54 halaman + `404.html`; sitemap 52 URL; image sitemap 7.
+- Home: 61.342 B, 0 `<style>` inline, rasio teks **7,6%**, 0 anchor kosong, 59 gambar lengkap.
+- Semua halaman: JSON-LD valid, robots benar (`/thank-you` noindex), canonical/hreflang utuh.
+- Lighthouse lokal (server gzip + CSP, bukan `vite preview`):
+  - home, contact, editorial: **SEO 100, Accessibility 100, Best Practices 96**.
+  - BP 96 hanya karena `/_vercel/insights/script.js` + `/_vercel/speed-insights/script.js` 404 di server
+    lokal; di Vercel kedua endpoint itu ada. Tidak ada pelanggaran CSP aplikasi.
+  - Performance 56 (headless, main-thread style/layout) — angka lokal tidak mewakili prod; ukur CWV
+    setelah deploy.
+
+### Tradeoff yang diterima
+
+- **Text ratio 7,6%** (<10%) tetap muncul di audit. Root cause: halaman padat gambar/interaktif, bukan
+  kurang teks. Opsi menambah Story/FAQ sengaja tidak diambil. Jika audit berikutnya tetap menuntut,
+  tambah konten nyata (bukan filler) di halaman produk/berita, bukan section tersembunyi.
+- **HTTP/3 / `alt-svc`** tidak bisa diperbaiki dari aplikasi: Vercel tidak mengirim `alt-svc` untuk domain
+  ini. Jangan tambah header palsu.
+- **HSTS preload** dikirim sebagai header, tetapi domain **tidak** disubmit ke `hstspreload.org` sampai
+  semua subdomain dipastikan HTTPS.
+
+### Manual setelah deploy
+
+1. Cek console browser prod: tidak ada error CSP; kalender, peta, Spotify, GA consent, form Web3Forms jalan.
+2. Submit ulang `sitemap.xml` + `sitemap-images.xml` di GSC; minta indexing `/editorial` + `/id/editorial`.
+3. Ukur CWV mobile di PageSpeed Insights (bukan Lighthouse lokal), cek Brotli aktif.
+4. Jangan submit HSTS preload dulu; HTTP/3 tetap menunggu dukungan platform.
+5. Review copy ID native + backlink/GBP sesuai `RUNBOOK-MANUAL-SEO.md`.
 
 ---
 

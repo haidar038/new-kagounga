@@ -61,6 +61,9 @@ const NotFound = lazyPage(() =>
 const Privacy = lazyPage(() =>
   import("../pages/PrivacyPage").then((m) => ({ default: m.PrivacyPage })),
 );
+const Editorial = lazyPage(() =>
+  import("../pages/EditorialPage").then((m) => ({ default: m.EditorialPage })),
+);
 const Terms = lazyPage(() =>
   import("../pages/TermsPage").then((m) => ({ default: m.TermsPage })),
 );
@@ -79,6 +82,7 @@ export const MusicPage = Music.Component;
 export const ContactPage = Contact.Component;
 export const NotFoundPage = NotFound.Component;
 export const PrivacyPage = Privacy.Component;
+export const EditorialPage = Editorial.Component;
 export const TermsPage = Terms.Component;
 export const ThankYouPage = ThankYou.Component;
 
@@ -96,6 +100,7 @@ export async function preloadPage(pathname: string): Promise<void> {
   if (path === "/music") return Music.preload();
   if (path === "/contact") return Contact.preload();
   if (path === "/privacy") return Privacy.preload();
+  if (path === "/editorial") return Editorial.preload();
   if (path === "/terms") return Terms.preload();
   if (path === "/thank-you") return ThankYou.preload();
 }

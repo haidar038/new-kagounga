@@ -71,6 +71,9 @@ export interface NewsPost {
   dateLabel: string;
   cover: string;
   coverAlt: string;
+  /** Intrinsic dimensions of the delivered cover; CMS posts may omit them. */
+  coverWidth?: number;
+  coverHeight?: number;
   excerpt: string;
   lede: string;
   /** Full article body as markdown (blank-line separated paragraphs, **bold** inline). */
@@ -91,6 +94,8 @@ export interface Collaborator {
   role: string;
   image: string;
   alt: string;
+  width: number;
+  height: number;
 }
 
 export interface Movement {
@@ -129,6 +134,8 @@ export interface Track {
 export interface Distributor {
   name: string;
   logo: string;
+  logoWidth: number;
+  logoHeight: number;
 }
 
 export interface NavLink {

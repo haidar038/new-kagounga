@@ -1,0 +1,45 @@
+{
+  "hero": {
+    "eyebrow": "Editorial",
+    "titleBold": "Editorial",
+    "titleLight": " Policy.",
+    "lede": "How Kagōunga researches, writes, and reviews the information published on this site."
+  },
+  "updated": "Last reviewed {{date}}.",
+  "cta": "Contact us",
+  "sections": [
+    {
+      "h": "Who writes this site",
+      "p": [
+        "Pages on kagounga.com are written and maintained by the Kagōunga team in Ternate, North Maluku. The team is responsible for the company profile, product information, recipes, news, and the answers published on this site.",
+        "Articles about events, partners, and cultural heritage are based on first-hand participation, internal records, or material supplied by the organisations involved."
+      ]
+    },
+    {
+      "h": "How we research",
+      "p": [
+        "Product information comes from our own production and specification records. Stories about ingredients, growers, fishers, and local practitioners are checked with the people concerned before publication.",
+        "When we rely on an external source, we name it in the text. We do not present unverified claims as fact, and we avoid inventing credentials, awards, or certifications."
+      ]
+    },
+    {
+      "h": "Review and updates",
+      "p": [
+        "The editorial team reviews published pages when products, prices, partners, or event details change. The review date shown on the homepage FAQ reflects the most recent pass over the core pages.",
+        "English and Indonesian versions are maintained together. If a translation is not yet available, the page shows the source language and marks it as a fallback."
+      ]
+    },
+    {
+      "h": "Corrections",
+      "p": [
+        "If you find an error, outdated detail, or a claim that needs a source, tell us through the contact page. Include the page address and the passage concerned so we can check it. Verified corrections are applied to the page and, where relevant, reflected in the review date."
+      ]
+    },
+    {
+      "h": "Commercial relationships",
+      "p": [
+        "Kagōunga sells its own products and works with retail, hospitality, and distribution partners. Commercial relationships do not decide what we publish, and paid placement is not presented as editorial content."
+      ]
+    }
+  ]
+}

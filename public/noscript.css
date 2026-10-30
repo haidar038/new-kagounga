@@ -1,0 +1,5 @@
+/* Without JS the IntersectionObserver never adds `.in`; show all content. */
+.reveal {
+  opacity: 1 !important;
+  transform: none !important;
+}

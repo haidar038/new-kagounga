@@ -57,11 +57,14 @@ export function Hero(): React.JSX.Element {
           sizes="(min-width: 768px) 40vw, 1px"
           alt="Tisan, the Kagōunga mascot, holding a sago basket"
           aria-hidden="true"
+          width={800}
+          height={1288}
           className="tisan-swap tisan-1 h-full w-auto object-contain"
-          // lazy: the mascot is hidden on mobile (parent uses hidden md:block),
-          // yet eager images inside display:none still download and competed
-          // with the LCP hero for bandwidth.
-          loading="lazy"
+          // Above the fold on desktop (audit flagged the lazy attribute).
+          // fetchPriority low keeps it behind the LCP hero on mobile, where
+          // the wrapper is hidden but an eager image still downloads.
+          loading="eager"
+          fetchPriority="low"
           decoding="async"
         />
         <img
@@ -72,6 +75,8 @@ export function Hero(): React.JSX.Element {
           sizes="(min-width: 768px) 40vw, 1px"
           alt="Tisan, the Kagōunga mascot, smiling"
           aria-hidden="true"
+          width={800}
+          height={1315}
           className="tisan-swap tisan-2 absolute inset-0 h-full w-auto object-contain opacity-0"
           loading="lazy"
           decoding="async"

@@ -27,7 +27,6 @@ export function SiteHeader(): React.JSX.Element {
         <Link
           to={localeLink("/", locale)}
           className="flex shrink-0 items-center gap-3"
-          aria-label={t("home")}
           onClick={() => {
             setOpen(false);
           }}
@@ -40,6 +39,7 @@ export function SiteHeader(): React.JSX.Element {
             height={32}
             decoding="async"
           />
+          <span className="sr-only">{t("home")}</span>
         </Link>
         <nav
           aria-label={t("primaryNav")}

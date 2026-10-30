@@ -46,11 +46,12 @@ export function LanguageSwitcher({ dark = false }: { dark?: boolean }): React.JS
               // Client-only search/hash stay in the click handler so the SSR
               // href matches hydration.
               to={localeLink(pathname, l)}
+              hrefLang={l}
+              lang={l}
               onClick={(e) => {
                 e.preventDefault();
                 switchTo(l);
               }}
-              aria-label={l === "id" ? "Bahasa Indonesia (ID)" : "English (EN)"}
               className={cn(
                 "rounded-md px-2 py-1",
                 dark
@@ -59,6 +60,10 @@ export function LanguageSwitcher({ dark = false }: { dark?: boolean }): React.JS
               )}
             >
               {l.toUpperCase()}
+              <span className="sr-only">
+                {" "}
+                — {l === "id" ? "Bahasa Indonesia" : "English"}
+              </span>
             </Link>
           )}
         </span>
