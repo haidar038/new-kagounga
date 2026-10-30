@@ -193,7 +193,7 @@ export function ProductPage(): React.JSX.Element {
               product={product}
               className="order-0 w-full lg:order-2 lg:max-w-none lg:w-auto"
             />
-            <div className="order-1 lg:order-1">
+            <div className="order-1 min-w-0">
               <p className="text-[12px] font-bold uppercase tracking-[0.18em] text-lime">
                 {product.eyebrow}
               </p>
@@ -309,7 +309,7 @@ export function ProductPage(): React.JSX.Element {
                   </ul>
                 </>
               )}
-              <p className="mt-6 rounded-2xl bg-cream p-5 text-[14px] leading-relaxed text-ink/70">
+              <p className="mt-6 rounded-2xl bg-white border border-ink/10 p-5 text-[14px] leading-relaxed text-ink/70">
                 {product.note}
               </p>
             </Reveal>

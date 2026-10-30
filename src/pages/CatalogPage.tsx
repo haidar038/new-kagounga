@@ -89,12 +89,11 @@ export function CatalogPage(): React.JSX.Element {
             </div>
           )}
           <h2 className="mt-10 text-2xl font-bold">{t("grid.title")}</h2>
-          <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="mt-5 grid grid-cols-2 gap-x-3 gap-y-7 sm:grid-cols-1 sm:gap-5 md:grid-cols-2 lg:grid-cols-4">
             {products.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}
-                compact
                 onDetails={setActiveId}
               />
             ))}

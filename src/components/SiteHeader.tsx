@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useScrolled } from "../hooks/useScrolled";
 import { NAV_LINKS } from "../data/site";
 import { localeLink, useLocale } from "../i18n";
@@ -51,8 +51,8 @@ export function SiteHeader(): React.JSX.Element {
               to={localeLink(link.to, locale)}
               className={({ isActive }) =>
                 isActive
-                  ? "rounded-full bg-ink/10 px-4 py-1.5 text-ink hover:bg-ink/20"
-                  : "hover:opacity-60"
+                  ? "rounded-full bg-ink/10 px-4 py-1.5 text-ink transition-colors hover:bg-ink/20"
+                  : "transition-colors hover:opacity-60"
               }
             >
               {link.key ? t(`nav.${link.key}`) : link.label}
@@ -76,9 +76,22 @@ export function SiteHeader(): React.JSX.Element {
             onClick={() => {
               setOpen((v) => !v);
             }}
-            className="grid size-10 place-items-center rounded-full border border-ink/15 lg:hidden"
+            className="relative grid size-10 place-items-center rounded-full border border-ink/15 transition-colors hover:border-ink/40 lg:hidden"
           >
-            <Menu className="size-4.5" aria-hidden="true" />
+            <Menu
+              className={cn(
+                "absolute size-4.5 transition-all duration-300",
+                open ? "rotate-90 scale-75 opacity-0" : "rotate-0 scale-100 opacity-100",
+              )}
+              aria-hidden="true"
+            />
+            <X
+              className={cn(
+                "absolute size-4.5 transition-all duration-300",
+                open ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-75 opacity-0",
+              )}
+              aria-hidden="true"
+            />
           </button>
         </div>
       </div>
@@ -95,17 +108,21 @@ export function SiteHeader(): React.JSX.Element {
           aria-label={t("mobileNav")}
           className="grid gap-1 text-[15px] font-medium"
         >
-            {NAV_LINKS.map((link) => (
+            {NAV_LINKS.map((link, i) => (
               <NavLink
                 key={link.to}
                 to={localeLink(link.to, locale)}
                 onClick={() => {
                   setOpen(false);
                 }}
+                style={open ? { animationDelay: `${i * 40}ms` } : undefined}
                 className={({ isActive }) =>
                   cn(
-                    "rounded-xl px-3 py-2.5 hover:bg-ink/5",
-                    isActive && "bg-ink text-cream",
+                    "rounded-xl px-3 py-2.5 transition-colors",
+                    isActive
+                      ? "bg-ink text-cream hover:bg-ink/80"
+                      : "hover:bg-ink/5",
+                    open && "animate-enter",
                   )
                 }
               >
