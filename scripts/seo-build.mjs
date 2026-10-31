@@ -21,15 +21,22 @@ const SITE = (process.env.VITE_SITE_URL || "https://kagounga.com").replace(/\/+$
 const CMS = (process.env.CMS_URL || process.env.VITE_CMS_URL || "").replace(/\/+$/, "");
 const OG_DEFAULT =
   "https://res.cloudinary.com/fal5otmd/image/upload/v1791556121/OpenGraph.webp";
-// Hero LCP candidates - must match src/features/home/Hero.tsx srcSet exactly so
-// the preload is reused instead of triggering a second fetch.
+// Hero LCP candidates - must match src/features/home/Hero.tsx srcSets exactly
+// (art direction: portrait nature-2 on mobile, landscape nature from md up)
+// so the preloads are reused instead of triggering a second fetch.
+const HERO_Q = "f_webp,q_30";
+const HERO_MOBILE_SRCSET = [480, 768]
+  .map((w) => `https://res.cloudinary.com/fal5otmd/image/upload/${HERO_Q},w_${w}/hero-bg-nature-2.webp ${w}w`)
+  .join(", ");
+const HERO_MOBILE_SRC =
+  "https://res.cloudinary.com/fal5otmd/image/upload/" + HERO_Q + ",w_768/hero-bg-nature-2.webp";
 const HERO_SRCSET = [640, 960, 1280, 1920]
-  .map((w) => `https://res.cloudinary.com/fal5otmd/image/upload/f_webp,q_40,w_${w}/hero-bg-nature.webp ${w}w`)
+  .map((w) => `https://res.cloudinary.com/fal5otmd/image/upload/${HERO_Q},w_${w}/hero-bg-nature.webp ${w}w`)
   .join(", ");
 // Fallback href for audit tools that only count <link rel="preload"> entries
 // with an explicit href; `imagesrcset` alone is enough for modern browsers.
 const HERO_SRC =
-  "https://res.cloudinary.com/fal5otmd/image/upload/f_webp,q_40,w_1280/hero-bg-nature.webp";
+  "https://res.cloudinary.com/fal5otmd/image/upload/" + HERO_Q + ",w_1280/hero-bg-nature.webp";
 const LOGO =
   "https://res.cloudinary.com/fal5otmd/image/upload/f_auto,q_auto/logo-primary-emblem.svg";
 const today = new Date().toISOString().slice(0, 10);
@@ -687,11 +694,14 @@ function renderRoute(template, route, body = "") {
   const altTag = route.locale === "id" ? "en_US" : "id_ID";
   let html = template.replace(/<html\s+lang="[^"]*"/, `<html lang="${route.locale}"`);
   // Homepage-only: start the LCP hero download before the prerendered body is
-  // scanned. Other routes must not pay for an image they never show.
+  // scanned. Media-scoped pair mirrors the <picture> art direction so each
+  // viewport preloads exactly the variant its <source>/<img> will pick.
+  // Other routes must not pay for an image they never show.
   if (route.path === "/" || route.path === "/id") {
     html = html.replace(
       "</head>",
-      () => `<link rel="preload" as="image" href="${HERO_SRC}" imagesrcset="${HERO_SRCSET}" imagesizes="100vw" fetchpriority="high" />\n</head>`,
+      () =>
+        `<link rel="preload" as="image" media="(max-width: 767px)" href="${HERO_MOBILE_SRC}" imagesrcset="${HERO_MOBILE_SRCSET}" imagesizes="100vw" fetchpriority="high" />\n<link rel="preload" as="image" media="(min-width: 768px)" href="${HERO_SRC}" imagesrcset="${HERO_SRCSET}" imagesizes="100vw" fetchpriority="high" />\n</head>`,
     );
   }
   html = setTitle(html, route.title);

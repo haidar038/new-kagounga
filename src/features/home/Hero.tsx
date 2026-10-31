@@ -10,21 +10,33 @@ export function Hero(): React.JSX.Element {
 
   return (
     <section className="relative flex min-h-[92vh] items-center overflow-hidden bg-ink text-cream">
-      {/* f_webp,q_40: f_auto serves JPEG (~89 KiB) for this asset; pinned
-          webp at q_40 is ~52 KiB and sits behind the gradient overlays. */}
-      <img
-        src={cld("hero-bg-nature.webp", 1280, "f_webp,q_40")}
-        srcSet={[640, 960, 1280, 1920]
-          .map((width) => `${cld("hero-bg-nature.webp", width, "f_webp,q_40")} ${width}w`)
-          .join(", ")}
-        sizes="100vw"
-        width={1920}
-        height={1080}
-        alt="Tropical forest landscape of North Maluku"
-        className="absolute inset-0 h-full w-full object-cover"
-        fetchPriority="high"
-        decoding="async"
-      />
+      {/* Art direction: portrait crop on mobile (768x1080 native) where the
+          landscape source would render a tiny center sliver at ~3.7x upscale;
+          landscape from md up. f_webp,q_30: PSI flagged q_40 as
+          over-delivered; both images sit behind the gradient scrim. The
+          seo-build preloads must mirror this srcset exactly. */}
+      <picture>
+        <source
+          media="(max-width: 767px)"
+          srcSet={[480, 768]
+            .map((width) => `${cld("hero-bg-nature-4.webp", width, "f_webp,q_30")} ${width}w`)
+            .join(", ")}
+          sizes="100vw"
+        />
+        <img
+          src={cld("hero-bg-nature.webp", 1280, "f_webp,q_30")}
+          srcSet={[640, 960, 1280, 1920]
+            .map((width) => `${cld("hero-bg-nature.webp", width, "f_webp,q_30")} ${width}w`)
+            .join(", ")}
+          sizes="100vw"
+          width={1920}
+          height={1080}
+          alt="Tropical forest landscape of North Maluku"
+          className="absolute inset-0 h-full w-full object-cover"
+          fetchPriority="high"
+          decoding="async"
+        />
+      </picture>
       <div
         id="tisanWrap"
         tabIndex={0}

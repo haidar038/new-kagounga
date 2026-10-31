@@ -3,7 +3,7 @@ import { createRoot, hydrateRoot } from 'react-dom/client'
 import App from './App.tsx'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/react'
-import { initI18n } from './i18n'
+import { initI18n, scheduleNamespaceBackfill } from './i18n'
 import { preloadPage } from './app/pages'
 import { getLocaleFromPath } from './lib/seo'
 import './index.css'
@@ -19,10 +19,12 @@ const app = (
 )
 
 // Route locale is authoritative. Waiting for i18n avoids a hydration mismatch
-// when localStorage holds the other language.
+// when localStorage holds the other language. Only the route's namespaces are
+// awaited; the rest of the locale backfills once the main thread idles.
 void (async () => {
   const pathname = window.location.pathname
-  await Promise.all([initI18n(getLocaleFromPath(pathname)), preloadPage(pathname)])
+  const locale = getLocaleFromPath(pathname)
+  await Promise.all([initI18n(locale), preloadPage(pathname)])
 
   // Prerendered routes ship body HTML; hydrate it. Untouched routes (e.g. 404)
   // still mount from scratch.
@@ -31,4 +33,5 @@ void (async () => {
   } else {
     createRoot(container).render(app)
   }
+  scheduleNamespaceBackfill(locale)
 })()

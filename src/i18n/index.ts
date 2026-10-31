@@ -9,35 +9,82 @@ export const DEFAULT_LOCALE: Locale = "en";
 export const LANG_KEY = "kga-lang";
 const BANNER_KEY = "kga-lang-banner";
 
-// Locale bundles are loaded on demand: a visit only downloads the JSON of the
-// language it renders (~12 KB gzip), keeping both locales (~110 KB raw) out of
-// the main bundle and off the critical path.
+// Locale bundles are loaded on demand, per namespace: a visit only downloads
+// the JSON namespaces its route renders (~4 KB gzip for "/"), keeping both
+// locales (~110 KB raw) and the unused namespaces off the hydration critical
+// path. What the route skips backfills when idle (scheduleNamespaceBackfill)
+// so later navigations never wait on i18n chunks.
 const localeChunks = {
   en: import.meta.glob<{ default: Record<string, unknown> }>("../locales/en/*.json"),
   id: import.meta.glob<{ default: Record<string, unknown> }>("../locales/id/*.json"),
 } as const;
 
-const loadedLocales = new Set<Locale>();
+const nsOf = (path: string): string =>
+  (path.split("/").pop() ?? "").replace(/\.json$/, "");
 
-/** Fetch + register a locale's namespaces once. Safe to call repeatedly. */
-export async function ensureLocale(locale: Locale): Promise<void> {
-  if (loadedLocales.has(locale)) return;
-  const entries = await Promise.all(
-    Object.entries(localeChunks[locale]).map(async ([path, load]) => {
-      const ns = (path.split("/").pop() ?? "").replace(/\.json$/, "");
-      const mod = await load();
-      return [ns, mod.default] as const;
-    }),
-  );
-  for (const [ns, data] of entries) {
-    i18n.addResourceBundle(locale, ns, data, true, true);
-  }
-  loadedLocales.add(locale);
+export function listNamespaces(locale: Locale): string[] {
+  return Object.keys(localeChunks[locale]).map(nsOf);
 }
+
+const loadedNamespaces = new Set<string>(); // `${locale}:${ns}`
 
 let initPromise: Promise<void> | null = null;
 
-/** Call once before render. Resources load async; awaited before hydration. */
+/** i18next must be initialized before bundles register; chain onto it. */
+async function whenReady(): Promise<void> {
+  if (!initPromise) await initI18n();
+  await initPromise;
+}
+
+/** Fetch + register specific namespaces once. Safe to call repeatedly. */
+export async function ensureNamespaces(
+  locale: Locale,
+  namespaces: string[],
+): Promise<void> {
+  await whenReady();
+  const pending = Object.entries(localeChunks[locale]).filter(
+    ([path]) =>
+      namespaces.includes(nsOf(path)) &&
+      !loadedNamespaces.has(`${locale}:${nsOf(path)}`),
+  );
+  await Promise.all(
+    pending.map(async ([path, load]) => {
+      const ns = nsOf(path);
+      const mod = await load();
+      i18n.addResourceBundle(locale, ns, mod.default, true, true);
+      loadedNamespaces.add(`${locale}:${ns}`);
+    }),
+  );
+}
+
+/** Every namespace of a locale. Used on explicit language switches. */
+export async function ensureLocale(locale: Locale): Promise<void> {
+  await ensureNamespaces(locale, listNamespaces(locale));
+}
+
+/** Load the namespaces the active route did not need. */
+export async function ensureRemainingNamespaces(locale: Locale): Promise<void> {
+  const missing = listNamespaces(locale).filter(
+    (ns) => !loadedNamespaces.has(`${locale}:${ns}`),
+  );
+  await ensureNamespaces(locale, missing);
+}
+
+/** Backfill the rest of the locale once the main thread is idle. */
+export function scheduleNamespaceBackfill(locale: Locale): void {
+  if (typeof window === "undefined") return;
+  const run = () => {
+    void ensureRemainingNamespaces(locale).catch(() => {});
+  };
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(run, { timeout: 3000 });
+  } else {
+    setTimeout(run, 1200);
+  }
+}
+
+/** Call once before render. Route namespaces register via preloadPage; the
+ *  whole set is awaited there before hydration, never inside init. */
 export async function initI18n(locale?: Locale): Promise<void> {
   if (!initPromise) {
     initPromise = (async () => {
@@ -46,16 +93,14 @@ export async function initI18n(locale?: Locale): Promise<void> {
         fallbackLng: DEFAULT_LOCALE,
         defaultNS: "common",
         interpolation: { escapeValue: false },
-        // Bundles are registered via ensureLocale right after init.
+        // Bundles register via ensureNamespaces after init resolves.
         partialBundledLanguages: true,
         resources: {},
       });
-      await ensureLocale(i18n.language === "id" ? "id" : "en");
     })();
   }
   await initPromise;
   if (locale && i18n.language !== locale) {
-    await ensureLocale(locale);
     await i18n.changeLanguage(locale);
   }
 }
