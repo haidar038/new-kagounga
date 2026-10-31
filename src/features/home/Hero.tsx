@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { HERO_DESKTOP, HERO_MOBILE } from "../../lib/hero";
 import { cld } from "../../lib/cloudinary";
 import { cn } from "../../lib/cn";
 
@@ -10,24 +11,20 @@ export function Hero(): React.JSX.Element {
 
   return (
     <section className="relative flex min-h-[92vh] items-center overflow-hidden bg-ink text-cream">
-      {/* Art direction: portrait crop on mobile (768x1080 native) where the
-          landscape source would render a tiny center sliver at ~3.7x upscale;
-          landscape from md up. f_webp,q_30: PSI flagged q_40 as
-          over-delivered; both images sit behind the gradient scrim. The
-          seo-build preloads must mirror this srcset exactly. */}
+      {/* Art direction: portrait nature-4 (3072x4320 master) below 768px — the
+          landscape source would render a tiny center sliver at ~3.7x upscale —
+          landscape from md up. Both pinned f_webp,q_30 behind the gradient
+          scrim. URL source of truth: src/lib/hero.ts (seo-build preloads
+          import the same module, so preloads cannot drift from this srcSet). */}
       <picture>
         <source
           media="(max-width: 767px)"
-          srcSet={[480, 768]
-            .map((width) => `${cld("hero-bg-nature-4.webp", width, "f_webp,q_30")} ${width}w`)
-            .join(", ")}
+          srcSet={HERO_MOBILE.srcSet}
           sizes="100vw"
         />
         <img
-          src={cld("hero-bg-nature.webp", 1280, "f_webp,q_30")}
-          srcSet={[640, 960, 1280, 1920]
-            .map((width) => `${cld("hero-bg-nature.webp", width, "f_webp,q_30")} ${width}w`)
-            .join(", ")}
+          src={HERO_DESKTOP.src}
+          srcSet={HERO_DESKTOP.srcSet}
           sizes="100vw"
           width={1920}
           height={1080}

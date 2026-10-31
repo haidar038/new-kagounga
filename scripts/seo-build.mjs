@@ -21,21 +21,23 @@ const SITE = (process.env.VITE_SITE_URL || "https://kagounga.com").replace(/\/+$
 const CMS = (process.env.CMS_URL || process.env.VITE_CMS_URL || "").replace(/\/+$/, "");
 const OG_DEFAULT =
   "https://res.cloudinary.com/fal5otmd/image/upload/v1791556121/OpenGraph.webp";
-// Hero LCP candidates - must match src/features/home/Hero.tsx srcSets exactly
-// (art direction: portrait nature-2 on mobile, landscape nature from md up)
-// so the preloads are reused instead of triggering a second fetch.
-const HERO_Q = "f_webp,q_30";
-const HERO_MOBILE_SRCSET = [480, 768]
-  .map((w) => `https://res.cloudinary.com/fal5otmd/image/upload/${HERO_Q},w_${w}/hero-bg-nature-2.webp ${w}w`)
+// Hero LCP candidates. Source of truth is src/lib/hero.ts, loaded via the Vite
+// SSR server below so the preloads can never drift from the <picture> srcSets
+// in Hero.tsx (a drift = wasted preload bytes + a second LCP fetch). The
+// literals here are only the fallback for when SSR is unavailable — keep them
+// pointing at the same files/widths/quality if hero.ts ever changes.
+let HERO_Q = "f_webp,q_30";
+let HERO_MOBILE_SRCSET = [480, 768]
+  .map((w) => `https://res.cloudinary.com/fal5otmd/image/upload/${HERO_Q},w_${w}/hero-bg-nature-4.webp ${w}w`)
   .join(", ");
-const HERO_MOBILE_SRC =
-  "https://res.cloudinary.com/fal5otmd/image/upload/" + HERO_Q + ",w_768/hero-bg-nature-2.webp";
-const HERO_SRCSET = [640, 960, 1280, 1920]
+let HERO_MOBILE_SRC =
+  "https://res.cloudinary.com/fal5otmd/image/upload/" + HERO_Q + ",w_768/hero-bg-nature-4.webp";
+let HERO_SRCSET = [640, 960, 1280, 1920]
   .map((w) => `https://res.cloudinary.com/fal5otmd/image/upload/${HERO_Q},w_${w}/hero-bg-nature.webp ${w}w`)
   .join(", ");
 // Fallback href for audit tools that only count <link rel="preload"> entries
 // with an explicit href; `imagesrcset` alone is enough for modern browsers.
-const HERO_SRC =
+let HERO_SRC =
   "https://res.cloudinary.com/fal5otmd/image/upload/" + HERO_Q + ",w_1280/hero-bg-nature.webp";
 const LOGO =
   "https://res.cloudinary.com/fal5otmd/image/upload/f_auto,q_auto/logo-primary-emblem.svg";
@@ -227,6 +229,17 @@ if (ssrServer) {
     renderRouteBody = mod.render;
   } catch (error) {
     console.warn(`seo-build: body prerender unavailable (${error.message})`);
+  }
+  // Hero preload URLs: load the same module Hero.tsx renders from, so the
+  // preloads always match the <picture> srcSets (see the hero.ts comment).
+  try {
+    const heroMod = await ssrServer.ssrLoadModule("/src/lib/hero.ts");
+    HERO_MOBILE_SRCSET = heroMod.HERO_MOBILE.srcSet;
+    HERO_MOBILE_SRC = heroMod.HERO_MOBILE.src;
+    HERO_SRCSET = heroMod.HERO_DESKTOP.srcSet;
+    HERO_SRC = heroMod.HERO_DESKTOP.src;
+  } catch (error) {
+    console.warn(`seo-build: hero module unavailable, using fallback URLs (${error.message})`);
   }
 }
 const first = news[0];
