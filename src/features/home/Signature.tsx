@@ -100,7 +100,7 @@ export function Signature(): React.JSX.Element {
                   </p>
                 ))}
               </div>
-              <p className="mt-5 text-[13px] font-semibold text-cream/60">
+              <p className="mt-5 text-[13px] font-medium text-cream/60">
                 {main.meta}
               </p>
               <TrustBadges tone="dark" className="mt-5 justify-start" />

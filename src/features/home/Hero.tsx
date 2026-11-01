@@ -127,11 +127,11 @@ export function Hero(): React.JSX.Element {
           </div>
         </div>
         <div className="hero-rise">
-          <dl className="mt-10 grid max-w-xl grid-cols-3 divide-x divide-cream/20 border-t border-cream/20 pt-6">
+          <dl className="mt-10 grid max-w-2xl grid-cols-3 divide-x divide-cream/20 border-t border-cream/20 pt-6">
             {(["500+", "8+", "5"] as const).map((value, i) => (
               <div key={value} className={i === 0 ? "pr-5" : i === 1 ? "px-5" : "pl-5"}>
                 <dt className="text-2xl font-bold sm:text-3xl md:text-4xl">{value}</dt>
-                <dd className="mt-1 text-[12px] font-semibold uppercase tracking-wider text-cream/60">
+                <dd className="mt-1 text-xs lg:text-sm uppercase tracking-wider text-cream/60">
                   {stats[i]}
                 </dd>
               </div>

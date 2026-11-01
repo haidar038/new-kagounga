@@ -36,11 +36,12 @@
     content="Kagōunga: five forms of expression from North Maluku — gastronomy, personal care, home fragrance, music, and fine art. Move, Moreover." />
   <meta name="twitter:image" content="https://res.cloudinary.com/fal5otmd/image/upload/v1791556121/OpenGraph.webp" />
   <meta name="twitter:image:alt" content="Kagōunga | Move, Moreover. - Heritage & Innovation" />
-  <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
-  <!-- Self-hosted Open Sauce One; preload 2 bobot above-the-fold (hero h1: 300 + 600).
-       Bobot lain (400/500/700/900) ditemukan via CSS, bukan bagian teks LCP utama. -->
-  <link rel="preload" href="/fonts/open-sauce-one-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="/fonts/open-sauce-one-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <!-- Preconnect TANPA crossorigin: fetch gambar Cloudinary berjalan no-cors,
+       sehingga koneksi CORS yang dihangatkan crossorigin tidak pernah terpakai
+       (PSI: unused preconnect; preconnect yang benar ~300 ms LCP savings). -->
+  <link rel="preconnect" href="https://res.cloudinary.com" />
+  <!-- Font preloads di-inject seo-build.mjs dengan URL /assets/ ber-hash
+       (file kini dari @fontsource, nama file berubah tiap build). -->
   <title>Kagōunga | Move, Moreover. - Heritage & Innovation</title>
   <!-- Google tag (gtag.js): consent-aware loader lives in /gtag-init.js so the
        document has no inline script (strict CSP + no parse-blocking work).

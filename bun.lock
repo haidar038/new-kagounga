@@ -7,6 +7,7 @@
       "dependencies": {
         "@cloudinary/react": "^1.14.4",
         "@cloudinary/url-gen": "^1.22.0",
+        "@fontsource/open-sauce-one": "^5.3.0",
         "@tailwindcss/vite": "^4.3.3",
         "@vercel/analytics": "^2.0.1",
         "@vercel/speed-insights": "^2.0.0",
@@ -77,6 +78,8 @@
     "@cloudinary/transformation-builder-sdk": ["@cloudinary/transformation-builder-sdk@1.21.2", "", { "dependencies": { "@cloudinary/url-gen": "^1.7.0" } }, "sha512-ehOgKUaP+Nvuf7B0TosmB8iilL0kdiVjzjl8tIK06cjvsNnwSJI3xP9nEJmKkvqNxwwFwvYXT+mxUTqnSv9JOA=="],
 
     "@cloudinary/url-gen": ["@cloudinary/url-gen@1.22.0", "", { "dependencies": { "@cloudinary/transformation-builder-sdk": "^1.15.1" } }, "sha512-le8RMlgyC0JN3+FlC/YAlPYfvmJdtw8QGcSKDjCsfhS2CIem0mJl6ayti8bMoZ0P5wDvBewvRB0/dUQvhCzy3g=="],
+
+    "@fontsource/open-sauce-one": ["@fontsource/open-sauce-one@5.3.0", "", {}, "sha512-c4KxAHklBtXJ+rpEecJljyceDVQ9p2sIOHHKeH0M4t5VEvOko0b6g8kP+Ntmf7+vwn7o4vQtkqU/ajZDX8RD2Q=="],
 
     "@jridgewell/gen-mapping": ["@jridgewell/gen-mapping@0.3.13", "", { "dependencies": { "@jridgewell/sourcemap-codec": "^1.5.0", "@jridgewell/trace-mapping": "^0.3.24" } }, "sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA=="],
 

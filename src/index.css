@@ -1,57 +1,62 @@
 @import "tailwindcss";
 
-/* Open Sauce One - self-hosted (SIL OFL 1.1, bukti lisensi: public/fonts/LICENSE).
-   Bobot normal 300/400/500/600/700/900 (800 tidak pernah dipakai UI). Hanya italic
-   400 yang benar-benar terpakai (caption artwork + em rich-text); sisanya
-   di-synthesize browser sehingga tidak mendaftar @font-face. */
+/* Open Sauce One via @fontsource/open-sauce-one (SIL OFL 1.1; lisensi ikut
+   dalam package, salinan publik: public/fonts/LICENSE). Bobot normal
+   300/400/500/600/700/900 — semua terdaftar dan terpakai (500 dipertahankan
+   atas keputusan user: nav/label/teks utilitas memakai font-medium). Hanya
+   italic 400 yang benar-benar terpakai (caption artwork + em rich-text);
+   sisanya di-synthesize browser. 800 tidak didaftarkan: 3 pemakaian
+   font-weight:800 di CSS ini ter-map ke 700. Sengaja TANPA unicode-range agar
+   perilaku glyph (termasuk ō di "Kagōunga") identik dengan setup /fonts/
+   sebelumnya. */
 @font-face {
   font-family: "Open Sauce One";
   font-style: normal;
   font-weight: 300;
   font-display: swap;
-  src: url("/fonts/open-sauce-one-latin-300-normal.woff2") format("woff2");
+  src: url("@fontsource/open-sauce-one/files/open-sauce-one-latin-300-normal.woff2") format("woff2");
 }
 @font-face {
   font-family: "Open Sauce One";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("/fonts/open-sauce-one-latin-400-normal.woff2") format("woff2");
+  src: url("@fontsource/open-sauce-one/files/open-sauce-one-latin-400-normal.woff2") format("woff2");
 }
 @font-face {
   font-family: "Open Sauce One";
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url("/fonts/open-sauce-one-latin-500-normal.woff2") format("woff2");
+  src: url("@fontsource/open-sauce-one/files/open-sauce-one-latin-500-normal.woff2") format("woff2");
 }
 @font-face {
   font-family: "Open Sauce One";
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url("/fonts/open-sauce-one-latin-600-normal.woff2") format("woff2");
+  src: url("@fontsource/open-sauce-one/files/open-sauce-one-latin-600-normal.woff2") format("woff2");
 }
 @font-face {
   font-family: "Open Sauce One";
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("/fonts/open-sauce-one-latin-700-normal.woff2") format("woff2");
+  src: url("@fontsource/open-sauce-one/files/open-sauce-one-latin-700-normal.woff2") format("woff2");
 }
 @font-face {
   font-family: "Open Sauce One";
   font-style: normal;
   font-weight: 900;
   font-display: swap;
-  src: url("/fonts/open-sauce-one-latin-900-normal.woff2") format("woff2");
+  src: url("@fontsource/open-sauce-one/files/open-sauce-one-latin-900-normal.woff2") format("woff2");
 }
 @font-face {
   font-family: "Open Sauce One";
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url("/fonts/open-sauce-one-latin-400-italic.woff2") format("woff2");
+  src: url("@fontsource/open-sauce-one/files/open-sauce-one-latin-400-italic.woff2") format("woff2");
 }
 
 @theme {
@@ -406,6 +411,40 @@ footer[id] {
   color: rgba(31, 44, 34, 0.7);
 }
 
+/* FAQ accordion: animasi expand/collapse untuk <details> native via
+   ::details-content + interpolate-size (Chrome/Edge 131+, Safari 18.4+).
+   Murni CSS — tanpa JS, tanpa efek ke hidrasi, jawaban tetap utuh di HTML
+   prerendered. Dua keputusan penting di sini:
+   1. UA menyembunyikan konten details tertutup dengan content-visibility:
+      hidden; kalau ikut ditransisikan ia flip di 50% durasi (konten mendadak
+      lenyap saat collapse = glitch). Maka itu dibatalkan (content-visibility:
+      visible) dan penyembunyiannya dipindah ke visibility, yang
+      interpolasinya istimewa: tetap visible selama transisi dan baru hidden
+      tepat di akhir.
+   2. overflow: hidden — BUKAN clip. Clip tidak membentuk BFC, sehingga margin
+      atas jawaban (mt-3) collapse menembus kotak 0-height dan bocor ~12px di
+      bawah pertanyaan saat tertutup (spacing top/bottom jadi tak simetris).
+      Hidden membentuk BFC: margin terkurung, tertutup = benar-benar 0.
+   Browser tanpa dukungan: buka/tutup instan (perilaku lama). */
+@supports selector(::details-content) {
+  :root {
+    interpolate-size: allow-keywords;
+  }
+  details::details-content {
+    block-size: 0;
+    overflow: hidden;
+    content-visibility: visible;
+    visibility: hidden;
+    transition:
+      block-size 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0.35s;
+  }
+  details[open]::details-content {
+    block-size: auto;
+    visibility: visible;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal {
     opacity: 1;
@@ -428,5 +467,8 @@ footer[id] {
   }
   .hero-rise {
     animation: none;
+  }
+  details::details-content {
+    transition: none;
   }
 }

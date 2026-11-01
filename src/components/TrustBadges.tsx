@@ -38,7 +38,7 @@ export function TrustBadges({
           <li
             key={key}
             className={cn(
-              "flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-wide",
+              "flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-wide",
               tone === "dark" ? "text-cream/80" : "text-ink/70",
             )}
           >

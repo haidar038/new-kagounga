@@ -3,7 +3,7 @@
 // dist/<route>/index.html with final head tags so crawlers / social scrapers
 // see full meta without JS. No external bot, no extra deps.
 // Copy source of truth: src/locales/{en,id}/seo.json + news.json (Id fields).
-import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync, existsSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createServer } from "vite";
@@ -11,6 +11,7 @@ import { createServer } from "vite";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const DIST = join(ROOT, "dist");
 const PUBLIC = join(ROOT, "public");
+const ASSETS_DIR = join(DIST, "assets");
 const TEMPLATE = join(DIST, "index.html");
 const NEWS_JSON = join(ROOT, "src", "data", "news.json");
 const LOCALES_DIR = join(ROOT, "src", "locales");
@@ -704,8 +705,14 @@ function renderRoute(template, route, body = "") {
   const idUrl = `${SITE}${enPath === "/" ? "/id" : `/id${enPath}`}`;
   const img = route.image || OG_DEFAULT;
   const localeTag = route.locale === "id" ? "id_ID" : "en_US";
-  const altTag = route.locale === "id" ? "en_US" : "id_ID";
+  const altTag = route.locale === "id" ? "id_ID" : "en_US";
   let html = template.replace(/<html\s+lang="[^"]*"/, `<html lang="${route.locale}"`);
+  // Hero h1 memakai bobot 300/600; file kini dari @fontsource dengan nama
+  // ber-hash, jadi preload-nya di-inject di sini (URL tak bisa di-hardcode di
+  // index.html). crossorigin wajib untuk preload font, juga same-origin.
+  if (fontPreloads) {
+    html = html.replace("</head>", () => `${fontPreloads}\n</head>`);
+  }
   // Homepage-only: start the LCP hero download before the prerendered body is
   // scanned. Media-scoped pair mirrors the <picture> art direction so each
   // viewport preloads exactly the variant its <source>/<img> will pick.
@@ -799,7 +806,31 @@ if (!existsSync(TEMPLATE)) {
   console.error(`seo-build: template missing: ${TEMPLATE} (run vite build first)`);
   process.exit(1);
 }
-const template = readFileSync(TEMPLATE, "utf8");
+
+// Font (@fontsource) dan CSS hasil vite build ber-hash di dist/assets —
+// URL-nya tidak bisa di-hardcode di index.html. Scan sekali di sini:
+const assetNames = existsSync(ASSETS_DIR) ? readdirSync(ASSETS_DIR) : [];
+// Preload 2 bobot teks above-the-fold hero (300 light + 600 semibold).
+const fontPreloads = assetNames
+  .filter((f) => /^open-sauce-one-latin-(300|600)-normal-[A-Za-z0-9_-]+\.woff2$/.test(f))
+  .sort()
+  .map((f) => `<link rel="preload" href="/assets/${f}" as="font" type="font/woff2" crossorigin />`)
+  .join("\n");
+// Render-blocking CSS (PSI ~130 ms): inline stylesheet ke setiap halaman
+// prerendered dan buang <link>-nya. Ini SPA — satu HTML per kunjungan — jadi
+// bytes-nya pindah dari request blocking ke dokumen itu sendiri. Menuntut
+// style-src 'unsafe-inline' di CSP (vercel.json).
+const cssFile = assetNames.find((f) => /^index-[A-Za-z0-9_-]+\.css$/.test(f));
+let template = readFileSync(TEMPLATE, "utf8");
+if (cssFile) {
+  const css = readFileSync(join(ASSETS_DIR, cssFile), "utf8");
+  template = template.replace(
+    /<link\s+rel="stylesheet"[^>]*href="\/assets\/index-[A-Za-z0-9_-]+\.css"[^>]*>/,
+    () => `<style>${css}</style>`,
+  );
+} else {
+  console.warn("seo-build: stylesheet not found in dist/assets, keeping external link");
+}
 for (const route of ROUTES) {
   let body = "";
   if (renderRouteBody) {
@@ -829,9 +860,10 @@ function render404(templateHtml) {
   return html;
 }
 
-// Keep CSS external: Vite already emits a cacheable /assets/index-*.css.
-// Inlining it into all 50 prerendered pages added 54 KB of non-content HTML
-// per page, which audits read as a low text-to-code ratio.
+// Catatan keputusan CSS: tadinya eksternal (audit text-to-code pernah membaca
+// inline CSS 54 KB/halaman sebagai rasio rendah), kini di-inline karena PSI
+// menandainya render-blocking ~130 ms dan ini SPA (satu HTML per kunjungan —
+// bytes tidak bertambah total, hanya pindah dari request ke dokumen).
 function normalizeHtml(html) {
   // React 19 SSR emits image preload links with camelCase attributes.
   return html
