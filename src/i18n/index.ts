@@ -76,10 +76,19 @@ export function scheduleNamespaceBackfill(locale: Locale): void {
   const run = () => {
     void ensureRemainingNamespaces(locale).catch(() => {});
   };
-  if ("requestIdleCallback" in window) {
-    window.requestIdleCallback(run, { timeout: 3000 });
+  const idle = () => {
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(run, { timeout: 3000 });
+    } else {
+      setTimeout(run, 1200);
+    }
+  };
+  // Only future navigations need these namespaces. Waiting until load + 2 s
+  // keeps ~30 KB of i18n chunks out of the mobile LCP bandwidth window.
+  if (document.readyState === "complete") {
+    setTimeout(idle, 2000);
   } else {
-    setTimeout(run, 1200);
+    window.addEventListener("load", () => setTimeout(idle, 2000), { once: true });
   }
 }
 

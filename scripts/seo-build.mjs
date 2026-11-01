@@ -29,10 +29,9 @@ const OG_DEFAULT =
 // pointing at the same files/widths/quality if hero.ts ever changes.
 let HERO_Q = "f_webp,q_30";
 let HERO_MOBILE_SRCSET = [480, 768]
-  .map((w) => `https://res.cloudinary.com/fal5otmd/image/upload/${HERO_Q},w_${w}/hero-bg-nature-4.webp ${w}w`)
+  .map((w) => `/hero/hero-bg-nature-4-${w}.webp ${w}w`)
   .join(", ");
-let HERO_MOBILE_SRC =
-  "https://res.cloudinary.com/fal5otmd/image/upload/" + HERO_Q + ",w_768/hero-bg-nature-4.webp";
+let HERO_MOBILE_SRC = "/hero/hero-bg-nature-4-768.webp";
 let HERO_SRCSET = [640, 960, 1280, 1920]
   .map((w) => `https://res.cloudinary.com/fal5otmd/image/upload/${HERO_Q},w_${w}/hero-bg-nature.webp ${w}w`)
   .join(", ");
@@ -707,22 +706,23 @@ function renderRoute(template, route, body = "") {
   const localeTag = route.locale === "id" ? "id_ID" : "en_US";
   const altTag = route.locale === "id" ? "id_ID" : "en_US";
   let html = template.replace(/<html\s+lang="[^"]*"/, `<html lang="${route.locale}"`);
-  // Hero h1 memakai bobot 300/600; file kini dari @fontsource dengan nama
-  // ber-hash, jadi preload-nya di-inject di sini (URL tak bisa di-hardcode di
-  // index.html). crossorigin wajib untuk preload font, juga same-origin.
-  if (fontPreloads) {
-    html = html.replace("</head>", () => `${fontPreloads}\n</head>`);
-  }
-  // Homepage-only: start the LCP hero download before the prerendered body is
-  // scanned. Media-scoped pair mirrors the <picture> art direction so each
-  // viewport preloads exactly the variant its <source>/<img> will pick.
-  // Other routes must not pay for an image they never show.
-  if (route.path === "/" || route.path === "/id") {
-    html = html.replace(
-      "</head>",
-      () =>
-        `<link rel="preload" as="image" media="(max-width: 767px)" href="${HERO_MOBILE_SRC}" imagesrcset="${HERO_MOBILE_SRCSET}" imagesizes="100vw" fetchpriority="high" />\n<link rel="preload" as="image" media="(min-width: 768px)" href="${HERO_SRC}" imagesrcset="${HERO_SRCSET}" imagesizes="100vw" fetchpriority="high" />\n</head>`,
-    );
+  // Perf preloads are injected right after the Cloudinary preconnect, BEFORE
+  // the 58 KB inline <style> below. Appending them at </head> put the LCP
+  // image ~60 KB into the document, so the preload scanner discovered it one
+  // slow-4G RTT late. Hero first, then the above-the-fold font files.
+  const heroPreloads =
+    route.path === "/" || route.path === "/id"
+      ? `<link rel="preload" as="image" media="(max-width: 767px)" href="${HERO_MOBILE_SRC}" imagesrcset="${HERO_MOBILE_SRCSET}" imagesizes="100vw" fetchpriority="high" />\n<link rel="preload" as="image" media="(min-width: 768px)" href="${HERO_SRC}" imagesrcset="${HERO_SRCSET}" imagesizes="100vw" fetchpriority="high" />`
+      : "";
+  const perfPreloads = [heroPreloads, fontPreloads].filter(Boolean).join("\n");
+  if (perfPreloads) {
+    const preconnect =
+      /<link rel="preconnect" href="https:\/\/res\.cloudinary\.com"[^>]*>/;
+    if (preconnect.test(html)) {
+      html = html.replace(preconnect, (tag) => `${tag}\n${perfPreloads}`);
+    } else {
+      html = html.replace("</head>", () => `${perfPreloads}\n</head>`);
+    }
   }
   html = setTitle(html, route.title);
   html = setMeta(html, "name", "description", route.desc);
@@ -810,9 +810,13 @@ if (!existsSync(TEMPLATE)) {
 // Font (@fontsource) dan CSS hasil vite build ber-hash di dist/assets —
 // URL-nya tidak bisa di-hardcode di index.html. Scan sekali di sini:
 const assetNames = existsSync(ASSETS_DIR) ? readdirSync(ASSETS_DIR) : [];
-// Preload 2 bobot teks above-the-fold hero (300 light + 600 semibold).
+// Preload the four registered weights. 500/900 are not registered, so the
+// browser maps font-medium/font-black to 400/700 without extra downloads.
+// No per-preload fetchpriority: the hero image preload comes first in the
+// document and already wins the bandwidth race; downgrading fonts only made
+// body text swap later.
 const fontPreloads = assetNames
-  .filter((f) => /^open-sauce-one-latin-(300|600)-normal-[A-Za-z0-9_-]+\.woff2$/.test(f))
+  .filter((f) => /^open-sauce-one-latin-(300|400|600|700)-normal-[A-Za-z0-9_-]+\.woff2$/.test(f))
   .sort()
   .map((f) => `<link rel="preload" href="/assets/${f}" as="font" type="font/woff2" crossorigin />`)
   .join("\n");
@@ -866,6 +870,9 @@ function render404(templateHtml) {
 // bytes tidak bertambah total, hanya pindah dari request ke dokumen).
 function normalizeHtml(html) {
   // React 19 SSR emits image preload links with camelCase attributes.
+  // Entry JS keeps the browser's default High priority: hydration needs it
+  // immediately, and downgrading it delayed hydration (and the consent/UI
+  // commit) without moving the prerendered LCP image earlier.
   return html
     .replace(/\bimageSrcSet=/g, "imagesrcset=")
     .replace(/\bimageSizes=/g, "imagesizes=")

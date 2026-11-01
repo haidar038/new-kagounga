@@ -31,7 +31,6 @@ export function Hero(): React.JSX.Element {
           alt="Tropical forest landscape of North Maluku"
           className="absolute inset-0 h-full w-full object-cover"
           fetchPriority="high"
-          decoding="async"
         />
       </picture>
       <div
@@ -69,10 +68,10 @@ export function Hero(): React.JSX.Element {
           width={800}
           height={1288}
           className="tisan-swap tisan-1 h-full w-auto object-contain"
-          // Above the fold on desktop (audit flagged the lazy attribute).
-          // fetchPriority low keeps it behind the LCP hero on mobile, where
-          // the wrapper is hidden but an eager image still downloads.
-          loading="eager"
+          // Above the fold on desktop; lazy on mobile where the wrapper is
+          // display:none, so a 50 KB image no longer competes with the LCP
+          // hero during the critical mobile window.
+          loading="lazy"
           fetchPriority="low"
           decoding="async"
         />

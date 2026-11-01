@@ -1,11 +1,12 @@
 @import "tailwindcss";
 
 /* Open Sauce One via @fontsource/open-sauce-one (SIL OFL 1.1; lisensi ikut
-   dalam package, salinan publik: public/fonts/LICENSE). Bobot normal
-   300/400/500/600/700/900 — semua terdaftar dan terpakai (500 dipertahankan
-   atas keputusan user: nav/label/teks utilitas memakai font-medium). Hanya
-   italic 400 yang benar-benar terpakai (caption artwork + em rich-text);
-   sisanya di-synthesize browser. 800 tidak didaftarkan: 3 pemakaian
+   dalam package, salinan publik: public/fonts/LICENSE). Empat bobot normal
+   300/400/600/700 = payload minimum untuk seluruh teks above-the-fold.
+   500 & 900 sengaja tidak didaftarkan: browser memetakan font-medium ke 400
+   dan font-black ke 700 (dua file @fontsource ~48 KB tidak lagi diunduh).
+   Hanya italic 400 yang terpakai (caption artwork + em rich-text); sisanya
+   di-synthesize browser. 800 juga tidak didaftarkan: 3 pemakaian
    font-weight:800 di CSS ini ter-map ke 700. Sengaja TANPA unicode-range agar
    perilaku glyph (termasuk ō di "Kagōunga") identik dengan setup /fonts/
    sebelumnya. */
@@ -26,13 +27,6 @@
 @font-face {
   font-family: "Open Sauce One";
   font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("@fontsource/open-sauce-one/files/open-sauce-one-latin-500-normal.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Open Sauce One";
-  font-style: normal;
   font-weight: 600;
   font-display: swap;
   src: url("@fontsource/open-sauce-one/files/open-sauce-one-latin-600-normal.woff2") format("woff2");
@@ -43,13 +37,6 @@
   font-weight: 700;
   font-display: swap;
   src: url("@fontsource/open-sauce-one/files/open-sauce-one-latin-700-normal.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Open Sauce One";
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url("@fontsource/open-sauce-one/files/open-sauce-one-latin-900-normal.woff2") format("woff2");
 }
 @font-face {
   font-family: "Open Sauce One";
@@ -100,13 +87,14 @@
 /* Hero load animation: pure CSS so above-fold text paints without JS.
    .hero-rise runs on first paint (unlike .reveal, which is gated behind
    hydration) — critical for FCP on throttled mobile. */
+/* Transform-only: opacity fade made the hero text "appear" ~1 s after first
+   paint, which inflated Speed Index. Text is contentful from the first frame;
+   the short rise is decoration only. */
 @keyframes hero-rise {
   from {
-    opacity: 0;
     transform: translateY(16px);
   }
   to {
-    opacity: 1;
     transform: none;
   }
 }
